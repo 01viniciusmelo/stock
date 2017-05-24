@@ -1,23 +1,23 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User extends MY_Controller {
+class User extends CI_Controller {
 
-
-	public function index()
+	public function __construct()
 	{
-		$this->load->view('template/login');
+		parent::__construct();
+		
 	}
 
-    public function login()
-    {
-        if( $this->require_role('admin') )
-		{
-			echo $this->load->view('examples/page_header', '', TRUE);
+	// redirect if needed, otherwise display the user list
+	public function index()
+	{
 
-			echo '<p>You are logged in!</p>';
+		
+	}
 
-			echo $this->load->view('examples/page_footer', '', TRUE);
-		}
-    }
+	// log the user in
+	public function profile	()
+	{
+	}
+
 }

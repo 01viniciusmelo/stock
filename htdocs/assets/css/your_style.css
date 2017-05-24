@@ -17,3 +17,52 @@
  * - BODY
  * - CUSTOM STYLES
  */
+
+.well .form-actions {
+    margin-left: -13px;
+    margin-right: -13px;
+    margin-bottom: -13px;
+}
+
+
+
+.pace .pace-activity{
+    display: none;
+}
+
+
+.modal-header{
+    padding: 10px;
+}
+
+.modal-footer{
+    padding: 14px;
+}
+
+
+tr td .btn {
+    margin-right: 4px;
+}
+
+
+.label a {
+    color:#fff;
+}
+
+
+.smart-style-4 #header>:first-child{
+    background: #304e92;
+}
+
+#logo img {
+    width: 200px;
+    height: auto;
+    padding-left: 0;
+}
+
+@media (max-width: 979px){
+
+    .smart-style-4 #header {
+        background: #304e92;
+    }
+}
