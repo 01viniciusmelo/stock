@@ -103,7 +103,7 @@ $autoload['helper'] = array('url','file','assets','theme','form');
 | config files.  Otherwise, leave it blank.
 |
 */
-$autoload['config'] = array('stock');
+$autoload['config'] = array('theme','stock');
 
 /*
 | -------------------------------------------------------------------

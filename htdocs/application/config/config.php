@@ -387,9 +387,9 @@ $config['encryption_key'] = 'stock';
 |
 */
 $config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'stock_session';
+$config['sess_cookie_name'] = 'stock_session_';
 $config['sess_expiration'] = 7200;
-$config['sess_save_path'] = "sessions";
+$config['sess_save_path'] = FCPATH."temp/sessions";
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
