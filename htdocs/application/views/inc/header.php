@@ -2,7 +2,9 @@
             <div id="logo-group">
 
                 <!-- PLACE YOUR LOGO HERE -->
-                <span id="logo"> <img src="<?php echo asset_url('img/TK_logo.png');?>" alt="<?php echo config_item('theme_title');?>"> </span>
+                <span id="logo"> 
+                    <!--<img src="<?php echo asset_url('img/TK_logo.png');?>" alt="<?php echo config_item('theme_title');?>">-->
+                </span>
                 <!-- END LOGO PLACEHOLDER -->
                 <!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
                 <?php //$this->load->view('inc/notify');?>

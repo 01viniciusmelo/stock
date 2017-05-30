@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User extends CI_Controller {
+class User extends Auth_Controller {
 
 	public function __construct()
 	{
@@ -14,8 +14,13 @@ class User extends CI_Controller {
 
 		
 	}
+        
+        public function display()
+        {
+            
+        }
 
-	// log the user in
+        // log the user in
 	public function profile	()
 	{
 	}

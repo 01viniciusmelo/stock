@@ -88,14 +88,24 @@ class Auth_Controller extends CI_Controller {
     
     protected function loadConfig(){
         $this->load->model('option_model');
-        $configs = $this->option_model
+        $configs = array();
+        
+        try 
+        {
+            $configs = $this->option_model
                     ->fields('option_name,option_value,autoload')
                     ->where('autoload','YES')->get();
-        
+            
+            foreach($configs as $cfg){
+                var_dump($cfg);
+                 $this->config->set_item($cfg->option_name, $cfg->option_value);
+            }
 
-        // foreach($configs as $cfg){
-        //     $this->config->set_item($cfg->option_name, $cfg->option_value);
-        // }
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
+
+    
         
     }
     
