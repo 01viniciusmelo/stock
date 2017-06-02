@@ -172,7 +172,6 @@
 					rules : {
 						identity : {
 							required : true,
-							identity : true
 						},
 						password : {
 							required : true,

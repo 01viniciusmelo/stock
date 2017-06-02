@@ -82,9 +82,8 @@ class Auth_Controller extends CI_Controller {
     private function checkAuth() {
         if (!$this->ion_auth->logged_in()) {
             redirect('auth/login');
-
-            $this->userID = $this->ion_auth->get_user_id();
         }
+        $this->userID = $this->ion_auth->get_user_id();
     }
 
     protected function loadConfig() {

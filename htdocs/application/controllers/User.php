@@ -27,7 +27,7 @@ class User extends Auth_Controller {
             foreach ($this->data['users'] as $k => $user) {
                 $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
             }
-
+            
             $this->data['blade'] = "user_display";
             $this->_render_page('template/content', $this->data);
         }

@@ -68,12 +68,13 @@
             <!-- END RIBBON -->
 
             <!-- #MAIN CONTENT -->
+            <div id="content">
             <?php
-            // if (!empty($blade)) {
-            //     $this->load->view('blade/' . $blade);
-            // }
+             if (!empty($blade)) {
+                 $this->load->view('blade/' . $blade);
+             }
             ?>
-
+            </div>
             <!-- END #MAIN CONTENT -->
             
         </div>
