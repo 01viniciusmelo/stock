@@ -88,8 +88,8 @@
 
         <!--================================================== -->
         <?php $this->load->view('inc/script'); ?>
-        <?php if(file_exists(APPPATH."views/script/{$blade}.php")):?>
-        <?php //$this->load->view("script/{$blade}");   ?>
+        <?php if( !empty($blade) && file_exists(APPPATH."views/script/{$blade}.php")):?>
+        <?php $this->load->view("script/{$blade}");   ?>
         <?php endif;?>
 
     </body>

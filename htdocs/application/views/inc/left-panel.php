@@ -16,88 +16,20 @@
     </div>
 
     <nav>
+        <ul>
 
-        <?php
-        $group = 'admin';
-        if ($this->ion_auth->in_group($group)) :
-            ?>
-            <ul>
+            <li>
 
-                <li>
-
-                    <a href="#user"> <i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">User</span> </a>
-                    <ul>
-                        <?php echo nav_active_link('user/display', "All User"); ?>
-                        <?php echo nav_active_link('user/add', "Add"); ?>
-                    </ul>
-                </li>
-                
-                <?php echo nav_active_link('customer/all', "Customer / Site", 'fa-group' ,'customer'); ?>
-                <?php echo nav_active_link('item', "Item", 'fa-steam','item'); ?>
-                <li>
-                    <a href="#user"> <i class="fa fa-lg fa-fw fa-truck"></i> <span class="menu-item-parent">Truck</span> </a>
-                    <ul>
-                        <?php echo nav_active_link('truck/all', "All Truck"); ?>
-                        <?php echo nav_active_link('truck/ehr_search', "Search EHR."); ?>
-                    </ul>
-                </li>
-                <?php echo nav_active_link('job/all', "Job/PO", 'fa-tasks','job'); ?>
-                <?php echo nav_active_link('report', "Report", 'fa-bar-chart-o"'); ?>
-                <?php //echo nav_active_link('history', "History", 'fa fa-lg fa-history"'); ?>
-            </ul>
-
-        <?php endif; ?>
-
-
-        <?php
-        $group = 'employee';
-        if ($this->ion_auth->in_group($group)) :
-            ?>
-            <ul>
-                <?php echo nav_active_link('customer/all', "Customer / Site", 'fa-group'); ?>
-                <?php //echo nav_active_link('truck/all', "Truck", 'fa-truck'); ?>
-                <li>
-                    <a href="#user"> <i class="fa fa-lg fa-fw fa-truck"></i> <span class="menu-item-parent">Truck</span> </a>
-                    <ul>
-                        <?php echo nav_active_link('truck/all', "All Truck"); ?>
-                        <?php echo nav_active_link('truck/ehr_search', "Search EHR."); ?>
-                    </ul>
-                </li>
-                <?php echo nav_active_link('job/all', "Job/PO", 'fa-tasks'); ?>
-                <?php echo nav_active_link('report', "Report", 'fa-bar-chart-o"'); ?>
-            </ul>
-
-        <?php endif; ?>
-
-
-        <?php
-        $group = 'technician';
-        if ($this->ion_auth->in_group($group)) :
-            ?>
-            <ul>
-                <li>
-                    <a href="#user"> <i class="fa fa-lg fa-fw fa-truck"></i> <span class="menu-item-parent">Truck</span> </a>
-                    <ul>
-                        <?php echo nav_active_link('truck/all', "All Truck"); ?>
-                        <?php echo nav_active_link('truck/ehr_search', "Search EHR."); ?>
-                    </ul>
-                </li>
-                <?php //echo nav_active_link('truck/all', "Truck", 'fa-truck'); ?>
-                <?php //echo nav_active_link('truck/ehr_search', "Truck", 'fa-truck'); ?>
-            </ul>
-
-        <?php endif; ?>
-
-        <?php
-        $group = 'customer';
-       if ($this->ion_auth->in_group($group)) :
-            ?>
-            <ul>
-                <?php echo nav_active_link('job/all', "Job/PO", 'fa-tasks'); ?>
-                <?php echo nav_active_link('report', "Report", 'fa-bar-chart-o"'); ?>
-            </ul>
-
-        <?php endif; ?>
+                <a href="#user"> <i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">User</span> </a>
+                <ul>
+                    <?php echo nav_active_link('user/display', "All User"); ?>
+                    <?php echo nav_active_link('user/add', "Add"); ?>
+                </ul>
+            </li>
+            <li>
+                <a href="#setting"> <i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">Setting</span> </a>
+            </li>
+        </ul>
 
     </nav>
 

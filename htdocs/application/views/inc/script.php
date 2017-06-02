@@ -57,7 +57,7 @@
 
 
 <!-- IMPORTANT: AJAX MANAGER -->
-<script src="<?php echo asset_url('js/ajaxManager.js'); ?>"></script>
+<!--<script src="<?php echo asset_url('js/ajaxManager.js'); ?>"></script>-->
 
 <!--[if IE 8]>
 
