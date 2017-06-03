@@ -23,7 +23,7 @@
                 <a href="#user"> <i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">User</span> </a>
                 <ul>
                     <?php echo nav_active_link('user/display', "All User"); ?>
-                    <?php echo nav_active_link('user/add', "Add"); ?>
+                    <?php echo nav_active_link('user/create', "Add"); ?>
                 </ul>
             </li>
             <li>
