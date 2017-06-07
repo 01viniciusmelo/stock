@@ -17,22 +17,28 @@
 
     <nav>
         <ul>
-
             <li>
-
                 <a href="#user"> <i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">User</span> </a>
                 <ul>
-                    <?php echo nav_active_link('user/display', "All User"); ?>
-                    <?php echo nav_active_link('user/create', "Add"); ?>
+                    <li><?php echo nav_active_link('user/display', "All User"); ?></li>
+                    <li><?php echo nav_active_link('user/create', "Add"); ?></li>
                 </ul>
             </li>
             <li>
                 <a href="#setting"> <i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">Setting</span> </a>
+                 <ul>
+                    <li><?php echo nav_active_link('category/display', "Caterogy"); ?></li>
+                    <li><?php echo nav_active_link('branchs/display', "Branchs"); ?></li>
+                    <li><?php echo nav_active_link('reason/display', "Reason Type"); ?></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#setting"> <i class="fa fa-lg fa-fw fa-suitcase"></i>  <span class="menu-item-parent">Inventory</span> </a>
+               <ul>
+                    <li><?php echo nav_active_link('stock/display', "Stock"); ?></li>
+                </ul>
             </li>
         </ul>
-
     </nav>
-
     <span class="minifyme" data-action="minifyMenu"> <i class="fa fa-arrow-circle-left hit"></i> </span>
-
 </aside>

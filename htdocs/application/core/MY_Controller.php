@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * MY Controller
@@ -55,7 +57,6 @@ class MY_Controller extends CI_Controller {
 
 }
 
-
 /**
  * Auth Controller
  */
@@ -64,6 +65,8 @@ class Auth_Controller extends CI_Controller {
     protected $userID = NULL;
     protected $data = array();
     protected $viewdata = array();
+    protected $tableTemplate = array();
+    protected $_dateFormat= '%Y-%m-%d %H:%i:%s';
 
     /**
      * Class constructor
@@ -77,6 +80,7 @@ class Auth_Controller extends CI_Controller {
 
         $this->checkAuth();
         $this->loadConfig();
+        $this->setTableTemplate();
     }
 
     private function checkAuth() {
@@ -102,6 +106,29 @@ class Auth_Controller extends CI_Controller {
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
         }
+    }
+
+    protected function setTableTemplate() {
+        $this->tableTemplate = array(
+            'table_open' => '<table  id="dt-table-basic" class="table table-striped table-bordered table-hover dataTable no-footer" cellspacing="0" width="100%">',
+            'thead_open' => '<thead>',
+            'thead_close' => '</thead>',
+            'heading_row_start' => '<tr>',
+            'heading_row_end' => '</tr>',
+            'heading_cell_start' => '<th>',
+            'heading_cell_end' => '</th>',
+            'tbody_open' => '<tbody>',
+            'tbody_close' => '</tbody>',
+            'row_start' => '<tr>',
+            'row_end' => '</tr>',
+            'cell_start' => '<td>',
+            'cell_end' => '</td>',
+            'row_alt_start' => '<tr>',
+            'row_alt_end' => '</tr>',
+            'cell_alt_start' => '<td>',
+            'cell_alt_end' => '</td>',
+            'table_close' => '</table>'
+        );
     }
 
     protected function _get_csrf_nonce() {
@@ -139,6 +166,12 @@ class Auth_Controller extends CI_Controller {
                 ->set_content_type('application/json', 'utf-8')
                 ->set_output(json_encode($data))
                 ->_display();
+        exit;
+    }
+    protected function pre($data = array()){
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
         exit;
     }
 
