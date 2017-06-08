@@ -3,9 +3,9 @@
         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
             <h1 class="page-title">
                 <i class='fa-fw fa fa-plus-square-o'></i> 
-                Reason
+                Product
                 <span>>
-                    <?php echo (isset($reason) ? "Update" : "Add") ?>
+                    <?php echo (isset($product) ? "Update" : "Add") ?>
                 </span>
             </h1>
         </div>
@@ -27,18 +27,18 @@
                               data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
                               data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
                             <fieldset>
-                                <?php echo form_hidden('reason_id', isset($reason->reason_id) ? $reason->reason_id : ""); ?>
+                                <?php echo form_hidden('product_id', isset($product->product_id) ? $product->product_id : ""); ?>
                                 <legend>
-                                    เพิ่มเติม/แก้ไขหมายเหตุ
+                                    เพิ่มเติม/แก้ไขสินค้า
                                 </legend>
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">Reason name</label>
-                                    <div class="col-lg-4">
+                                    <label class="col-lg-3 control-label">Product name</label>
+                                    <div class="col-lg-9">
                                         <?php
                                         $data = array(
-                                            'name' => 'reason_title',
+                                            'name' => 'product_name',
                                             'class' => 'form-control',
-                                            'value' => isset($reason->reason_title) ? $reason->reason_title : "",
+                                            'value' => isset($product->product_name) ? $product->product_name : "",
                                             'data-bv-notempty-message' => 'The title is required and cannot be empty',
                                             'required' => 'required'
                                         );
@@ -49,13 +49,14 @@
                             </fieldset>
                             <fieldset>
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">Reason Description</label>
-                                    <div class="col-lg-4">
+                                    <label class="col-lg-3 control-label">Product Description</label>
+                                    <div class="col-lg-9">
                                         <?php
                                         $data = array(
-                                            'name' => 'reason_desc',
-                                            'class' => 'form-control',
-                                            'value' => isset($reason->reason_desc) ? $reason->reason_desc : ""
+                                            'name' => 'product_desc',
+                                            'class' => 'form-control summernote',
+                                            'value' => isset($product->product_desc) ? $product->product_desc : "",
+                                            'rows' => 3
                                         );
                                         echo form_textarea($data);
                                         ?>
@@ -64,17 +65,57 @@
                             </fieldset>
                             <fieldset>
                                 <div class="form-group">
+                                    <label class="col-lg-3 control-label">Product price</label>
+                                    <div class="col-lg-3">
+                                        <?php
+                                        $data = array(
+                                            'name' => 'product_price',
+                                            'class' => 'form-control"',
+                                            'value' => isset($product->product_price) ? $product->product_price : 0,
+                                            'data-bv-notempty-message' => 'The title is required and cannot be empty',
+                                            'type' => 'number'
+                                        );
+                                        echo form_input($data);
+                                        ?>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Product Code</label>
+                                    <div class="col-lg-4">
+                                        <?php
+                                        $data = array(
+                                            'name' => 'product_code',
+                                            'class' => 'form-control"',
+                                            'value' => isset($product->product_code) ? $product->product_code : ""
+                                        );
+                                        echo form_input($data);
+                                        ?>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>
+                                    Gallery
+                                </legend>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>
+                                </legend>
+                                <div class="form-group">
                                     <label class="col-lg-3 control-label">Status</label>
                                     <div class="col-lg-4">
                                         <?php
                                         $data = array(
-                                            'class' => 'form-control'
+                                            'class' => 'form-control"'
                                         );
                                         $options = array(
                                             1 => 'ใช้งาน',
                                             0 => 'ไม่ใช้งาน'
                                         );
-                                        echo form_dropdown('active', $options, isset($reason->active) ? $reason->active : "", $data);
+                                        echo form_dropdown('active', $options, isset($product->active) ? $product->active : "", $data);
                                         ?>
                                     </div>
                                 </div>
@@ -84,7 +125,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <button class="btn btn-default" type="submit">
-                                            <?php echo (isset($reason->reason_id) ? "Update" : "Save") ?>
+                                            <?php echo (isset($product->product_id) ? "Update" : "Save") ?>
                                         </button>
                                     </div>
                                 </div>

@@ -37,9 +37,10 @@
                                         <?php
                                         $data = array(
                                             'name' => 'name',
-                                            'class' => 'form-control"',
+                                            'class' => 'form-control',
                                             'value' => isset($branchs->name) ? $branchs->name : "",
-                                            'data-bv-notempty-message' => 'The name is required and cannot be empty'
+                                            'data-bv-notempty-message' => 'The name is required and cannot be empty',
+                                            'required' => 'required'
                                         );
                                         echo form_input($data);
                                         ?>
@@ -53,7 +54,7 @@
                                         <?php
                                         $data = array(
                                             'name' => 'address',
-                                            'class' => 'form-control"',
+                                            'class' => 'form-control',
                                             'value' => isset($branchs->address) ? $branchs->address : "",
                                             'rows' => '3'
                                         );
@@ -71,7 +72,7 @@
                                         <?php
                                         $data = array(
                                             'name' => 'email',
-                                            'class' => 'form-control"',
+                                            'class' => 'form-control',
                                             'value' => isset($branchs->email) ? $branchs->email : ""
                                         );
                                         echo form_input($data);
@@ -82,7 +83,7 @@
                                         <?php
                                         $data = array(
                                             'name' => 'phone',
-                                            'class' => 'form-control"',
+                                            'class' => 'form-control',
                                             'value' => isset($branchs->phone) ? $branchs->phone : ""
                                         );
                                         echo form_input($data);
@@ -93,7 +94,7 @@
                                         <?php
                                         $data = array(
                                             'name' => 'mobile',
-                                            'class' => 'form-control"',
+                                            'class' => 'form-control',
                                             'value' => isset($branchs->mobile) ? $branchs->mobile : ""
                                         );
                                         echo form_input($data);
@@ -109,7 +110,7 @@
                                     <div class="col-lg-3">
                                         <?php
                                         $data = array(
-                                            'class' => 'form-control"'
+                                            'class' => 'form-control'
                                         );
                                         $options = array(
                                             1 => 'ใช้งาน',

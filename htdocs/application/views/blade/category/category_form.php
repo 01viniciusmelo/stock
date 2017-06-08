@@ -37,9 +37,10 @@
                                         <?php
                                         $data = array(
                                             'name' => 'cat_name',
-                                            'class' => 'form-control"',
+                                            'class' => 'form-control',
                                             'value' => isset($cat->cat_name) ? $cat->cat_name : "",
-                                            'data-bv-notempty-message' => 'The name is required and cannot be empty'
+                                            'data-bv-notempty-message' => 'The name is required and cannot be empty',
+                                            'required' => 'required'
                                         );
                                         echo form_input($data);
                                         ?>
@@ -53,7 +54,7 @@
                                         <?php
                                         $data = array(
                                             'name' => 'cat_desc',
-                                            'class' => 'form-control"',
+                                            'class' => 'form-control',
                                             'value' => isset($cat->cat_desc) ? $cat->cat_desc : ""
                                         );
                                         echo form_textarea($data);
@@ -67,7 +68,7 @@
                                     <div class="col-lg-4">
                                         <?php
                                         $data = array(
-                                            'class' => 'form-control"'
+                                            'class' => 'form-control'
                                         );
                                         $options = array(
                                             1 => 'ใช้งาน',

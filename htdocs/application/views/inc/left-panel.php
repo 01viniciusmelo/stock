@@ -26,7 +26,7 @@
             </li>
             <li>
                 <a href="#setting"> <i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">Setting</span> </a>
-                 <ul>
+                <ul>
                     <li><?php echo nav_active_link('category/display', "Caterogy"); ?></li>
                     <li><?php echo nav_active_link('branchs/display', "Branchs"); ?></li>
                     <li><?php echo nav_active_link('reason/display', "Reason Type"); ?></li>
@@ -34,7 +34,8 @@
             </li>
             <li>
                 <a href="#setting"> <i class="fa fa-lg fa-fw fa-suitcase"></i>  <span class="menu-item-parent">Inventory</span> </a>
-               <ul>
+                <ul>
+                    <li><?php echo nav_active_link('product/display', "Product (Goods)"); ?></li>
                     <li><?php echo nav_active_link('stock/display', "Stock"); ?></li>
                 </ul>
             </li>
