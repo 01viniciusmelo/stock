@@ -33,7 +33,7 @@
                                 </legend>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Category name</label>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-9">
                                         <?php
                                         $data = array(
                                             'name' => 'cat_name',
@@ -50,12 +50,13 @@
                             <fieldset>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Category Description</label>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-9">
                                         <?php
                                         $data = array(
                                             'name' => 'cat_desc',
                                             'class' => 'form-control',
-                                            'value' => isset($cat->cat_desc) ? $cat->cat_desc : ""
+                                            'value' => isset($cat->cat_desc) ? $cat->cat_desc : "",
+                                            'rows' => 3
                                         );
                                         echo form_textarea($data);
                                         ?>

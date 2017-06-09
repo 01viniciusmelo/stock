@@ -64,46 +64,57 @@
                                 </div>
                             </fieldset>
 
-                          
+
                             <fieldset>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Contract</label>
                                     <div class="col-lg-3">
-                                        <?php
-                                        $data = array(
-                                            'name' => 'email',
-                                            'class' => 'form-control',
-                                            'value' => isset($branchs->email) ? $branchs->email : ""
-                                        );
-                                        echo form_input($data);
-                                        ?>
+                                        <div class="input-group">
+                                            <?php
+                                            $data = array(
+                                                'name' => 'email',
+                                                'class' => 'form-control',
+                                                'value' => isset($branchs->email) ? $branchs->email : ""
+                                            );
+                                            echo form_input($data);
+                                            ?>
+                                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                        </div>
                                         <p class="note">Email</p>
                                     </div>
                                     <div class="col-lg-3">
-                                        <?php
-                                        $data = array(
-                                            'name' => 'phone',
-                                            'class' => 'form-control',
-                                            'value' => isset($branchs->phone) ? $branchs->phone : ""
-                                        );
-                                        echo form_input($data);
-                                        ?>
+                                        <div class="input-group">
+                                            <?php
+                                            $data = array(
+                                                'name' => 'phone',
+                                                'class' => 'form-control',
+                                                'value' => isset($branchs->phone) ? $branchs->phone : ""
+                                            );
+                                            echo form_input($data);
+                                            ?>
+                                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                        </div>
                                         <p class="note">Phone</p>
                                     </div>
                                     <div class="col-lg-3">
-                                        <?php
-                                        $data = array(
-                                            'name' => 'mobile',
-                                            'class' => 'form-control',
-                                            'value' => isset($branchs->mobile) ? $branchs->mobile : ""
-                                        );
-                                        echo form_input($data);
-                                        ?>
+                                        <div class="input-group">
+                                            <?php
+                                            $data = array(
+                                                'name' => 'mobile',
+                                                'class' => 'form-control',
+                                                'value' => isset($branchs->mobile) ? $branchs->mobile : "",
+                                                'data-mask' => '(999) 999-9999',
+                                                'data-mask-placeholder' => 'X'
+                                            );
+                                            echo form_input($data);
+                                            ?>
+                                            <span class="input-group-addon"><i class="fa fa-mobile-phone"></i></span>
+                                        </div>
                                         <p class="note"> Mobile</p>
                                     </div>
                                 </div>
                             </fieldset>
-                              
+
                             <fieldset>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Status</label>

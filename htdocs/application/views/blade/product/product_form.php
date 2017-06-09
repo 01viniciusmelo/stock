@@ -25,7 +25,8 @@
                               data-bv-live="disabled"
                               data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
                               data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+                              enctype="multipart/form-data">
                             <fieldset>
                                 <?php echo form_hidden('product_id', isset($product->product_id) ? $product->product_id : ""); ?>
                                 <legend>
@@ -65,40 +66,66 @@
                             </fieldset>
                             <fieldset>
                                 <div class="form-group">
+                                <label class="col-lg-3 control-label">Product Category</label>
+                                <div class="col-lg-3">
+                                    <?php
+                                    $data = array(
+                                        'class' => 'form-control'
+                                    );
+                                    echo form_dropdown('cat_id', $category, isset($product->cat_id) ? $product->cat_id : "", $data);
+                                    ?>
+                                </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
                                     <label class="col-lg-3 control-label">Product price</label>
                                     <div class="col-lg-3">
-                                        <?php
-                                        $data = array(
-                                            'name' => 'product_price',
-                                            'class' => 'form-control"',
-                                            'value' => isset($product->product_price) ? $product->product_price : 0,
-                                            'data-bv-notempty-message' => 'The title is required and cannot be empty',
-                                            'type' => 'number'
-                                        );
-                                        echo form_input($data);
-                                        ?>
+                                        <div class="input-group">
+                                            <?php
+                                            $data = array(
+                                                'name' => 'product_price',
+                                                'class' => 'form-control',
+                                                'value' => isset($product->product_price) ? $product->product_price : 0,
+                                                'data-bv-notempty-message' => 'The title is required and cannot be empty',
+                                                'type' => 'number'
+                                            );
+                                            echo form_input($data);
+                                            ?>
+                                            <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                        </div>
                                     </div>
                                 </div>
+
+
                             </fieldset>
                             <fieldset>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Product Code</label>
                                     <div class="col-lg-4">
-                                        <?php
-                                        $data = array(
-                                            'name' => 'product_code',
-                                            'class' => 'form-control"',
-                                            'value' => isset($product->product_code) ? $product->product_code : ""
-                                        );
-                                        echo form_input($data);
-                                        ?>
+                                        <div class="input-group">
+                                            <?php
+                                            $data = array(
+                                                'name' => 'product_code',
+                                                'class' => 'form-control',
+                                                'value' => isset($product->product_code) ? $product->product_code : ""
+                                            );
+                                            echo form_input($data);
+                                            ?>
+                                            <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+                                        </div>
+
                                     </div>
                                 </div>
                             </fieldset>
                             <fieldset>
-                                <legend>
-                                    Gallery
-                                </legend>
+                                <legend></legend>
+                                <label class="col-lg-3 control-label">Product Gallery</label>
+                                <div class="col-lg-9">
+                                    <div class="fallback">
+                                        <input name="file" type="file" multiple />
+                                    </div>
+                                </div>
                             </fieldset>
 
                             <fieldset>
@@ -109,7 +136,7 @@
                                     <div class="col-lg-4">
                                         <?php
                                         $data = array(
-                                            'class' => 'form-control"'
+                                            'class' => 'form-control'
                                         );
                                         $options = array(
                                             1 => 'ใช้งาน',

@@ -26,10 +26,14 @@ class Category_model extends MY_Model {
         parent::__construct();
     }
 
-    public function search($cat_id = NULL) {
+    public function search($cat_id = NULL, $is_active = false) {
         $where = " 1=1 ";
         if (!is_null($cat_id)) {
             $where .= " AND `{$this->table}`.`{$this->primary_key}` = {$cat_id} ";
+        }
+
+        if ($is_active == true) {
+            $where .= " AND `{$this->table}`.`active` = 1";
         }
 
         $data = $this->db->query(" SELECT * FROM `{$this->table}` where {$where} ");

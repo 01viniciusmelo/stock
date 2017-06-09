@@ -32,7 +32,11 @@ class Product_model extends MY_Model {
             $where .= " AND `{$this->table}`.`{$this->primary_key}` = {$product_id} ";
         }
 
-        $data = $this->db->query(" SELECT * FROM `{$this->table}` left join `category` on  `{$this->table}`.`cat_id` = `category`.`cat_id` and `category`.`active` = 1 where {$where} ");
+        $data = $this->db->query(
+                " SELECT `{$this->table}`.*,`category`.`cat_desc` FROM `{$this->table}` "
+                . "left join `category` on  `{$this->table}`.`cat_id` = `category`.`cat_id` and `category`.`active` = 1 "
+                . "where {$where} "
+        );
         return $data;
     }
 
