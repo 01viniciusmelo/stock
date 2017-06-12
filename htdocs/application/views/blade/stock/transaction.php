@@ -13,25 +13,9 @@
 
 
             <article class="col-sm-12 col-md-12 col-lg-12">
-                <div class="alert alert-info">
-                    <strong>NOTE:</strong> All the data is loaded from a seperate JSON file
-                </div>
-
+                
                 <!-- Widget ID (each widget will need unique ID)-->
                 <div class="jarviswidget well" id="wid-id-0">
-                    <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-                            
-                            data-widget-colorbutton="false"	
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true" 
-                            data-widget-sortable="false"
-                            
-                    -->
                     <header>
                         <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
                         <h2>Widget Title </h2>				
@@ -57,10 +41,18 @@
                                 <thead>
                                     <tr>
                                         <th></th>
+                                        <th>No.</th>
+                                        <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Date</th>
+                                        <th>Order Reason</th>
+                                        <th>Desc.</th>
+                                        <th>Product Name</th>
+                                        <th>Qty.</th>
+                                        <th>Remaining Stock</th>
+                                        <th>Remark</th>
+                                        <th>Status</th>
                                         <th>Branch</th>
-                                        <th>Product Number</th>
-                                        <th>Qty</th>
-                                        <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i> Last Update</th>
+                                        <th>user login</th>
+<!--                                        <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i> Last Update</th>-->
                                     </tr>
                                 </thead>
                             </table>

@@ -22,6 +22,7 @@
                 <a href="#"> <i class="fa fa-lg fa-fw fa-cubes"></i>  <span class="menu-item-parent">Inventory</span> </a>
                <ul>
                     <li><?php echo nav_active_link('stock', "Stock"); ?></li>
+                    <li><?php echo nav_active_link('stock/transaction', "Transaction"); ?></li>
                 </ul>
             </li>
             
