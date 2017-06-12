@@ -33,13 +33,14 @@
                                 </legend>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Reason name</label>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-9">
                                         <?php
                                         $data = array(
                                             'name' => 'reason_title',
-                                            'class' => 'form-control"',
+                                            'class' => 'form-control',
                                             'value' => isset($reason->reason_title) ? $reason->reason_title : "",
-                                            'data-bv-notempty-message' => 'The title is required and cannot be empty'
+                                            'data-bv-notempty-message' => 'The title is required and cannot be empty',
+                                            'required' => 'required'
                                         );
                                         echo form_input($data);
                                         ?>
@@ -49,12 +50,13 @@
                             <fieldset>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Reason Description</label>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-9">
                                         <?php
                                         $data = array(
                                             'name' => 'reason_desc',
-                                            'class' => 'form-control"',
-                                            'value' => isset($reason->reason_desc) ? $reason->reason_desc : ""
+                                            'class' => 'form-control',
+                                            'value' => isset($reason->reason_desc) ? $reason->reason_desc : "",
+                                            'rows' => 3
                                         );
                                         echo form_textarea($data);
                                         ?>
@@ -67,7 +69,7 @@
                                     <div class="col-lg-4">
                                         <?php
                                         $data = array(
-                                            'class' => 'form-control"'
+                                            'class' => 'form-control'
                                         );
                                         $options = array(
                                             1 => 'ใช้งาน',

@@ -50,7 +50,7 @@ class Reason_model extends MY_Model {
     }
 
     public function toggle_status($reason_id) {
-        $q = "UPDATE `{$this->table}` SET `active` = NOT `active` where `reason_id`={$reason_id} ";
+        $q = "UPDATE `{$this->table}` SET `active` = NOT `active` where `{$this->primary_key}`={$reason_id} ";
         if ($this->db->query($q))
             return true;
         return false;

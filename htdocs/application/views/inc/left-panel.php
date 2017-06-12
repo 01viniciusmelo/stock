@@ -19,37 +19,37 @@
         <ul>
             <?php echo nav_active_link('dashboard', "Dashboard","fa-area-chart",'dashboard'); ?>
             <li>
-                <a href="#setting"> <i class="fa fa-lg fa-fw fa-cubes"></i>  <span class="menu-item-parent">Inventory</span> </a>
+                <a href="#"> <i class="fa fa-lg fa-fw fa-cubes"></i>  <span class="menu-item-parent">Inventory</span> </a>
                <ul>
                     <li><?php echo nav_active_link('stock/display', "Stock"); ?></li>
                 </ul>
             </li>
+            
             <li>
-                <a href="#user"> <i class="fa fa-lg fa-fw fa-cube"></i> <span class="menu-item-parent">Product</span> </a>
-                <ul>
-                    <li><?php echo nav_active_link('product/display', "Product"); ?></li>
-                    <!--<li><?php echo nav_active_link('branchs/display', "Branch"); ?></li>-->
-                    <li><?php echo nav_active_link('category/display', "Caterogy"); ?></li>
-                    <li><?php echo nav_active_link('product/excel_import', "Excel Import"); ?></li>
-                </ul>
-            </li>
-             
-            <li>
-                <a href="#setting"> <i class="fa fa-lg fa-fw fa-truck"></i>  <span class="menu-item-parent">Tranfers</span> </a>
+                <a href="#"> <i class="fa fa-lg fa-fw fa-truck"></i>  <span class="menu-item-parent">Transfer</span> </a>
                <ul>
-                    <li><?php echo nav_active_link('tranfers/display', "Tranfers"); ?></li>
+                    <li><?php echo nav_active_link('transfer/display', "Tranfers"); ?></li>
                 </ul>
             </li>
+            
             <li>
-                <a href="#user"> <i class="fa fa-lg fa-fw fa-users"></i> <span class="menu-item-parent">User</span> </a>
+                <a href="#"> <i class="fa fa-lg fa-fw fa-shopping-cart"></i>  <span class="menu-item-parent">Order</span> </a>
+               <ul>
+                    <li><?php echo nav_active_link('order', "Order"); ?></li>
+                </ul>
+            </li>
+            
+            <li>
+                <a href="#"> <i class="fa fa-lg fa-fw fa-users"></i> <span class="menu-item-parent">User</span> </a>
                 <ul>
                     <li><?php echo nav_active_link('user/display', "User"); ?></li>
                     <li><?php echo nav_active_link('user/role', "Role"); ?></li>
                     <!--<li><?php echo nav_active_link('user/create', "Add"); ?></li>-->
                 </ul>
             </li>
+            
             <li>
-                <a href="#user"> <i class="fa fa-lg fa-fw fa-building-o"></i> <span class="menu-item-parent">Company</span> </a>
+                <a href="#"> <i class="fa fa-lg fa-fw fa-building-o"></i> <span class="menu-item-parent">Company</span> </a>
                 <ul>
                     <li><?php echo nav_active_link('company/display', "Companny"); ?></li>
                     <li><?php echo nav_active_link('branchs/display', "Branch"); ?></li>
@@ -59,10 +59,8 @@
             
             
             <li>
-                <a href="#setting"> <i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">Setting</span> </a>
+                <a href="#"> <i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">Setting</span> </a>
                  <ul>
-<!--                    <li><?php echo nav_active_link('category/display', "Caterogy"); ?></li>-->
-                    <!--<li><?php echo nav_active_link('branchs/display', "Branchs"); ?></li> move to menu company-->
                     <li><?php echo nav_active_link('reason/display', "Reason Type"); ?></li>
                     <li><?php echo nav_active_link('setting/format', "Format"); ?></li>
                 </ul>

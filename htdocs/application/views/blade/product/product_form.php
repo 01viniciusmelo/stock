@@ -3,9 +3,9 @@
         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
             <h1 class="page-title">
                 <i class='fa-fw fa fa-plus-square-o'></i> 
-                Branch
+                Product
                 <span>>
-                    <?php echo (isset($branchs) ? "Update" : "Add") ?>
+                    <?php echo (isset($product) ? "Update" : "Add") ?>
                 </span>
             </h1>
         </div>
@@ -25,21 +25,22 @@
                               data-bv-live="disabled"
                               data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
                               data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+                              enctype="multipart/form-data">
                             <fieldset>
-                                <?php echo form_hidden('id', isset($branchs->id) ? $branchs->id : ""); ?>
+                                <?php echo form_hidden('product_id', isset($product->product_id) ? $product->product_id : ""); ?>
                                 <legend>
-                                    เพิ่มเติม/แก้ไขสาขาหรือสถานที่
+                                    เพิ่มเติม/แก้ไขสินค้า
                                 </legend>
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">Branch name</label>
+                                    <label class="col-lg-3 control-label">Product name</label>
                                     <div class="col-lg-9">
                                         <?php
                                         $data = array(
-                                            'name' => 'name',
+                                            'name' => 'product_name',
                                             'class' => 'form-control',
-                                            'value' => isset($branchs->name) ? $branchs->name : "",
-                                            'data-bv-notempty-message' => 'The name is required and cannot be empty',
+                                            'value' => isset($product->product_name) ? $product->product_name : "",
+                                            'data-bv-notempty-message' => 'The title is required and cannot be empty',
                                             'required' => 'required'
                                         );
                                         echo form_input($data);
@@ -49,76 +50,90 @@
                             </fieldset>
                             <fieldset>
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">Branch Address</label>
+                                    <label class="col-lg-3 control-label">Product Description</label>
                                     <div class="col-lg-9">
                                         <?php
                                         $data = array(
-                                            'name' => 'address',
-                                            'class' => 'form-control',
-                                            'value' => isset($branchs->address) ? $branchs->address : "",
-                                            'rows' => '3'
+                                            'name' => 'product_desc',
+                                            'class' => 'form-control summernote',
+                                            'value' => isset($product->product_desc) ? $product->product_desc : "",
+                                            'rows' => 3
                                         );
                                         echo form_textarea($data);
                                         ?>
                                     </div>
                                 </div>
                             </fieldset>
-
-
                             <fieldset>
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">Contract</label>
+                                <label class="col-lg-3 control-label">Product Category</label>
+                                <div class="col-lg-3">
+                                    <?php
+                                    $data = array(
+                                        'class' => 'form-control'
+                                    );
+                                    echo form_dropdown('cat_id', $category, isset($product->cat_id) ? $product->cat_id : "", $data);
+                                    ?>
+                                </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Product price</label>
                                     <div class="col-lg-3">
                                         <div class="input-group">
                                             <?php
                                             $data = array(
-                                                'name' => 'email',
+                                                'name' => 'product_price',
                                                 'class' => 'form-control',
-                                                'value' => isset($branchs->email) ? $branchs->email : ""
+                                                'value' => isset($product->product_price) ? $product->product_price : 0,
+                                                'data-bv-notempty-message' => 'The title is required and cannot be empty',
+                                                'type' => 'number'
                                             );
                                             echo form_input($data);
                                             ?>
-                                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                            <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         </div>
-                                        <p class="note">Email</p>
                                     </div>
-                                    <div class="col-lg-3">
+                                </div>
+
+
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Product Code</label>
+                                    <div class="col-lg-4">
                                         <div class="input-group">
                                             <?php
                                             $data = array(
-                                                'name' => 'phone',
+                                                'name' => 'product_code',
                                                 'class' => 'form-control',
-                                                'value' => isset($branchs->phone) ? $branchs->phone : ""
+                                                'value' => isset($product->product_code) ? $product->product_code : ""
                                             );
                                             echo form_input($data);
                                             ?>
-                                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                            <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
                                         </div>
-                                        <p class="note">Phone</p>
+
                                     </div>
-                                    <div class="col-lg-3">
-                                        <div class="input-group">
-                                            <?php
-                                            $data = array(
-                                                'name' => 'mobile',
-                                                'class' => 'form-control',
-                                                'value' => isset($branchs->mobile) ? $branchs->mobile : "",
-                                                'data-mask' => '(999) 999-9999',
-                                                'data-mask-placeholder' => 'X'
-                                            );
-                                            echo form_input($data);
-                                            ?>
-                                            <span class="input-group-addon"><i class="fa fa-mobile-phone"></i></span>
-                                        </div>
-                                        <p class="note"> Mobile</p>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend></legend>
+                                <label class="col-lg-3 control-label">Product Gallery</label>
+                                <div class="col-lg-9">
+                                    <div class="fallback">
+                                        <input name="file" type="file" multiple />
                                     </div>
                                 </div>
                             </fieldset>
 
                             <fieldset>
+                                <legend>
+                                </legend>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Status</label>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <?php
                                         $data = array(
                                             'class' => 'form-control'
@@ -127,7 +142,7 @@
                                             1 => 'ใช้งาน',
                                             0 => 'ไม่ใช้งาน'
                                         );
-                                        echo form_dropdown('active', $options, isset($branchs->active) ? $branchs->active : "", $data);
+                                        echo form_dropdown('active', $options, isset($product->active) ? $product->active : "", $data);
                                         ?>
                                     </div>
                                 </div>
@@ -137,7 +152,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <button class="btn btn-default" type="submit">
-                                            <?php echo (isset($branchs->id) ? "Update" : "Save") ?>
+                                            <?php echo (isset($product->product_id) ? "Update" : "Save") ?>
                                         </button>
                                     </div>
                                 </div>

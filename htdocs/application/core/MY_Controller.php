@@ -110,7 +110,7 @@ class Auth_Controller extends CI_Controller {
 
     protected function setTableTemplate() {
         $this->tableTemplate = array(
-            'table_open' => '<table  id="dt-table-basic" class="table table-striped table-bordered table-hover dataTable no-footer" cellspacing="0" width="100%">',
+            'table_open' => '<table class="table table-striped table-bordered table-hover dataTable no-footer" cellspacing="0" width="100%">',
             'thead_open' => '<thead>',
             'thead_close' => '</thead>',
             'heading_row_start' => '<tr>',

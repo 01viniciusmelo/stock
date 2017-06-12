@@ -10,14 +10,14 @@ if (!defined('BASEPATH'))
  */
 
 /**
- * Description of category_model
+ * Description of product_model
  *
  * @author Krittkarin.C
  */
-class Category_model extends MY_Model {
+class Product_model extends MY_Model {
 
-    public $table = 'category'; // you MUST mention the table name
-    public $primary_key = 'cat_id'; // you MUST mention the primary key
+    public $table = 'product'; // you MUST mention the table name
+    public $primary_key = 'product_id'; // you MUST mention the primary key
     public $fillable = array(); // If you want, you can set an array with the fields that can be filled by insert/update
     public $protected = array(); // ...Or you can set an array with the fields that cannot be filled by insert/update
     public $delete_cache_on_save = TRUE;
@@ -26,17 +26,17 @@ class Category_model extends MY_Model {
         parent::__construct();
     }
 
-    public function search($cat_id = NULL, $is_active = false) {
+    public function search($product_id = NULL) {
         $where = " 1=1 ";
-        if (!is_null($cat_id)) {
-            $where .= " AND `{$this->table}`.`{$this->primary_key}` = {$cat_id} ";
+        if (!is_null($product_id)) {
+            $where .= " AND `{$this->table}`.`{$this->primary_key}` = {$product_id} ";
         }
 
-        if ($is_active == true) {
-            $where .= " AND `{$this->table}`.`active` = 1";
-        }
-
-        $data = $this->db->query(" SELECT * FROM `{$this->table}` where {$where} ");
+        $data = $this->db->query(
+                " SELECT `{$this->table}`.*,`category`.`cat_desc` FROM `{$this->table}` "
+                . "left join `category` on  `{$this->table}`.`cat_id` = `category`.`cat_id` and `category`.`active` = 1 "
+                . "where {$where} "
+        );
         return $data;
     }
 
@@ -46,15 +46,15 @@ class Category_model extends MY_Model {
         return false;
     }
 
-    public function save($cat_id = null, $data = null) {
-        $this->db->where("{$this->primary_key}", $cat_id);
+    public function save($product_id = null, $data = null) {
+        $this->db->where("{$this->primary_key}", $product_id);
         if ($this->db->update($this->table, $data))
             return true;
         return false;
     }
 
-    public function toggle_status($cat_id) {
-        $q = "UPDATE `{$this->table}` SET `active` = NOT `active` where `cat_id`={$cat_id} ";
+    public function toggle_status($product_id) {
+        $q = "UPDATE `{$this->table}` SET `active` = NOT `active` where `{$this->primary_key}`={$product_id} ";
         if ($this->db->query($q))
             return true;
         return false;

@@ -33,13 +33,14 @@
                                 </legend>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Category name</label>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-9">
                                         <?php
                                         $data = array(
                                             'name' => 'cat_name',
-                                            'class' => 'form-control"',
+                                            'class' => 'form-control',
                                             'value' => isset($cat->cat_name) ? $cat->cat_name : "",
-                                            'data-bv-notempty-message' => 'The name is required and cannot be empty'
+                                            'data-bv-notempty-message' => 'The name is required and cannot be empty',
+                                            'required' => 'required'
                                         );
                                         echo form_input($data);
                                         ?>
@@ -49,12 +50,13 @@
                             <fieldset>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Category Description</label>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-9">
                                         <?php
                                         $data = array(
                                             'name' => 'cat_desc',
-                                            'class' => 'form-control"',
-                                            'value' => isset($cat->cat_desc) ? $cat->cat_desc : ""
+                                            'class' => 'form-control',
+                                            'value' => isset($cat->cat_desc) ? $cat->cat_desc : "",
+                                            'rows' => 3
                                         );
                                         echo form_textarea($data);
                                         ?>
@@ -67,7 +69,7 @@
                                     <div class="col-lg-4">
                                         <?php
                                         $data = array(
-                                            'class' => 'form-control"'
+                                            'class' => 'form-control'
                                         );
                                         $options = array(
                                             1 => 'ใช้งาน',

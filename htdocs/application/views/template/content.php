@@ -89,9 +89,14 @@
 
         <!--================================================== -->
         <?php $this->load->view('inc/script'); ?>
-        <?php if( !empty($blade) && file_exists(APPPATH."views/script/{$blade}.php")):?>
+
+        <?php
+        $blades = explode("/", $blade);
+        $blade = end($blades);
+        if( !empty($blade) && file_exists(APPPATH."views/script/{$blade}.php")):?>
         <?php $this->load->view("script/{$blade}");   ?>
         <?php endif;?>
+        <?php $this->load->view("script/all");   ?>
 
     </body>
 
