@@ -8,13 +8,12 @@ class Dashboard extends Auth_Controller {
 		
 	}
 
-	// redirect if needed, otherwise display the user list
 	public function index()
 	{
-		$data = array();
-		$this->load->view('template/content', $data);
+            $data = array();
 
-		
+            $this->data['blade'] = "dashboard/main";
+            $this->_render_page('template/chart', $this->data);
 	}
 
 	// log the user in

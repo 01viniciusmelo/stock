@@ -17,9 +17,7 @@
 
     <nav>
         <ul>
-            <li>
-                <a href="#user"> <i class="fa fa-lg fa-fw fa-area-chart"></i> <span class="menu-item-parent">Dashboard</span> </a>
-            </li>
+            <?php echo nav_active_link('dashboard', "Dashboard","fa-area-chart",'dashboard'); ?>
             <li>
                 <a href="#setting"> <i class="fa fa-lg fa-fw fa-cubes"></i>  <span class="menu-item-parent">Inventory</span> </a>
                <ul>
@@ -32,6 +30,7 @@
                     <li><?php echo nav_active_link('product/display', "Product"); ?></li>
                     <!--<li><?php echo nav_active_link('branchs/display', "Branch"); ?></li>-->
                     <li><?php echo nav_active_link('category/display', "Caterogy"); ?></li>
+                    <li><?php echo nav_active_link('product/excel_import', "Excel Import"); ?></li>
                 </ul>
             </li>
              
@@ -66,7 +65,6 @@
                     <!--<li><?php echo nav_active_link('branchs/display', "Branchs"); ?></li> move to menu company-->
                     <li><?php echo nav_active_link('reason/display', "Reason Type"); ?></li>
                     <li><?php echo nav_active_link('setting/format', "Format"); ?></li>
-                    <li><?php echo nav_active_link('setting/excel', "Excel Import"); ?></li>
                 </ul>
             </li>
            
