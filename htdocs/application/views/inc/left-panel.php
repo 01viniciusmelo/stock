@@ -21,14 +21,14 @@
             <li>
                 <a href="#"> <i class="fa fa-lg fa-fw fa-cubes"></i>  <span class="menu-item-parent">Inventory</span> </a>
                <ul>
-                    <li><?php echo nav_active_link('stock/display', "Stock"); ?></li>
+                    <li><?php echo nav_active_link('stock', "Stock"); ?></li>
                 </ul>
             </li>
             
             <li>
                 <a href="#"> <i class="fa fa-lg fa-fw fa-truck"></i>  <span class="menu-item-parent">Transfer</span> </a>
                <ul>
-                    <li><?php echo nav_active_link('transfer/display', "Tranfers"); ?></li>
+                    <li><?php echo nav_active_link('transfer', "Tranfers"); ?></li>
                 </ul>
             </li>
             
@@ -51,8 +51,17 @@
             <li>
                 <a href="#"> <i class="fa fa-lg fa-fw fa-building-o"></i> <span class="menu-item-parent">Company</span> </a>
                 <ul>
-                    <li><?php echo nav_active_link('company/display', "Companny"); ?></li>
+                    <li><?php echo nav_active_link('company', "Companny"); ?></li>
                     <li><?php echo nav_active_link('branchs/display', "Branch"); ?></li>
+                </ul>
+            </li>
+            
+             <li>
+                <a href="#"> <i class="fa fa-lg fa-fw fa-file"></i> <span class="menu-item-parent">Reports</span> </a>
+                <ul>
+                    <li><?php echo nav_active_link('report/branch', "branch"); ?></li>
+                    <li><?php echo nav_active_link('report/category', "category"); ?></li>
+                    <li><?php echo nav_active_link('report/transection', "transection"); ?></li>
                 </ul>
             </li>
             
