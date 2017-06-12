@@ -2,19 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/xampp/htdocs/stock/htdocs/application/models/Reason_model.php</file>
-            <file>file:/C:/xampp/htdocs/stock/htdocs/application/views/blade/branchs/branchs_form.php</file>
-            <file>file:/C:/xampp/htdocs/stock/htdocs/application/views/inc/left-panel.php</file>
-            <file>file:/C:/xampp/htdocs/stock/htdocs/application/views/blade/reason/reason_form.php</file>
-            <file>file:/C:/xampp/htdocs/stock/htdocs/application/controllers/Stock.php</file>
-            <file>file:/C:/xampp/htdocs/stock/htdocs/application/views/blade/user_create.php</file>
-            <file>file:/C:/xampp/htdocs/stock/htdocs/application/controllers/User.php</file>
-            <file>file:/C:/xampp/htdocs/stock/htdocs/application/controllers/Reason.php</file>
-            <file>file:/C:/xampp/htdocs/stock/htdocs/application/controllers/Branchs.php</file>
-            <file>file:/C:/xampp/htdocs/stock/htdocs/application/models/Category_model.php</file>
-            <file>file:/C:/xampp/htdocs/stock/htdocs/application/models/Branch_model.php</file>
-            <file>file:/C:/xampp/htdocs/stock/htdocs/application/views/blade/reason/reason_display.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

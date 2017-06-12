@@ -32,7 +32,7 @@ class User extends Auth_Controller {
                 $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
             }
 
-            $this->data['blade'] = "user_display";
+            $this->data['blade'] = "users/user_display";
             $this->_render_page('template/content', $this->data);
         }
     }
@@ -60,7 +60,7 @@ class User extends Auth_Controller {
             $this->data['csrf'] = $this->_get_csrf_nonce();
             $this->data['user'] = $this->ion_auth->user($id)->row();
 
-            $this->data['blade'] = "user_deactivate";
+            $this->data['blade'] = "users/user_deactivate";
             $this->_render_page('template/content', $this->data);
         } else {
             // do we really want to deactivate?
@@ -109,7 +109,7 @@ class User extends Auth_Controller {
             $this->data['phone'] = $this->form_validation->set_value('phone', $this->input->post('phone'));
             $this->data['company'] = $this->form_validation->set_value('company', $this->input->post('company'));
 
-            $this->data['blade'] = "user_create";
+            $this->data['blade'] = "users/user_create";
             $this->_render_page('template/content', $this->data);
         } else {
 
