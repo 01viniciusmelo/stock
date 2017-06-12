@@ -39,6 +39,14 @@
                 </ul>
             </li>
             
+             <li>
+                <a href="#"> <i class="fa fa-lg fa-fw fa-cube"></i> <span class="menu-item-parent">Product</span> </a>
+                <ul>
+                    <li><?php echo nav_active_link('product', "Product"); ?></li>
+                    <li><?php echo nav_active_link('category/display', "Category"); ?></li>
+                </ul>
+            </li>
+            
             <li>
                 <a href="#"> <i class="fa fa-lg fa-fw fa-users"></i> <span class="menu-item-parent">User</span> </a>
                 <ul>
