@@ -39,7 +39,7 @@ class Branch_Model extends MY_Model {
     }
 
     public function read($where = array(), $limit = NULL, $offet = 0) {
-        $criteria = array('active' => 'Y');
+        $criteria = array('active' => MY_Model::FLAG_DATA_ACTIVE);
 
         if (!empty($where)) {
             foreach ($where as $f => $v) {
@@ -54,6 +54,7 @@ class Branch_Model extends MY_Model {
         }
 
 
+//        $data = $q->get_all($criteria);
         $data = $q->set_cache("customer_read", 500)->get_all($criteria);
 
         return $data;

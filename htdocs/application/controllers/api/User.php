@@ -73,7 +73,7 @@ class User extends REST_Controller {
 //            $users['groups']=$user->groups;
             $users['branch']=$user->branch;
             $users['status']=($user->active) ? anchor("user/deactivate/" . $user->id, lang('index_active_link')) : anchor("user/activate/" . $user->id, lang('index_inactive_link'));
-            $users['action']=anchor("user/edit/" . $user->id, 'Edit');
+            $users['action']=anchor("user/editUser/" . $user->id, 'Edit');
             
             $tmp = array();
             foreach($user->groups as $group){

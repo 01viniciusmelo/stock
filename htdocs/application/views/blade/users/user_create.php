@@ -1,3 +1,4 @@
+<?php //var_dump($user);?>
 <div id="content">
     <div class="row">
         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
@@ -23,9 +24,13 @@
 
 
             <article class="col-sm-8 col-md-8 col-lg-8 sortable-grid ui-sortable">
-                <div class="jarviswidget well jarviswidget-sortable">
+                <div class="jarviswidget jarviswidget-sortable">
+                    
+<!--                    <header>
+										<h2>User </h2>
+									</header>-->
 
-                    <div class="widget-body">
+                    <div class="widget-body form-no-head" >
 
                         <form id="frmUserAction"  class="form-horizontal" action="<?php echo current_url()?>" method="post"
                               data-bv-message="This value is not valid"
@@ -149,7 +154,7 @@
                             </fieldset>
                             <?php endif;?>
 
-                            <fieldset <?php echo (isset($currentGroups) && $currentGroups[0]->id  == 4 ? "" : "style=\"display: none;\"");?> id="customer-panel">
+                            <fieldset  id="customer-panel">
                                 <hr>
                                 <div class="form-group">
                                 <label class="col-lg-3 control-label">Branch/Site</label>
@@ -160,7 +165,7 @@
                                             data-bv-notempty-message="The Branch is required and cannot be empty">
                                         <option value="">Choose a Customer</option>
                                         <?php foreach($branchs as $branch ):?>
-                                            <option <?php echo (isset($user) && $user->company == $branch->id)?>"><?php echo $branch->name;?></option>
+                                        <option <?php echo (isset($user) && $user->branch == $branch->id ? "selected":"")?>  value="<?php echo $branch->id;?>"><?php echo $branch->name;?></option>
                                         <?php endforeach;?>
                                     </select>
                                     <p class="note"> สาขา</p>

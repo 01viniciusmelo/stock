@@ -70,6 +70,7 @@
 
 class MY_Model extends CI_Model
 {
+    const FLAG_DATA_ACTIVE = 1;
 
     /**
      * Select the database connection from the group names defined inside the database.php configuration file or an

@@ -16,6 +16,8 @@
         <link rel="stylesheet" type="text/css" media="screen" href="<?php echo asset_url('css/smartadmin-production-plugins.min.css'); ?>">
         <link rel="stylesheet" type="text/css" media="screen" href="<?php echo asset_url('css/smartadmin-production.min.css'); ?>">
         <link rel="stylesheet" type="text/css" media="screen" href="<?php echo asset_url('css/smartadmin-skins.min.css'); ?>">
+        
+        <link rel="stylesheet" type="text/css" media="screen" href="<?php echo asset_url('css/my_style.css'); ?>">
 
         <!-- SmartAdmin RTL Support -->
         <link rel="stylesheet" type="text/css" media="screen" href="<?php echo asset_url('css/smartadmin-rtl.min.css') ?>"> 
@@ -64,7 +66,7 @@
         <div id="main" role="main">
 
             <!-- RIBBON -->
-            <?php $this->load->view("inc/ribbon"); ?>
+            <?php //$this->load->view("inc/ribbon"); ?>
             <!-- END RIBBON -->
 
             <!-- #MAIN CONTENT -->

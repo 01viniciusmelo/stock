@@ -4,9 +4,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends Auth_Controller {
 
+    const FORM_ACTION_ADD = "add";
+    const FORM_ACTION_READ = "read";
+    const FORM_ACTION_UPDATE = "edit";
+
     public function __construct() {
         parent::__construct();
-        
+
         $this->load->model('branch_model');
     }
 
@@ -83,8 +87,8 @@ class User extends Auth_Controller {
 
     // create a new user
     public function create() {
-        
-         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
+
+        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
             redirect('user/login', 'refresh');
         }
 
@@ -101,8 +105,6 @@ class User extends Auth_Controller {
             $this->data['groups'] = $this->ion_auth->groups()->result_array();
             $this->data['branchs'] = $this->branch_model->read();
             $this->data['csrf'] = $this->_get_csrf_nonce();
-
-
             $this->data['firstName'] = $this->form_validation->set_value('firstName', $this->input->post('first_name'));
             $this->data['lastName'] = $this->form_validation->set_value('lastName', $this->input->post('last_name'));
             $this->data['email'] = $this->form_validation->set_value('email', $this->input->post('email'));
@@ -121,6 +123,7 @@ class User extends Auth_Controller {
                 'first_name' => $this->input->post('firstName'),
                 'last_name' => $this->input->post('lastName'),
                 'company' => $this->input->post('customer'),
+                'branch' => $this->input->post('branch'),
                 'phone' => $this->input->post('phone'),
             );
 
@@ -133,7 +136,7 @@ class User extends Auth_Controller {
     }
 
     // edit a user
-    public function edit_user($id) {
+    public function editUser($id) {
         $this->data['title'] = $this->lang->line('edit_user_heading');
 
         if (!$this->ion_auth->logged_in() || (!$this->ion_auth->is_admin() && !($this->ion_auth->user()->row()->id == $id))) {
@@ -145,12 +148,12 @@ class User extends Auth_Controller {
         $currentGroups = $this->ion_auth->get_users_groups($id)->result();
 
         // validate form input
-        $this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required');
-        $this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required');
-        $this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required');
-        $this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'required');
+        $this->form_validation->set_rules('firstName', "First Name", 'required');
+        $this->form_validation->set_rules('lastName', "Last Name", 'required');
+        $this->form_validation->set_rules('branch', "Branch", 'required');
 
         if (isset($_POST) && !empty($_POST)) {
+
             // do we have a valid request?
             if ($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post('id')) {
                 show_error($this->lang->line('error_csrf'));
@@ -163,10 +166,11 @@ class User extends Auth_Controller {
             }
 
             if ($this->form_validation->run() === TRUE) {
+
                 $data = array(
-                    'first_name' => $this->input->post('first_name'),
-                    'last_name' => $this->input->post('last_name'),
-                    'company' => $this->input->post('company'),
+                    'first_name' => $this->input->post('firstName'),
+                    'last_name' => $this->input->post('lastName'),
+                    'branch' => $this->input->post('branch'),
                     'phone' => $this->input->post('phone'),
                 );
 
@@ -197,7 +201,7 @@ class User extends Auth_Controller {
                     // redirect them back to the admin page if admin, or to the base url if non admin
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
                     if ($this->ion_auth->is_admin()) {
-                        redirect('auth', 'refresh');
+                        redirect('user', 'refresh');
                     } else {
                         redirect('/', 'refresh');
                     }
@@ -205,7 +209,7 @@ class User extends Auth_Controller {
                     // redirect them back to the admin page if admin, or to the base url if non admin
                     $this->session->set_flashdata('message', $this->ion_auth->errors());
                     if ($this->ion_auth->is_admin()) {
-                        redirect('auth', 'refresh');
+                        redirect('user', 'refresh');
                     } else {
                         redirect('/', 'refresh');
                     }
@@ -222,44 +226,18 @@ class User extends Auth_Controller {
         // pass the user to the view
         $this->data['user'] = $user;
         $this->data['groups'] = $groups;
+        $this->data['branchs'] = $this->branch_model->read();
         $this->data['currentGroups'] = $currentGroups;
 
-        $this->data['first_name'] = array(
-            'name' => 'first_name',
-            'id' => 'first_name',
-            'type' => 'text',
-            'value' => $this->form_validation->set_value('first_name', $user->first_name),
-        );
-        $this->data['last_name'] = array(
-            'name' => 'last_name',
-            'id' => 'last_name',
-            'type' => 'text',
-            'value' => $this->form_validation->set_value('last_name', $user->last_name),
-        );
-        $this->data['company'] = array(
-            'name' => 'company',
-            'id' => 'company',
-            'type' => 'text',
-            'value' => $this->form_validation->set_value('company', $user->company),
-        );
-        $this->data['phone'] = array(
-            'name' => 'phone',
-            'id' => 'phone',
-            'type' => 'text',
-            'value' => $this->form_validation->set_value('phone', $user->phone),
-        );
-        $this->data['password'] = array(
-            'name' => 'password',
-            'id' => 'password',
-            'type' => 'password'
-        );
-        $this->data['password_confirm'] = array(
-            'name' => 'password_confirm',
-            'id' => 'password_confirm',
-            'type' => 'password'
-        );
+        $this->data['firstName'] = $this->form_validation->set_value('firstName', $user->first_name);
+        $this->data['lastName'] = $this->form_validation->set_value('lastName', $user->first_name);
+        $this->data['email'] = $this->form_validation->set_value('email', $user->email);
+        $this->data['phone'] = $this->form_validation->set_value('phone', $user->phone);
+//        $this->data['company'] = $this->form_validation->set_value('company', $user->company);
 
-        $this->_render_page('auth/edit_user', $this->data);
+
+        $this->data['blade'] = "users/user_create";
+        $this->_render_page('template/content', $this->data);
     }
 
     // create a new group
@@ -357,6 +335,48 @@ class User extends Auth_Controller {
         );
 
         $this->_render_page('auth/edit_group', $this->data);
+    }
+
+    public function role() {
+
+//        if ($action == User::FORM_ACTION_READ) {
+
+            if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
+                redirect('auth', 'refresh');
+            }
+
+            // validate form input
+            $this->form_validation->set_rules('group_name', $this->lang->line('create_group_validation_name_label'), 'required|alpha_dash');
+
+            if ($this->form_validation->run() == TRUE) {
+                $new_group_id = $this->ion_auth->create_group($this->input->post('group_name'), $this->input->post('description'));
+                if ($new_group_id) {
+                    // check to see if we are creating the group
+                    // redirect them back to the admin page
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    redirect("user", 'refresh');
+                }
+            } else {
+                // display the create group form
+                // set the flash data error message if there is one
+                $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+
+                $this->data['group_name'] = $this->form_validation->set_value('group_name');
+                $this->data['description'] =  $this->form_validation->set_value('description');
+                
+                $this->data['blade'] = "users/role_create";
+                $this->_render_page('template/content', $this->data);
+                //$this->_render_page('auth/create_group', $this->data);
+            }
+//        }
+//
+//        if ($action == User::FORM_ACTION_ADD) {
+//            
+//        }
+//
+//        if ($action == User::FORM_ACTION_UPDATE) {
+//            
+//        }
     }
 
 }
