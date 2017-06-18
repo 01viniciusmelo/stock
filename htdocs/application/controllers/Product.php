@@ -37,14 +37,14 @@ class Product extends Auth_Controller {
 
         //Set Product Table
         $this->table->set_template($this->tableTemplate);
-        $this->table->set_heading('ID', 'Product Name', 'Description', 'Price', 'Category', 'Status', 'Action');
+        $this->table->set_heading('ID', 'Product Name', 'Description','Purchasing Price',  'Sale Price', 'Category', 'Status', 'Action');
 
 
         $product = $this->product_model->search()->result();
         //list Product
         foreach ($product as $k => $v) {
             $this->table->add_row(
-                    $v->product_id, $v->product_name, $v->product_desc, $v->product_price, $v->cat_desc, anchor('product/deactive/' . $v->product_id, ($v->active == 1) ? 'Active' : 'Inactive'), anchor('product/edit/' . $v->product_id, '<i class="fa-fw fa fa-edit"></i> Edit')
+                    $v->product_id, $v->product_name, $v->product_desc, $v->product_price_purchasing,$v->product_price_selling, $v->cat_desc, anchor('product/deactive/' . $v->product_id, ($v->active == 1) ? 'Active' : 'Inactive'), anchor('product/edit/' . $v->product_id, '<i class="fa-fw fa fa-edit"></i> Edit')
             );
         }
         $this->data['table_data'] = $this->table->generate();
@@ -78,7 +78,12 @@ class Product extends Auth_Controller {
             $save_data = array(
                 'product_name' => $this->input->post('product_name'),
                 'product_desc' => $this->input->post('product_desc'),
+                'product_code' => $this->input->post('product_code'),
+                'cat_id' => $this->input->post('cat_id'),
                 'active' => $this->input->post('active'),
+                'product_price_selling' => $this->input->post('product_price_selling'),
+                'product_price_purchasing' => $this->input->post('product_price_purchasing'),
+                'quantity' => $this->input->post('quantity'),
                 'created_by' => $this->ion_auth->users()->result()[0]->id,
                 'updated_by' => $this->ion_auth->users()->result()[0]->id
             );

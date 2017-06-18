@@ -16,7 +16,7 @@ if (!defined('BASEPATH'))
  */
 class Product_model extends MY_Model {
 
-    public $table = 'product'; // you MUST mention the table name
+    public $table = 'products'; // you MUST mention the table name
     public $primary_key = 'product_id'; // you MUST mention the primary key
     public $fillable = array(); // If you want, you can set an array with the fields that can be filled by insert/update
     public $protected = array(); // ...Or you can set an array with the fields that cannot be filled by insert/update
@@ -26,10 +26,17 @@ class Product_model extends MY_Model {
         parent::__construct();
     }
 
-    public function search($product_id = NULL) {
+    public function search($product_id = NULL,$search=NULL) {
         $where = " 1=1 ";
         if (!is_null($product_id)) {
             $where .= " AND `{$this->table}`.`{$this->primary_key}` = {$product_id} ";
+        }
+        
+
+        if (!is_null($search)) {
+            $where .= " AND (`{$this->table}`.`product_code` like '%{$search}%' "
+            . "or `{$this->table}`.`product_name` like '%{$search}%' ) "
+            . "and `{$this->table}`.`active` = 1";
         }
 
         $data = $this->db->query(
@@ -39,6 +46,17 @@ class Product_model extends MY_Model {
         );
         return $data;
     }
+    
+    public function get($product_code='X') {
+        $this->db->from($this->table);
+        $this->db->join('category', "category.cat_id = {$this->table}.cat_id and category.active=1");
+        $this->db->where('product_code', $product_code);
+        $this->db->where("{$this->table}.active", 1);
+        $data = $this->db->get();
+        return $data;
+    }
+    
+    
 
     public function insert($data = null) {
         if ($this->db->insert($this->table, $data))

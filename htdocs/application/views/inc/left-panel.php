@@ -36,7 +36,8 @@
             <li>
                 <a href="#"> <i class="fa fa-lg fa-fw fa-shopping-cart"></i>  <span class="menu-item-parent">Order</span> </a>
                <ul>
-                    <li><?php echo nav_active_link('order', "Order"); ?></li>
+                    <li><?php echo nav_active_link('order', "Sales Order"); ?></li>
+                    <li><?php echo nav_active_link('order_approve', "Salses Order Approve"); ?></li>
                 </ul>
             </li>
             

@@ -66,27 +66,45 @@
                             </fieldset>
                             <fieldset>
                                 <div class="form-group">
-                                <label class="col-lg-3 control-label">Product Category</label>
-                                <div class="col-lg-3">
-                                    <?php
-                                    $data = array(
-                                        'class' => 'form-control'
-                                    );
-                                    echo form_dropdown('cat_id', $category, isset($product->cat_id) ? $product->cat_id : "", $data);
-                                    ?>
-                                </div>
+                                    <label class="col-lg-3 control-label">Product Category</label>
+                                    <div class="col-lg-3">
+                                        <?php
+                                        $data = array(
+                                            'class' => 'form-control'
+                                        );
+                                        echo form_dropdown('cat_id', $category, isset($product->cat_id) ? $product->cat_id : "", $data);
+                                        ?>
+                                    </div>
                                 </div>
                             </fieldset>
                             <fieldset>
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">Product price</label>
+                                    <label class="col-lg-3 control-label">Product price selling</label>
                                     <div class="col-lg-3">
                                         <div class="input-group">
                                             <?php
                                             $data = array(
-                                                'name' => 'product_price',
+                                                'name' => 'product_price_selling',
                                                 'class' => 'form-control',
-                                                'value' => isset($product->product_price) ? $product->product_price : 0,
+                                                'value' => isset($product->product_price_selling) ? $product->product_price_selling : 0,
+                                                'data-bv-notempty-message' => 'The title is required and cannot be empty',
+                                                'type' => 'number'
+                                            );
+                                            echo form_input($data);
+                                            ?>
+                                            <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                        </div>
+                                    </div>
+
+
+                                    <label class="col-lg-3 control-label">Product price purchasing</label>
+                                    <div class="col-lg-3">
+                                        <div class="input-group">
+                                            <?php
+                                            $data = array(
+                                                'name' => 'product_price_purchasing',
+                                                'class' => 'form-control',
+                                                'value' => isset($product->product_price_purchasing) ? $product->product_price_purchasing : 0,
                                                 'data-bv-notempty-message' => 'The title is required and cannot be empty',
                                                 'type' => 'number'
                                             );
@@ -98,6 +116,26 @@
                                 </div>
 
 
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Quantity</label>
+                                    <div class="col-lg-3">
+                                        <div class="input-group">
+                                            <?php
+                                            $data = array(
+                                                'name' => 'quantity',
+                                                'class' => 'form-control',
+                                                'value' => isset($product->quantity) ? $product->quantity : 0,
+                                                'data-bv-notempty-message' => 'The title is required and cannot be empty',
+                                                'type' => 'number'
+                                            );
+                                            echo form_input($data);
+                                            ?>
+                                            <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <div class="form-group">
