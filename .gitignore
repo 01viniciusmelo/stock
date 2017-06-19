@@ -122,3 +122,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/cvs,macos,linux,windows,netbeans,notepadpp,sublimetext,visualstudiocode
+/htdocs/nbproject/private/
