@@ -1,4 +1,4 @@
-
+<div id="content">
 
 <div class="row">
     <!-- col -->
@@ -84,3 +84,6 @@
     </div>
 
 </section>
+
+
+</div>

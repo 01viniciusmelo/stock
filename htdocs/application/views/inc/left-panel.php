@@ -36,7 +36,8 @@
             <li>
                 <a href="#"> <i class="fa fa-lg fa-fw fa-shopping-cart"></i>  <span class="menu-item-parent">Order</span> </a>
                <ul>
-                    <li><?php echo nav_active_link('order', "Order"); ?></li>
+                    <li><?php echo nav_active_link('order', "Sales Order"); ?></li>
+                    <li><?php echo nav_active_link('order_approve', "Salses Order Approve"); ?></li>
                 </ul>
             </li>
             
@@ -44,6 +45,7 @@
                 <a href="#"> <i class="fa fa-lg fa-fw fa-cube"></i> <span class="menu-item-parent">Product</span> </a>
                 <ul>
                     <li><?php echo nav_active_link('product', "Product"); ?></li>
+                    <li><?php echo nav_active_link('product/import/excel', "Product Import excel"); ?></li>
                     <li><?php echo nav_active_link('category/display', "Category"); ?></li>
                 </ul>
             </li>

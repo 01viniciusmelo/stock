@@ -66,7 +66,7 @@ class Auth_Controller extends CI_Controller {
     protected $data = array();
     protected $viewdata = array();
     protected $tableTemplate = array();
-    protected $_dateFormat= '%Y-%m-%d %H:%i:%s';
+    protected $_dateFormat = '%Y-%m-%d %H:%i:%s';
 
     /**
      * Class constructor
@@ -168,11 +168,18 @@ class Auth_Controller extends CI_Controller {
                 ->_display();
         exit;
     }
-    protected function pre($data = array()){
+
+    protected function pre($data = array()) {
         echo '<pre>';
         print_r($data);
         echo '</pre>';
-        exit;
+        
+    }
+
+    protected function gen_id($prefix, $sufix) {
+        $numbers = mdate('%Y%m%d', time()).'-'.rand(1000, 9999);
+        $string = $prefix . $numbers . $sufix;
+        return $string;
     }
 
 }

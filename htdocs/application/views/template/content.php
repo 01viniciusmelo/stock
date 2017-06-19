@@ -70,13 +70,13 @@
             <!-- END RIBBON -->
 
             <!-- #MAIN CONTENT -->
-            <div id="content">
+            <!--<div id="content">-->
             <?php
              if (!empty($blade)) {
                  $this->load->view('blade/' . $blade);
              }
             ?>
-            </div>
+            <!--</div>-->
             <!-- END #MAIN CONTENT -->
             
         </div>

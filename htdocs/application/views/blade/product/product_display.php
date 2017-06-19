@@ -1,3 +1,4 @@
+<div id="content">
 <div class="row">
 
     <!-- col -->
@@ -83,3 +84,4 @@
 
 </section>
 <!-- end widget grid -->
+</div>
