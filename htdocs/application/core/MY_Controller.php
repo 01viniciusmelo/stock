@@ -67,6 +67,7 @@ class Auth_Controller extends CI_Controller {
     protected $viewdata = array();
     protected $tableTemplate = array();
     protected $_dateFormat = '%Y-%m-%d %H:%i:%s';
+    protected $_branchs;
 
     /**
      * Class constructor
@@ -81,6 +82,7 @@ class Auth_Controller extends CI_Controller {
         $this->checkAuth();
         $this->loadConfig();
         $this->setTableTemplate();
+        //$this->set_branch();
     }
 
     private function checkAuth() {
@@ -173,13 +175,23 @@ class Auth_Controller extends CI_Controller {
         echo '<pre>';
         print_r($data);
         echo '</pre>';
-        
     }
 
     protected function gen_id($prefix, $sufix) {
-        $numbers = mdate('%Y%m%d', time()).'-'.rand(1000, 9999);
+        $numbers = mdate('%Y%m%d', time()) . '-' . rand(1000, 9999);
         $string = $prefix . $numbers . $sufix;
         return $string;
+    }
+
+    protected function set_branch() {
+        $branch_id = $this->ion_auth->user()->row()->branch;
+
+        $this->load->model('branch_model');
+        $branchs = $this->branch_model->read(array('id' => $branch_id));
+        $this->_branchs = array(
+            'branch_id' => $branch_id,
+            'branch_name' => $branchs[0]->name
+        );
     }
 
 }
