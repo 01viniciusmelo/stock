@@ -83,7 +83,7 @@ class Order_approve extends REST_Controller {
             $items['created_at'] = $item->created_at;
             $items['active'] = anchor('order/deactive/' . $item->order_no, ($item->active == 1) ? 'Active' : 'Inactive');
             $items['action'] = anchor('order/view/' . $item->order_no, '<i class="fa fa-info-circle"></i> View','class="btn btn-sm btn-info"')." "
-                    . "".anchor('order_approve/approve/' . $item->order_no, '<i class="fa fa-check-circle-o"></i> Approve','class="btn btn-sm btn-success"');
+                    . "".anchor('order_approve/approve/' . $item->order_no.'/A', '<i class="fa fa-check-circle-o"></i> Approve','class="btn btn-sm btn-success"');
             
             array_push($data, $items);
         }

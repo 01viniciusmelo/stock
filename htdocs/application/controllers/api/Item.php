@@ -58,8 +58,9 @@ class Item extends REST_Controller {
 
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
+        $items =array();
         //list item
-        $this->data['items'] = $this->product_model->get($item_search)->result();
+        $items_list = $this->product_model->get($item_search)->result();
 
 
 
@@ -67,7 +68,7 @@ class Item extends REST_Controller {
         $items = array();
         $data = array();
 
-        foreach ($this->data['items'] as $item) {
+        foreach ($items_list as $item) {
             $items['product_id'] = $item->product_id;
             $items['product_name'] = $item->product_name;
             $items['product_price_selling'] = $item->product_price_selling;
@@ -98,7 +99,7 @@ class Item extends REST_Controller {
 
             //Check exist item
             foreach ($cart_item as $kk => $vv):
-                if (in_array($this->input->get('product_id'), $vv)):
+                if($this->input->get('product_id') == $vv['product_id']):
                     $quantity += $vv['n_quantity'];
                     unset($cart_item[$kk]);
                 endif;
@@ -116,7 +117,7 @@ class Item extends REST_Controller {
 
                     $newitem['product_id'] = $items[0]->product_id;
                     $newitem['product_name'] = $items[0]->product_name;
-                    $newitem['quantity'] = "<input type='number' class='quantity' value='{$quantity}'\>";
+                    $newitem['quantity'] = "<input type='number' product_id='{$items[0]->product_id}' class='quantity' value='{$quantity}'\><input type='hidden' class='quantity_{$items[0]->product_id}_p' value='{$quantity}'\>";
                     $newitem['n_quantity'] = $quantity;
                     $newitem['product_price_selling'] = $items[0]->product_price_selling;
                     $newitem['amount'] = "<input type='number' class='amount' value='{$amount}'\ readonly='readonly'>";

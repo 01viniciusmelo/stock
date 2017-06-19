@@ -19,8 +19,10 @@
         "ajax": {
             url: "<?php echo site_url('api/item/all'); ?>",
             type: 'GET',
+            cache: false,
             data: function (d) {
                 d.search = $('#item_search_input').val();
+                d.uniq_param = (new Date()).getTime();
             },
             "dataSrc": function (json) {
                 //IF found 1 item
@@ -28,7 +30,7 @@
                     add_cart(json.data[0].product_id, 1);
                 }
                 return json.data;
-            }
+            }                         
 
         },
         "autoWidth": true,
@@ -56,6 +58,10 @@
         "ajax": {
             url: "<?php echo site_url('api/item/cart'); ?>",
             type: 'GET',
+            cache: false,
+            data: function (d) {
+              d.uniq_param = (new Date()).getTime();
+            },
             "dataSrc": function (json) {
                 //Make your callback here.
                 var objdata = $.parseJSON(json.sub_total);
@@ -72,16 +78,26 @@
         "destroy": true,
         "searching": false,
         "columns": [
-            {"data": "product_name", "width": "40%"},
+            {"data": "product_name", "width": "35%"},
             {"data": "product_price_selling", "width": "15%", "sClass": "numericCol", render: $.fn.dataTable.render.number(',', '.', 2, '')},
             {"data": "quantity", "width": "15%", "sClass": "numericCol"},
             {"data": "amount", "width": "15%", "sClass": "numericCol"},
-            {"data": "action", "width": "15%"}
+            {"data": "action", "width": "20%"}
         ],
         "bFilter": false,
         "bLengthChange": false,
         order: [[1, 'des']]
     }).api();
+  
+  
+  //Cart edit;
+   $(".cart_item").on("keyup", 'input', function() {
+       var product_id = $(this).attr('product_id');
+     var qty = $(this).val();
+     var n_qty = $('.quantity_'+product_id+'_p').val();
+     alert(qty+" : "+n_qty);
+     add_cart(product_id,qty-n_qty);
+    });
 
     cal();
 

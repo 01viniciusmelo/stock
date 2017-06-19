@@ -46,6 +46,12 @@ class Order_approve extends Auth_Controller {
         $this->data['blade'] = "order/order_approval_display";
         $this->_render_page('template/content', $this->data);
     }
+  
+    public function approve($order_no,$action){
+        //Save action
+        $this->order_model->save($order_no,array('order_status'=>$action));
+        redirect('order_approve', 'refresh');
+    }
     
      
     
