@@ -8,7 +8,7 @@
 <script src="<?php echo asset_url("js/plugin/datatable-responsive/datatables.responsive.min.js"); ?>"></script>
 
 <script type="text/javascript">
-
+    var table;
     $(document).ready(function () {
 
         pageSetUp();
@@ -42,19 +42,38 @@
         }
 
         // clears the variable if left blank
-        var url = $('#example').data('ajaxUrl');
-        var table = $('#example').DataTable({
+        //var url = $('#example').data('ajaxUrl');
+        table = $('#example').DataTable({
+            "processing": true,
+            "serverSide": true,
             "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
                     "t" +
                     "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-            //"ajax": url,
+            "ajax": {
+                url: "<?php echo site_url('api/stock/all'); ?>",
+                type: 'GET'
+            },
             "bDestroy": true,
             "iDisplayLength": 15,
             "oLanguage": {
                 "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
-            }
+            },
+            "columns": [
+                {"data": "branchs_name"},
+                {"data": "product_name"},
+                {"data": "stock_qty_ori"},
+                {"data": "stock_qty_remaining"},
+                {"data": "updated_at"},
+                {"data": "active"},
+                {"data": "action"}
+            ]
         });
+        /* END COLUMN FILTER */
 
     });
+//    $("#example thead th input[type=text]").on('keyup change', function () {
+//
+//       
+//    });
 
 </script>

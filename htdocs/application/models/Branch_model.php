@@ -53,9 +53,8 @@ class Branch_Model extends MY_Model {
             $q->limit($limit, $offet);
         }
 
-
-//        $data = $q->get_all($criteria);
-        $data = $q->set_cache("customer_read", 500)->get_all($criteria);
+        $data = $q->get_all($criteria);
+        //$data = $q->set_cache("customer_read", 500)->get_all($criteria);
 
         return $data;
     }

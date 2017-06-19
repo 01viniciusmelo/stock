@@ -48,11 +48,34 @@ class Product_model extends MY_Model {
     }
     
     public function get($product_code='X') {
+        $branchs = 1; //Change Branchs by User account
         $this->db->from($this->table);
         $this->db->join('category', "category.cat_id = {$this->table}.cat_id and category.active=1");
+        $this->db->join('stock', "stock.product_id = {$this->table}.product_id and stock.active=1 and stock.branchs_id = {$branchs}");
         $this->db->where('product_code', $product_code);
         $this->db->where("{$this->table}.active", 1);
         $data = $this->db->get();
+        return $data;
+    }
+    
+    public function read($where = array(), $limit = NULL, $offet = 0) {
+        $criteria = array('active' => MY_Model::FLAG_DATA_ACTIVE);
+
+        if (!empty($where)) {
+            foreach ($where as $f => $v) {
+                $criteria[$f] = $v;
+            }
+        }
+
+        $q = $this->order_by('product_name', 'ASC');
+
+        if (!is_null($limit)) {
+            $q->limit($limit, $offet);
+        }
+
+        $data = $q->get_all($criteria);
+        //$data = $q->set_cache("customer_read", 500)->get_all($criteria);
+
         return $data;
     }
     

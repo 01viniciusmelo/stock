@@ -59,7 +59,7 @@ class Order_model extends MY_Model {
         return $data;
     }
     public function get_order_item($order_no) {
-        $this->db->select("{$this->table}.*,products.product_name,products.product_desc,sale_order_item.unit_price,sale_order_item.quantity,sale_order_item.amount");
+        $this->db->select("{$this->table}.*,products.product_name,products.product_desc,sale_order_item.product_id,sale_order_item.unit_price,sale_order_item.quantity,sale_order_item.amount");
         $this->db->from($this->table);
         $this->db->join('sale_order_item', "sale_order_item.order_no = {$this->table}.order_no");
         $this->db->join('products', "products.product_id = sale_order_item.product_id");

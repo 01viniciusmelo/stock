@@ -117,7 +117,7 @@
 
 
                             </fieldset>
-                            <fieldset>
+<!--                            <fieldset>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Quantity</label>
                                     <div class="col-lg-3">
@@ -136,7 +136,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </fieldset>
+                            </fieldset>-->
                             <fieldset>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Product Code</label>
