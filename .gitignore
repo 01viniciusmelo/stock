@@ -1,6 +1,10 @@
 
 # Created by https://www.gitignore.io/api/cvs,macos,linux,windows,netbeans,notepadpp,sublimetext,visualstudiocode
 
+
+#### TEMP ###
+htdocs/temp/
+
 ### CVS ###
 /CVS/*
 **/CVS/*
@@ -121,5 +125,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+PhpSpreadsheet/
+
 # End of https://www.gitignore.io/api/cvs,macos,linux,windows,netbeans,notepadpp,sublimetext,visualstudiocode
-/htdocs/nbproject/private/
