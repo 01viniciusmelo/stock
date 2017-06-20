@@ -20,6 +20,7 @@ class Stock extends Auth_Controller {
         $this->load->model('stock_model');
         $this->load->model('branch_model');
         $this->load->model('product_model');
+        $this->load->model('excel_model');
     }
 
     public function index() {
@@ -123,6 +124,82 @@ class Stock extends Auth_Controller {
 
     public function transaction() {
         $this->data['blade'] = "stock/transaction";
+        $this->_render_page('template/content', $this->data);
+    }
+    
+    public function import($action="import",$code=NULL) {
+        if($action=="import"){
+            $this->_import();
+        }
+        
+        if($action=="example"){
+            $this->_import_example($code);
+        }
+        
+        if($action=="approved"){
+            $this->excel_model->import_approved_code($code);
+        }
+        
+        if($action=="reject"){
+            $this->excel_model->import_delete_code($code);
+        }
+        
+        
+        
+    }
+    
+    private function _import()
+    {
+        if (!empty($_POST)) {
+            
+            if ($this->_valid_csrf_nonce() === FALSE  ) {
+                show_error($this->lang->line('error_csrf'));
+            }
+            
+            $config['upload_path'] = temp_dir();
+            $config['encrypt_name'] = TRUE;
+            $config['allowed_types'] = 'xls|xlsx';
+            $config['max_size'] = 10000;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('upload_excle_file')) {
+                $error = array('error' => $this->upload->display_errors());
+                show_error($error);
+                
+            } else {
+                $data = array('upload_data' => $this->upload->data());
+                
+                $this->load->model('excel_model');
+                $code = $this->excel_model->import_stock($data['upload_data']);
+                redirect("stock/import/example/{$code}");
+            }
+        }else{
+
+            $this->data['csrf'] = $this->_get_csrf_nonce();
+            $this->data['blade'] = "stock/import_excel";
+            $this->_render_page('template/content', $this->data);
+        }
+    }
+
+
+    private function _import_example($uploadCode=NULL)
+    {   
+        $this->data['filename'] = $this->excel_model->import_name_code($uploadCode);
+        $this->data['code'] = $uploadCode;
+        $this->data['total'] = $this->excel_model->import_total_code($uploadCode);
+        $this->data['examples'] = $code = $this->excel_model->import_read_code($uploadCode);
+        $this->data['blade'] = "stock/imported_excel";
+        $this->_render_page('template/content', $this->data);
+    }
+    
+     private function _import_remove($uploadCode=NULL)
+    {   
+        $this->data['filename'] = $this->excel_model->import_name_code($uploadCode);
+        $this->data['code'] = $uploadCode;
+        $this->data['total'] = $this->excel_model->import_total_code($uploadCode);
+        $this->data['examples'] = $code = $this->excel_model->import_read_code($uploadCode);
+        $this->data['blade'] = "stock/imported_excel";
         $this->_render_page('template/content', $this->data);
     }
 
