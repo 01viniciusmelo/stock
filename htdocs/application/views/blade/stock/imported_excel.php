@@ -30,11 +30,11 @@
                             <div class="col-md-3 col-lg-3">
                                 <a class="btn btn-primary" href="<?php echo site_url("stock/import/approved/{$code}");?>" >
                                     <i class="fa fa-save"></i> 
-                                    Approved
+                                    Approve
                                 </a>
                                 &nbsp;&nbsp;
                                 <a class="btn btn-default" href="<?php echo site_url("stock/import/reject/{$code}");?>">
-                                    Cancel
+                                    Reject
                                 </a>
                             </div>
 

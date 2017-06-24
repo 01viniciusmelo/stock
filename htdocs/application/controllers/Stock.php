@@ -137,14 +137,27 @@ class Stock extends Auth_Controller {
         }
         
         if($action=="approved"){
-            $this->excel_model->import_approved_code($code);
+            $row = $this->excel_model->import_approved_code($code);
+            var_dump($row);
+            exit();
+            //redirect('stock/import/import');
         }
         
         if($action=="reject"){
-            $this->excel_model->import_delete_code($code);
+            $row = $this->excel_model->import_delete_code($code);
+            redirect('stock/import/import');
         }
         
-        
+        if($action=="download"){
+            $this->load->helper('download');
+            
+            $filename = asset_dir('template/'.$code);
+            if(file_exists($filename)){
+                $data = file_get_contents($filename);
+                $name = basename($filename);
+                force_download($name, $data);
+            }
+        }
         
     }
     

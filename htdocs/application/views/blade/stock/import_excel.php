@@ -33,7 +33,10 @@
                                     </p>
                                 </div>
                             
-                            <div class="col-md-2 col-lg-2"><a href="#template"><i class="fa fa-lg fa-fw fa-file-excel-o"></i> Template</a> </div>
+                            <div class="col-md-2 col-lg-2">
+                                <a href="<?php echo site_url('stock/import/download/PT.xlsx');?>"><i class="fa fa-lg fa-fw fa-file-excel-o"></i> PT.xlsx</a> 
+                                <a href="<?php echo site_url('stock/import/download/CTK.xlsx');?>"><i class="fa fa-lg fa-fw fa-file-excel-o"></i> CTK.xlsx</a> 
+                            </div>
 
                         </div>
                     </div>

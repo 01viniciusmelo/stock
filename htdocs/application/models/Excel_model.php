@@ -132,15 +132,20 @@ class Excel_model extends MY_Model {
               ";
         $result = $this->db->query($sql,$code);
         $rows = array();
+        $branchs = array();
+        $category= array();
+        $products= array();
         foreach ($result->result() as $row) {
             
             // branch
+            array_push($branchs, $row->location);
             // category
-            // product
+            array_push($category, $row->location);
             
-            array_push($rows, $row);
+            // product
+            array_push($products, $row);
         }
-        return $rows;
+        return $branchs;
     }
 
 }

@@ -23,7 +23,7 @@
                <ul>
                     <li><?php echo nav_active_link('stock', "Stock"); ?></li>
                     <li><?php echo nav_active_link('stock/transaction', "Transaction"); ?></li>
-                    <li><?php echo nav_active_link('stock/import/', "Stock Import excel"); ?></li>
+                    <li><?php echo nav_active_link('stock/import/', "Import excel"); ?></li>
                 </ul>
             </li>
             
