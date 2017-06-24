@@ -12,11 +12,14 @@ ini_set('max_execution_time', 300);
  * @author joe
  */
 class Excel_model extends MY_Model {
-
+    
+    private $user;
     public function __construct() {
         parent::__construct();
         
         $this->load->helper('string');
+        
+        $this->user = $this->ion_auth->user()->row();
 
     }
     
@@ -120,32 +123,99 @@ class Excel_model extends MY_Model {
     
     public function import_approved_code($code=NULL)
     {
+        $created_at = date($this->timestamps_format);
+        $created_by = $this->user->id;
+        // get new branch
+        $sql_branch = " SELECT DISTINCT `location` AS location
+                        FROM tmp_import_stocks
+                        WHERE code = ?
+                        AND location NOT IN (
+                                SELECT DISTINCT name FROM branchs
+                        )
+                        AND location != 'Location'";
+        $result = $this->db->query($sql_branch,$code);
+        foreach ($result->result() as $row) {
+            $data = array(
+                    "name"  => $row->location ,
+                    //"email" => "IMPORT_EXCEL@{$this->user->email}",
+                    "active"    => 1,
+                    "created_by" => $this->user->id
+            );
+            $this->insert($data,"branchs");
+        }
+        
+        
+        // get new category
+        $sql_category = " SELECT DISTINCT `category` AS category
+                        FROM tmp_import_stocks
+                        WHERE code = ?
+                        AND category NOT IN (
+                                SELECT DISTINCT cat_name FROM category
+                        )
+                        AND location != 'Location'";
+        $result = $this->db->query($sql_category,$code);
+        foreach ($result->result() as $row) {
+            $data = array(
+                    "cat_name"  => $row->category ,
+                    "cat_desc" => "IMPORT_EXCEL@{$this->user->email}",
+                    "active"    => 1,
+                    "created_by" => $this->user->id
+            );
+            $this->insert($data,"category");
+        }
+        
+        
         $sql = "SELECT
                 `category`,
+                `category`.cat_id as cat_id,
                 `location`,
+                `branchs`.`id` AS location_id,
                 `part_name`,
                 `part_no`,
-                `qty`
+                `qty`,
+                `price`
               FROM tmp_import_stocks
+              LEFT JOIN category ON category.cat_name = tmp_import_stocks.category
+              LEFT JOIN branchs ON branchs.name = tmp_import_stocks.location
               WHERE code = ?
               AND location != 'Location'
               ";
         $result = $this->db->query($sql,$code);
         $rows = array();
         $branchs = array();
-        $category= array();
+        
         $products= array();
         foreach ($result->result() as $row) {
             
-            // branch
-            array_push($branchs, $row->location);
-            // category
-            array_push($category, $row->location);
+            $data = array(
+                //"product_code"   => ,
+                "product_name"   => $row->part_name,
+                "product_number" => $row->part_no,
+                "product_desc"   => "IMPORT_EXCEL@{$this->user->email}",
+                "product_price_selling"  => $row->price,
+                //"product_price_purchasing"   => ,
+                "product_branch_origin"  => $row->location_id,
+                "product_branch_present" => $row->location_id,
+                "cat_id" => $row->cat_id,
+                "quantity"   => $row->qty,
+                "created_by" => $this->user->id,
+                "created_at" => $created_at,
+                "active" => Excel_model::FLAG_DATA_ACTIVE
+            );
             
             // product
-            array_push($products, $row);
+            array_push($products, $data);
         }
-        return $branchs;
+        
+        $this->db->insert_batch('products', $products);
+        return true;
+    }
+    
+    public function insert($data = NULL,$table=NULL) {
+        if(!is_null($table)){
+            $this->table=$table;
+        }
+        parent::insert($data);
     }
 
 }

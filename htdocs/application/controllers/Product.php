@@ -1,11 +1,4 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Description of Product
@@ -30,7 +23,7 @@ class Product extends Auth_Controller {
         $this->load->model('category_model');
 
         // excel adapter
-        include APPPATH . 'libraries/PhpSpreadsheet/src/Bootstrap.php';
+        // include APPPATH . 'libraries/PhpSpreadsheet/src/Bootstrap.php';
     }
 
     public function index() {
@@ -42,14 +35,14 @@ class Product extends Auth_Controller {
 
         //Set Product Table
         $this->table->set_template($this->tableTemplate);
-        $this->table->set_heading('ID', 'Product Name', 'Description', 'Purchasing Price', 'Sale Price', 'Category', 'Status', 'Action');
+        $this->table->set_heading('ID', 'Product Name','Product No.', 'Description', 'Purchasing Price', 'Sale Price', 'Category', 'Status', 'Action');
 
 
         $product = $this->product_model->search()->result();
         //list Product
         foreach ($product as $k => $v) {
             $this->table->add_row(
-                    $v->product_id, $v->product_name, $v->product_desc, $v->product_price_purchasing, $v->product_price_selling, $v->cat_desc, anchor('product/deactive/' . $v->product_id, ($v->active == 1) ? 'Active' : 'Inactive'), anchor('product/edit/' . $v->product_id, '<i class="fa-fw fa fa-edit"></i> Edit')
+                    $v->product_id, $v->product_name,$v->product_number, $v->product_desc, $v->product_price_purchasing, $v->product_price_selling, $v->cat_desc, anchor('product/deactive/' . $v->product_id, ($v->active == 1) ? 'Active' : 'Inactive'), anchor('product/edit/' . $v->product_id, '<i class="fa-fw fa fa-edit"></i> Edit')
             );
         }
         $this->data['table_data'] = $this->table->generate();

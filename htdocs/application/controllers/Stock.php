@@ -137,10 +137,10 @@ class Stock extends Auth_Controller {
         }
         
         if($action=="approved"){
-            $row = $this->excel_model->import_approved_code($code);
-            var_dump($row);
-            exit();
-            //redirect('stock/import/import');
+            if($this->excel_model->import_approved_code($code)){
+                $this->excel_model->import_delete_code($code);
+            }
+            redirect('stock/import/import');
         }
         
         if($action=="reject"){
@@ -165,9 +165,9 @@ class Stock extends Auth_Controller {
     {
         if (!empty($_POST)) {
             
-            if ($this->_valid_csrf_nonce() === FALSE  ) {
-                show_error($this->lang->line('error_csrf'));
-            }
+//            if ($this->_valid_csrf_nonce() === FALSE  ) {
+//                show_error($this->lang->line('error_csrf'));
+//            }
             
             $config['upload_path'] = temp_dir();
             $config['encrypt_name'] = TRUE;
