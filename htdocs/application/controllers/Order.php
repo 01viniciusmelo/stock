@@ -12,7 +12,7 @@ class Order extends Auth_Controller {
     //put your code here
     public function __construct() {
         parent::__construct();
-        $user = $this->ion_auth->users()->result();
+
         $this->load->model('product_model');
         $this->load->model('order_model');
         $this->load->helper('number');
@@ -83,7 +83,8 @@ class Order extends Auth_Controller {
         if ($this->form_validation->run() == FALSE) :
 
 
-            $this->data['order_no'] = $this->gen_id('OD', null);
+            $this->data['action_type'] = 'OD'; //OD = Sales Order
+            $this->data['order_no'] = $this->gen_id($this->data['action_type'], null);
 
             //Set  Table Search
             $template = array(
@@ -115,6 +116,7 @@ class Order extends Auth_Controller {
             $save_data_order = array(
                 'order_no' => $this->input->post('order_no'),
                 'order_remark' => $this->input->post('order_remark'),
+                'order_type' => 'OD', //OD:Order, TR:Transfer
                 'active' => 1,
                 'order_subtotal' => $this->input->post('sub_total'),
                 'order_tax' => $this->input->post('tax'),
@@ -125,7 +127,7 @@ class Order extends Auth_Controller {
                 'order_ship_address' => $this->input->post('order_ship_address'),
                 'order_billing_name' => $this->input->post('order_billing_name'),
                 'order_billing_address' => $this->input->post('order_billing_address'),
-                'branchs_id' => '', //user branchs_id
+                'branchs_id' => $this->_branchs['branch_id'], //user branchs_id
                 'created_by' => $this->ion_auth->users()->result()[0]->id,
                 'created_at' => mdate($this->_dateFormat, now()),
                 'updated_by' => $this->ion_auth->users()->result()[0]->id,

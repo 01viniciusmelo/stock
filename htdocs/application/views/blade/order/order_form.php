@@ -40,13 +40,14 @@
                     <div class="form-group">
 
                         <div class="col-lg-12 col-lg-offset-12">
-                            <section class="col col-12">
+                            <section class="col col-6">
 
                                 <label class="input"> <i class="icon-prepend fa fa-user"></i>
                                     <input type="text" name="order_no"  value="<?php echo $order_no ?>">
                                 </label>
 
                             </section>
+
                         </div>
                     </div>
 
@@ -141,7 +142,24 @@
                         </section>
                     </fieldset>
 
+
+
                     <fieldset>
+                        <?php if ($action_type = 'TR') { ?>
+                            <div class="row">
+                                <section class="col col-12">
+                                    <label class="label">Transfer to</label>
+                                    <label>
+                                        <?php
+                                        $data = array(
+                                            'class' => 'form-control'
+                                        );
+                                        echo form_dropdown('branchs_id_to', $branch, isset($order['branchs_id_to']) ? $order['branchs_id_to'] : "", $data);
+                                        ?>
+                                    </label>
+                                </section>
+                            </div>
+                        <?php }else{ ?>
                         <div class="row">
                             <section class="col col-6">
                                 <label class="label">Billing Info</label>
@@ -193,6 +211,7 @@
                                     ?>
                                 </label>
                             </section>
+                              <?php } ?>
                     </fieldset>
 
                     <footer>

@@ -41,6 +41,17 @@ class Stock_Model extends MY_Model {
         return $data;
     }
 
+    public function check_stock_empty($product_id, $branchs_id) {
+        $this->db->from($this->table);
+        $this->db->where("{$this->table}.product_id", $product_id);
+        $this->db->where("{$this->table}.branchs_id", $branchs_id);
+        $this->db->where("{$this->table}.active", MY_Model::FLAG_DATA_ACTIVE);
+        $data = $this->db->get();
+        if ($data->num_rows() >= 1)
+            return false;
+        return true;
+    }
+
     public function insert($data = null) {
         if ($this->db->insert($this->table, $data))
             return true;
@@ -54,14 +65,34 @@ class Stock_Model extends MY_Model {
         return false;
     }
 
-    public function update_stock($product_id, $branchs_id, $qty) {
+    public function update_stock($product_id, $branchs_id, $qty, $by = 'decrease') {
+        $this->db->cache_delete_all();
         $this->db->where("product_id", $product_id);
         $this->db->where("branchs_id", $branchs_id);
-        $this->db->set('stock_qty_remaining', "stock_qty_remaining-{$qty}", FALSE);
 
-        if ($this->db->update($this->table))
-            return true;
-        return false;
+        if ($by == 'decrease') {
+            $this->db->set('stock_qty_remaining', "stock_qty_remaining-{$qty}", FALSE);
+            $this->db->update($this->table);
+        } else {
+            $check_empty = $this->check_stock_empty($product_id, $branchs_id);
+            if ($check_empty == true):
+                $save_data = array(
+                    'product_id' => $product_id,
+                    'branchs_id' => $branchs_id,
+                    'stock_qty_ori' => $qty,
+                    'stock_qty_remaining' => $qty,
+                    'stock_remark' => 'Transfer',
+                    'active' => 1,
+                    'created_at' => mdate('%Y-%m-%d %H:%i:%s', now()),
+                    'updated_at' => mdate('%Y-%m-%d %H:%i:%s', now())
+                );
+                $this->insert($save_data);
+            else:
+                $this->db->set('stock_qty_remaining', "stock_qty_remaining+{$qty}", FALSE);
+                $this->db->update($this->table);
+            endif;
+        }
+        return true;
     }
 
     public function toggle_status($product_id) {

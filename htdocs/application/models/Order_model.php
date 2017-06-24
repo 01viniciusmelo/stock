@@ -26,13 +26,14 @@ class Order_model extends MY_Model {
         parent::__construct();
     }
 
-    public function search($search = null, $is_active = false, $is_approval = false) {
-        $this->db->select("{$this->table}.*,reason.reason_title,branchs.name as branchs_name");
+    public function search($search = null, $is_active = false, $is_approval = false, $order_type = 'OD') {
+        $this->db->select("{$this->table}.*,reason.reason_title,branchs.name as branchs_name,branchs_to.name as branchs_name_to");
         $this->db->from($this->table);
         $this->db->join('reason', "reason.reason_id = {$this->table}.reason_id and reason.active=1", 'left');
         $this->db->join('branchs', "branchs.id = {$this->table}.branchs_id and branchs.active=1", 'left');
+        $this->db->join('branchs as branchs_to', "branchs_to.id = {$this->table}.branchs_id_to and branchs_to.active=1", 'left');
 
-        if (!is_null($search) && $search!=''):
+        if (!is_null($search) && $search != ''):
             $this->db->or_like("{$this->table}.{$this->primary_key}", $search);
             $this->db->or_like("{$this->table}.created_by", $search);
         endif;
@@ -43,6 +44,8 @@ class Order_model extends MY_Model {
 
         if ($is_approval == true)
             $this->db->where("{$this->table}.order_status", 'W');
+
+        $this->db->where("{$this->table}.order_type", $order_type);
 
         $data = $this->db->get();
         return $data;
@@ -58,6 +61,7 @@ class Order_model extends MY_Model {
         $data = $this->db->get();
         return $data;
     }
+
     public function get_order_item($order_no) {
         $this->db->select("{$this->table}.*,products.product_name,products.product_desc,sale_order_item.product_id,sale_order_item.unit_price,sale_order_item.quantity,sale_order_item.amount");
         $this->db->from($this->table);

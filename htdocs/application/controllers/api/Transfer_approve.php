@@ -10,7 +10,7 @@ require_once APPPATH . '/libraries/REST_Controller.php';
  * @author tae
  * 
  */
-class Order extends REST_Controller {
+class Transfer_approve extends REST_Controller {
 
     private $data = array();
 
@@ -53,7 +53,7 @@ class Order extends REST_Controller {
         $this->response($generic, 200);
     }
 
-    public function all_get($order_type='OD') {
+    public function all_get() {
         // set the flash data error message if there is one
         $item_search = $this->input->get('search');
         
@@ -63,9 +63,7 @@ class Order extends REST_Controller {
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
         //list item
-        $this->data['order'] = $this->order_model->search($item_search['value'],null,null,$order_type)->result();
-        
-        $action = $order_type=='OD'? 'order':'transfer';
+        $this->data['order'] = $this->order_model->search($item_search['value'],true,true,'TR')->result();
 
 
         $items = array();
@@ -84,8 +82,10 @@ class Order extends REST_Controller {
             $items['branchs_name_to'] = $item->branchs_name_to;
             $items['created_by'] = $item->created_by;
             $items['created_at'] = $item->created_at;
-            $items['active'] = anchor($action.'/deactive/' . $item->order_no, ($item->active == 1) ? 'Active' : 'Inactive');
-            $items['action'] = anchor($action.'/view/' . $item->order_no, '<i class="fa fa-info-circle"></i> View','class="btn btn-sm btn-info"');
+            $items['active'] = anchor('transfer/deactive/' . $item->order_no, ($item->active == 1) ? 'Active' : 'Inactive');
+            $items['action'] = anchor('transfer/view/' . $item->order_no, '<i class="fa fa-info-circle"></i> View','class="btn btn-sm btn-info"')." "
+                    . "".anchor('transfer_approve/approve/' . $item->order_no.'/A', '<i class="fa fa-check-circle-o"></i> Approve','class="btn btn-sm btn-success"');
+            
             array_push($data, $items);
         }
         $this->response(array("data" => $data), REST_Controller::HTTP_OK);

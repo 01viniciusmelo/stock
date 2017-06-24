@@ -82,7 +82,7 @@ class Auth_Controller extends CI_Controller {
         $this->checkAuth();
         $this->loadConfig();
         $this->setTableTemplate();
-        //$this->set_branch();
+        $this->set_branch();
     }
 
     private function checkAuth() {

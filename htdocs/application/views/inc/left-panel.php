@@ -31,6 +31,7 @@
                 <a href="#"> <i class="fa fa-lg fa-fw fa-truck"></i>  <span class="menu-item-parent">Transfer</span> </a>
                <ul>
                     <li><?php echo nav_active_link('transfer', "Tranfers"); ?></li>
+                    <li><?php echo nav_active_link('transfer_approve', "Tranfers Approve"); ?></li>
                 </ul>
             </li>
             
