@@ -17,7 +17,7 @@
     <section id="widget-grid" class="">
         <!-- row -->
         <div class="row">
-            <article class="col-sm-8 col-md-8 col-lg-8 sortable-grid ui-sortable">
+            <article class="col-sm-11 col-md-11 col-lg-11 sortable-grid ui-sortable">
                 <div class="jarviswidget well jarviswidget-sortable">
                     <div class="widget-body">
                         <form id="frmUserAction"  class="form-horizontal" action="<?php echo current_url() ?>" method="post"
