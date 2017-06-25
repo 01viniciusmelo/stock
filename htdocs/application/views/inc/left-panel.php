@@ -60,6 +60,7 @@
                 </ul>
             </li>
             
+            <!--
             <li>
                 <a href="#"> <i class="fa fa-lg fa-fw fa-building-o"></i> <span class="menu-item-parent">Company</span> </a>
                 <ul>
@@ -67,7 +68,7 @@
                     <li><?php echo nav_active_link('branchs/display', "Branch"); ?></li>
                 </ul>
             </li>
-            
+            -->
              <li>
                 <a href="#"> <i class="fa fa-lg fa-fw fa-file"></i> <span class="menu-item-parent">Reports</span> </a>
                 <ul>
@@ -82,6 +83,7 @@
             <li>
                 <a href="#"> <i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">Setting</span> </a>
                  <ul>
+                    <li><?php echo nav_active_link('branchs/display', "Branch"); ?></li>
                     <li><?php echo nav_active_link('reason/display', "Reason Type"); ?></li>
                     <li><?php echo nav_active_link('setting/format', "Format"); ?></li>
                 </ul>
