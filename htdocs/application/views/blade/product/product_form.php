@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
             <h1 class="page-title">
-                <i class='fa-fw fa fa-plus-square-o'></i> 
+                <i class='fa-fw fa fa-plus'></i> 
                 Product
                 <span>>
                     <?php echo (isset($product) ? "Update" : "Add") ?>
@@ -70,7 +70,7 @@
                                     <div class="col-lg-3">
                                         <?php
                                         $data = array(
-                                            'class' => 'form-control'
+                                            'class' => 'form-control select2'
                                         );
                                         echo form_dropdown('cat_id', $category, isset($product->cat_id) ? $product->cat_id : "", $data);
                                         ?>
@@ -117,6 +117,7 @@
 
 
                             </fieldset>
+                            <!--
                             <fieldset>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Units</label>
@@ -134,7 +135,8 @@
                                     </div>
                                 </div>
                             </fieldset>
-<!--                            <fieldset>
+                            -->
+                            <fieldset>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Quantity</label>
                                     <div class="col-lg-3">
@@ -149,13 +151,26 @@
                                             );
                                             echo form_input($data);
                                             ?>
-                                            <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                            <span class="input-group-addon"><i class="fa fa-cube"></i></span>
                                         </div>
                                     </div>
+                                    <label class="col-lg-3 control-label">Units</label>
+                                    <div class="col-lg-3">
+                                        <?php
+                                        $data = array(
+                                            'name' => 'unit',
+                                            'class' => 'form-control',
+                                            'value' => isset($product->unit) ? $product->unit : "",
+                                            'data-bv-notempty-message' => 'The title is required and cannot be empty',
+                                            'required' => 'required'
+                                        );
+                                        echo form_input($data);
+                                        ?>
+                                    </div>
                                 </div>
-                            </fieldset>-->
+                            </fieldset>
                             <fieldset>
-                                <div class="form-group form-group-lg">
+                                <div class="form-group">
                                     <label class="col-lg-3 control-label">Product Code</label>
                                     <div class="col-lg-9">
                                         <div class="input-group">
@@ -170,6 +185,21 @@
                                             <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
                                         </div>
 
+                                    </div>
+                                </div>
+                            </fieldset>
+ 
+                            <fieldset>
+                                
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">สินค้าเข้าที่</label>
+                                    <div class="col-lg-4">
+                                        <?php
+                                        $attr = array(
+                                            'class' => 'form-control select2'
+                                        );
+                                        echo form_dropdown('product_branch_origin', $branchs, isset($product->product_branch_origin) ? $product->product_branch_origin : "", $attr);
+                                        ?>
                                     </div>
                                 </div>
                             </fieldset>

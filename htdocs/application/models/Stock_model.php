@@ -17,7 +17,13 @@ class Stock_Model extends MY_Model {
 
     public function read($where = array(), $limit = NULL, $offet = 0, $is_active = false) {
 
-        $this->db->select("{$this->table}.*,products.product_name,branchs.name");
+        $this->db->select("{$this->table}.* ,`products`.`product_name`
+                                            ,`products`.`product_id`
+                                            ,`products`.`product_code`
+                                            ,`products`.`product_number`
+                                            ,`products`.`product_price_selling`
+                                            ,`branchs`.`id` AS branch_id
+                                            ,`branchs`.`name` ");
         $this->db->from($this->table);
         $this->db->join('products', "products.product_id = {$this->table}.product_id");
         $this->db->join('branchs', "branchs.id = {$this->table}.branchs_id");
@@ -100,6 +106,27 @@ class Stock_Model extends MY_Model {
         if ($this->db->query($q))
             return true;
         return false;
+    }
+    
+    public function readProduct($branch_id,$product_id)
+    {
+        $sql = "SELECT `stock`.*, 
+                `products`.`product_name`
+                ,`products`.`product_id`
+                ,`products`.`product_code`
+                ,`products`.`product_number`
+                ,`branchs`.`name` 
+                FROM `stock` JOIN `products` ON `products`.`product_id` = `stock`.`product_id` 
+                JOIN `branchs` ON `branchs`.`id` = `stock`.`branchs_id` 
+                WHERE `branchs`.`id` = ? 
+                AND `products`.`product_id` = ?";
+        $result = $this->db->query($sql,array($branch_id,$product_id));
+        $rows = array();
+        foreach ($result->result() as $row) {
+            array_push($rows, $row);
+        }
+        return $rows;
+        
     }
 
 }

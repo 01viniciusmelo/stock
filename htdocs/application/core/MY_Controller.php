@@ -177,8 +177,8 @@ class Auth_Controller extends CI_Controller {
         echo '</pre>';
     }
 
-    protected function gen_id($prefix, $sufix) {
-        $numbers = mdate('%Y%m%d', time()) . '-' . rand(1000, 9999);
+    protected function gen_id($prefix=NULL, $sufix=NULL) {
+        $numbers = mdate('%Y%m%d', time()) . '-' . sprintf("%04d",rand(0, 9999));
         $string = $prefix . $numbers . $sufix;
         return $string;
     }

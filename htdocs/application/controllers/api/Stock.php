@@ -84,5 +84,22 @@ class Stock extends REST_Controller {
         }
         $this->response(array("data" => $data), REST_Controller::HTTP_OK);
     }
+    
+    public function branch_get() {
+        
+        $branchID = $this->input->get('id');
+        
+        $stocks = $this->stock_model->read(array("branchs.id"=>$branchID))->result();
+        
+        $data = array();
+        foreach ($stocks as $item) {
+            $stock = new stdClass();
+            $stock=$item;
+            $stock->action  = anchor("transfer/add/{$item->product_id}/{$item->branch_id}", '<i class="fa-fw fa fa-send-o"></i> Transfer');
+            array_push($data, $stock);
+        }
+        
+        $this->response(array("data" => $data), REST_Controller::HTTP_OK);
+    }
 
 }

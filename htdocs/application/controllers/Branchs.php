@@ -37,21 +37,22 @@ class Branchs extends Auth_Controller {
 
         //Set Branchs Table
         $this->table->set_template($this->tableTemplate);
-        $this->table->set_heading('ID', 'Name', 'Address','Email', 'Phone','Mobile','Status', 'Action');
+        $this->table->set_heading( 'Name', 'Address','Email', 'Phone','Mobile','Status', 'Action');
 
 
         $branchs = $this->branch_model->search()->result();
         //list Branchs
         foreach ($branchs as $k => $v) {
             $this->table->add_row(
-                    $v->id, 
+                    //$v->id, 
                     $v->name, 
                     $v->address, 
                     $v->email, 
                     $v->phone, 
                     $v->mobile, 
-                    anchor('branchs/deactive/' . $v->id, ($v->active == 1) ? 'Active' : 'Inactive'), 
-                    anchor('branchs/edit/' . $v->id, '<i class="fa-fw fa fa-edit"></i> Edit')
+                    anchor('branchs/deactive/' . $v->id, ($v->active == 1) ? '<span class="label label-success">Active</span>' : '<span class="label label-default">Inactive</span>'), 
+                    anchor('branchs/edit/' . $v->id, '<i class="fa-fw fa fa-edit"></i> Edit','class="btn btn-xs"')."".
+                    anchor('stock/branch/' . $v->id, '<i class="fa-fw fa fa-cubes"></i> Stock','class="btn btn-xs"')
                     );
         }
         $this->data['table_data'] = $this->table->generate();

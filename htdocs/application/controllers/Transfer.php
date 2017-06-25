@@ -16,6 +16,8 @@ class Transfer extends Auth_Controller {
         $this->load->model('product_model');
         $this->load->model('order_model');
         $this->load->model('branch_model');
+        $this->load->model('stock_model');
+        
     }
 
     public function index() {
@@ -139,6 +141,26 @@ class Transfer extends Auth_Controller {
     public function deactive($id) {
         $ret = $this->order_model->toggle_status($id);
         redirect($_SERVER['HTTP_REFERER'], 'refresh');
+    }
+    
+    public function add($productID=NULL,$branchID=NULL)
+    {
+        $this->data['id']    = $this->gen_id("TF");
+        $this->data['actiondate'] = date('Y-m-d');
+        $this->data['branch_from'] = $branchID;
+        $this->data['branch_to'] = NULL;
+        
+        // product
+        $this->data['products'] = $this->stock_model->readProduct($branchID,$productID);
+        
+        // branch
+        $this->data['branchs'] = array();
+        foreach ($this->branch_model->read() as $k => $v) {
+            $this->data['branchs'][$v->id] = $v->name;
+        }
+            
+        $this->data['blade'] = "transfer/transfer_add";
+        $this->_render_page('template/content', $this->data);
     }
 
 }

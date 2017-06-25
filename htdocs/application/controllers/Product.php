@@ -7,8 +7,6 @@
  */
 class Product extends Auth_Controller {
 
-    const FILE_EXCEL_EXT = "excel";
-
     //put your code here
     public function __construct() {
         parent::__construct();
@@ -21,6 +19,7 @@ class Product extends Auth_Controller {
         }
         $this->load->model('product_model');
         $this->load->model('category_model');
+        $this->load->model('branch_model');
 
         // excel adapter
         // include APPPATH . 'libraries/PhpSpreadsheet/src/Bootstrap.php';
@@ -57,11 +56,15 @@ class Product extends Auth_Controller {
         // validate form input
         $this->form_validation->set_rules('product_name', 'Product Name', 'required');
 
-
-
         if ($this->form_validation->run() == FALSE) {
+            
             foreach ($this->input->post() as $k => $v) {
                 $product->$k = $v;
+            }
+            
+            $this->data['branchs'] = array();
+            foreach ($this->branch_model->read() as $k => $v) {
+                $this->data['branchs'][$v->id] = $v->name;
             }
 
             $this->data['category'] = array();
@@ -79,13 +82,15 @@ class Product extends Auth_Controller {
                 'product_code' => $this->input->post('product_code'),
                 'cat_id' => $this->input->post('cat_id'),
                 'active' => $this->input->post('active'),
+                'unit' => $this->input->post('unit'),
+                'product_branch_origin' => $this->input->post('product_branch_origin'),
                 'product_price_selling' => $this->input->post('product_price_selling'),
                 'product_price_purchasing' => $this->input->post('product_price_purchasing'),
                 'quantity' => $this->input->post('quantity'),
                 'created_by' => $this->ion_auth->users()->result()[0]->id,
                 'updated_by' => $this->ion_auth->users()->result()[0]->id
             );
-            $ret = $this->product_model->insert($save_data);
+            $ret = $this->product_model->addStock($save_data);
             redirect("product", 'refresh');
         }
     }
@@ -93,10 +98,14 @@ class Product extends Auth_Controller {
     public function edit($product_id) {
         $this->data['title'] = 'Edit Product';
         $this->data['category'] = array();
+        $this->data['branchs'] = array();
         
         $product = $this->product_model->search($product_id);
         $categories = $this->category_model->getCategoryNames();
-        
+        foreach ($this->branch_model->read() as $k => $v) {
+            $this->data['branchs'][$v->id] = $v->name;
+        }
+            
         foreach($categories as $row){
             $this->data['category'][$row->cat_id] = $row->cat_name;
         }
@@ -115,6 +124,7 @@ class Product extends Auth_Controller {
                 $save_data = array(
                     'product_name' => $this->input->post('product_name'),
                     'product_desc' => $this->input->post('product_desc'),
+                    'unit' => $this->input->post('unit'),
                     'active' => $this->input->post('active'),
                     'updated_by' => $this->ion_auth->users()->result()[0]->id,
                     'updated_at' => mdate($this->_dateFormat, now())

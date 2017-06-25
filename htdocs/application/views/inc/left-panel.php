@@ -22,7 +22,7 @@
                 <a href="#"> <i class="fa fa-lg fa-fw fa-cubes"></i>  <span class="menu-item-parent">Inventory</span> </a>
                <ul>
                     <li><?php echo nav_active_link('branchs/display', "Branch",NULL,"branchs"); ?></li>
-                    <li><?php echo nav_active_link('stock', "Stock"); ?></li>
+                    <li><?php echo nav_active_link('stock', "Stock",NULL,"stock"); ?></li>
                     <li><?php echo nav_active_link('stock/transaction', "Transaction"); ?></li>
                     <li><?php echo nav_active_link('stock/import/', "Import excel"); ?></li>
                 </ul>

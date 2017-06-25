@@ -79,6 +79,25 @@ class Product_model extends MY_Model {
         return $data;
     }
     
+    public function addStock($data = null) {
+        $this->db->trans_start();
+        // product
+        $this->db->insert("products",$data);
+        $producID = $this->db->insert_id();
+        
+        //stock
+        $this->db->insert("stock",array(
+            "branchs_id" => $data['product_branch_origin'],
+            "product_id" => $producID,
+            "stock_qty_ori" =>$data['quantity'],
+            "stock_qty_remaining"=>$data['quantity'],
+            "active"=>1,
+
+        ));
+        $this->db->trans_complete();
+
+        return $this->db->trans_status();
+    }
     
 
     public function insert($data = null) {

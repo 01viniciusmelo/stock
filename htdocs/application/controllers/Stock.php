@@ -116,6 +116,17 @@ class Stock extends Auth_Controller {
             redirect("stock", 'refresh');
         }
     }
+    
+    public function branch($id=NULL)
+    {
+        $branch = $this->branch_model->read(array('id'=>$id));
+        
+        $this->data['branch'] = $branch[0];
+        $this->data['title'] = 'Stock \'s Branchs';
+        $this->data['blade'] = "stock/branchs_display";
+        $this->_render_page('template/content', $this->data);
+        
+    }
 
     public function deactive($id) {
         $ret = $this->stock_model->toggle_status($id);
