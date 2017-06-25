@@ -101,7 +101,7 @@
         <?php $this->load->view("script/{$blade}");   ?>
         <?php endif;?>
         <?php endif?>
-        <?php $this->load->view("script/all");   ?>
+        <?php //$this->load->view("script/all");   ?>
 
     </body>
 

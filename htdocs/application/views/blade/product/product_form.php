@@ -17,9 +17,9 @@
     <section id="widget-grid" class="">
         <!-- row -->
         <div class="row">
-            <article class="col-sm-8 col-md-8 col-lg-8 sortable-grid ui-sortable">
-                <div class="jarviswidget well jarviswidget-sortable">
-                    <div class="widget-body">
+            <article class="col-sm-10 col-md-10 col-lg-10 sortable-grid ui-sortable">
+                <div class="jarviswidget jarviswidget-sortable">
+                    <div class="widget-body form-no-head">
                         <form id="frmUserAction"  class="form-horizontal" action="<?php echo current_url() ?>" method="post"
                               data-bv-message="This value is not valid"
                               data-bv-live="disabled"
@@ -138,9 +138,9 @@
                                 </div>
                             </fieldset>-->
                             <fieldset>
-                                <div class="form-group">
+                                <div class="form-group form-group-lg">
                                     <label class="col-lg-3 control-label">Product Code</label>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-9">
                                         <div class="input-group">
                                             <?php
                                             $data = array(

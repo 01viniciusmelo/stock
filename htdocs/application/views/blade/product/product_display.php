@@ -15,7 +15,7 @@
     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
          <ul id="sparks">
             <li class="sparks-info">
-                <?php echo anchor('product/add', "<i class='fa-fw fa fa-plus-square-o'></i> Add new product", "class='btn btn-default'") ?>
+                <?php echo anchor('product/add', "<i class='fa-fw fa fa-plus-square-o'></i> Add new product", "class='btn btn-primary'") ?>
             </li> 
         </ul>
     </div>
@@ -50,8 +50,22 @@
 
                     <!-- widget content -->
                     <div class="widget-body no-padding">
-
-                        <?php echo $table_data ?>
+                         <table id="dt-table-ajax" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>No.</th>
+                                    <th>Description</th>
+                                    <th>Price</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <?php //echo $table_data ?>
 
                     </div>
                     <!-- end widget content -->

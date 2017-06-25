@@ -59,5 +59,16 @@ class Category_model extends MY_Model {
             return true;
         return false;
     }
+    
+    public function getCategoryNames()
+    {
+        $q = "SELECT DISTINCT cat_name,cat_id FROM category";
+        $rs = $this->db->query($q);
+        $rows = array();
+        foreach($rs->result() as $row){
+            array_push($rows, $row);
+        }
+        return $rows;
+    }
 
 }
