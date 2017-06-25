@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
             <h1 class="page-title">
-                <i class='fa-fw fa fa-plus-square-o'></i> 
+                <i class='fa-fw fa fa-plus'></i> 
                 Category
                 <span>>
                     <?php echo (isset($cat) ? "Update" : "Add") ?>
@@ -18,8 +18,8 @@
         <!-- row -->
         <div class="row">
             <article class="col-sm-8 col-md-8 col-lg-8 sortable-grid ui-sortable">
-                <div class="jarviswidget well jarviswidget-sortable">
-                    <div class="widget-body">
+                <div class="jarviswidget jarviswidget-sortable">
+                    <div class="widget-body form-no-head">
                         <form id="frmUserAction"  class="form-horizontal" action="<?php echo current_url() ?>" method="post"
                               data-bv-message="This value is not valid"
                               data-bv-live="disabled"

@@ -117,6 +117,23 @@
 
 
                             </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Units</label>
+                                    <div class="col-lg-3">
+                                        <?php
+                                        $data = array(
+                                            'name' => 'unit',
+                                            'class' => 'form-control',
+                                            'value' => isset($product->unit) ? $product->unit : "",
+                                            'data-bv-notempty-message' => 'The title is required and cannot be empty',
+                                            'required' => 'required'
+                                        );
+                                        echo form_input($data);
+                                        ?>
+                                    </div>
+                                </div>
+                            </fieldset>
 <!--                            <fieldset>
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Quantity</label>
@@ -156,19 +173,21 @@
                                     </div>
                                 </div>
                             </fieldset>
+                            <hr/>
                             <fieldset>
-                                <legend></legend>
+                                
+                                <div class="form-group">
                                 <label class="col-lg-3 control-label">Product Gallery</label>
                                 <div class="col-lg-9">
-                                    <div class="fallback">
+                                    <div class="input-group">
                                         <input name="file" type="file" multiple />
                                     </div>
                                 </div>
+                                </div>
                             </fieldset>
-
+                            <hr/>
                             <fieldset>
-                                <legend>
-                                </legend>
+                                
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Status</label>
                                     <div class="col-lg-4">

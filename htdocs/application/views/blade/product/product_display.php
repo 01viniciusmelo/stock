@@ -15,7 +15,7 @@
     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
          <ul id="sparks">
             <li class="sparks-info">
-                <?php echo anchor('product/add', "<i class='fa-fw fa fa-plus-square-o'></i> Add new product", "class='btn btn-primary'") ?>
+                <?php echo anchor('product/add', "<i class='fa-fw fa fa-plus'></i> Add new product", "class='btn btn-primary'") ?>
             </li> 
         </ul>
     </div>

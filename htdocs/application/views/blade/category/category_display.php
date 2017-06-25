@@ -1,11 +1,14 @@
-<div class="row">
+
+<div id="content">
+    
+    <div class="row">
 
     <!-- col -->
     <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
         <h1 class="page-title txt-color-blueDark">
 
             <!-- PAGE HEADER -->
-            <i class="fa-fw fa fa-table"></i> 
+            <i class="fa-fw fa fa-th-list"></i> 
             All Category
 
         </h1>
@@ -14,7 +17,7 @@
     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
          <ul id="sparks">
             <li class="sparks-info">
-                <?php echo anchor('category/add', "<i class='fa-fw fa fa-plus-square-o'></i> Add new category", "class='btn btn-default'") ?>
+                <?php echo anchor('category/add', "<i class='fa-fw fa fa-plus'></i> Add new category", "class='btn btn-primary'") ?>
             </li> 
         </ul>
     </div>
@@ -83,3 +86,4 @@
 
 </section>
 <!-- end widget grid -->
+</div>
