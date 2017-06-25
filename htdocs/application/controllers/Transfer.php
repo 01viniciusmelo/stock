@@ -18,6 +18,8 @@ class Transfer extends Auth_Controller {
         $this->load->model('branch_model');
         $this->load->model('stock_model');
         
+        $this->output->enable_profiler(TRUE);
+        
     }
 
     public function index() {
@@ -145,22 +147,37 @@ class Transfer extends Auth_Controller {
     
     public function add($productID=NULL,$branchID=NULL)
     {
-        $this->data['id']    = $this->gen_id("TF");
-        $this->data['actiondate'] = date('Y-m-d');
-        $this->data['branch_from'] = $branchID;
-        $this->data['branch_to'] = NULL;
-        
-        // product
-        $this->data['products'] = $this->stock_model->readProduct($branchID,$productID);
-        
-        // branch
-        $this->data['branchs'] = array();
-        foreach ($this->branch_model->read() as $k => $v) {
-            $this->data['branchs'][$v->id] = $v->name;
-        }
+        // validate form input
+        $this->form_validation->set_rules('id', 'Product id', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            $this->data['id']    = $this->gen_id("TF");
+            $this->data['actiondate'] = date('Y-m-d');
+            $this->data['branch_from'] = $branchID;
+            $this->data['branch_to'] = NULL;
+
+            // product
+            $this->data['products'] = $this->stock_model->readProduct($branchID,$productID);
+
+            // branch
+            $this->data['branchs'] = array();
+            foreach ($this->branch_model->read() as $k => $v) {
+                $this->data['branchs'][$v->id] = $v->name;
+            }
+
+            $this->data['blade'] = "transfer/transfer_add";
+            $this->_render_page('template/content', $this->data);
+        }else{
             
-        $this->data['blade'] = "transfer/transfer_add";
-        $this->_render_page('template/content', $this->data);
+            
+            // update product from branch
+            
+            
+            // update product to branch
+            
+            
+            
+            
+        }
     }
 
 }

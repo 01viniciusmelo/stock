@@ -128,5 +128,9 @@ class Stock_Model extends MY_Model {
         return $rows;
         
     }
+    
+    public function updateTransferStock($from,$to,$product,$qty){
+        
+    }
 
 }

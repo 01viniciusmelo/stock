@@ -21,7 +21,7 @@
             <article class="col-sm-11 col-md-11 col-lg-11 sortable-grid ui-sortable">
                 <div class="jarviswidget jarviswidget-sortable">
                     <div class="widget-body">
-                        <form id="frmUserAction"  class="form-horizontal" action="<?php echo current_url() ?>" method="post"
+                        <form id="frmAction"  class="form-horizontal" action="<?php echo current_url() ?>" method="post"
                               data-bv-message="This value is not valid"
                               data-bv-live="disabled"
                               data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
@@ -96,7 +96,7 @@
                             <hr/>
                             <fieldset>
                                 <p>
-                                    <button class="btn btn-default" type="button"><i class="fa fa-fw fa-plus"></i> </button>
+                                    <button class="btn btn-default" type="button" data-product="add"><i class="fa fa-fw fa-plus"></i> </button>
                                 </p>
                                 <table id="dt-table-ajax" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" >
                                     <thead>
@@ -112,10 +112,32 @@
                                     <tbody>
                                         <?php foreach($products as $product):?>
                                         <tr>
-                                            <td><?php echo $product->product_id;?></td>
+                                            <td>
+                                                <?php echo $product->product_id;?>
+                                                <?php
+                                                $data = array(
+                                                    'data-max'=> isset($product->product_id) ? $product->product_id : NULL,
+                                                    'name' => 'product_id',
+                                                    'value' => isset($product->product_id) ? $product->product_id : "",
+                                                );
+                                                echo form_hidden($data);
+                                                ?>
+                                            </td>
                                             <td><?php echo $product->product_name;?></td>
                                             <td><?php echo $product->product_number;?></td>
-                                            <td><?php echo $product->stock_qty_remaining;?></td>
+                                            <td width="200">
+                                                <?php
+                                                $data = array(
+                                                    'data-max'=> isset($product->stock_qty_remaining) ? $product->stock_qty_remaining : 0,
+                                                    'name' => 'stock',
+                                                    'class' => 'form-control spinner-both',
+                                                    'value' => isset($product->stock_qty_remaining) ? $product->stock_qty_remaining : "",
+                                                    'data-bv-notempty-message' => 'The title is required and cannot be empty',
+                                                    'required' => 'required'
+                                                );
+                                                echo form_input($data);
+                                                ?>
+                                            </td>
                                         </tr>
                                         <?php endforeach;?>
                                     </tbody>

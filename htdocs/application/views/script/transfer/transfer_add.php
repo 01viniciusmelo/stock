@@ -28,6 +28,10 @@
             return date;
         }
         
+        $(".spinner-both").spinner({
+            min: 0,
+            max:$(".spinner-both").data('max')
+          });
         
         // START AND FINISH DATE
         var actionDate = $("input[name='actiondate']").datepicker({
@@ -40,7 +44,9 @@
         })
 
 
-
+        $("[data-product='add']").on('click',function(){
+            alert('xx');
+        });
         /*
          * SmartAlerts
          */
@@ -69,6 +75,12 @@
 
             e.preventDefault();
 
+        });
+        
+        
+        
+        $("#frmAction").on('submit',function(e){
+           // e.preventDefault();
         });
         
     });
