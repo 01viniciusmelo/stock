@@ -18,7 +18,7 @@ class Transfer extends Auth_Controller {
         $this->load->model('branch_model');
         $this->load->model('stock_model');
         
-        $this->output->enable_profiler(TRUE);
+//        $this->output->enable_profiler(TRUE);
         
     }
 
@@ -151,7 +151,7 @@ class Transfer extends Auth_Controller {
         $this->form_validation->set_rules('id', 'Product id', 'required');
         if ($this->form_validation->run() == FALSE) {
             $this->data['id']    = $this->gen_id("TF");
-            $this->data['actiondate'] = date('Y-m-d');
+            $this->data['regis_date'] = date('Y-m-d');
             $this->data['branch_from'] = $branchID;
             $this->data['branch_to'] = NULL;
 
@@ -167,16 +167,39 @@ class Transfer extends Auth_Controller {
             $this->data['blade'] = "transfer/transfer_add";
             $this->_render_page('template/content', $this->data);
         }else{
+            $data = array(
+                "trans_no"      =>  $this->input->post('id'),
+                "branch_from"   =>  $this->input->post('branch_from'),
+                "branch_to"     =>  $this->input->post('branch_to'),
+                "product_id"    =>  $this->input->post('product_id'),
+                "regis_date"    =>  $this->input->post('regis_date'),
+                "quantity"      =>  $this->input->post('quantity'),
+                "remark"        =>  $this->input->post('remark'),
+                "status"        => Transfer::STATUS_TRANSFER_WAIT
+            );
+                    
+            $this->stock_model->createTransferStock($data);
             
+            redirect('transfer/job/'.$this->input->post('id'));
             
-            // update product from branch
-            
-            
-            // update product to branch
-            
-            
-            
-            
+        }
+    }
+    
+    public function job($trans_no=NULL)
+    {
+        if($trans_no==NULL){
+            redirect('transfer','refresh');
+        }
+        
+        $this->form_validation->set_rules('trans_no', 'TransNo', 'required');
+        if ($this->form_validation->run() == FALSE) {
+        
+            $this->data['trans_no'] = $trans_no;
+            $this->data['transJob'] = $this->stock_model->readTranferJob($trans_no);
+            $this->data['blade'] = "transfer/job";
+            $this->_render_page('template/content', $this->data);
+        }else{
+            redirect('transfer/job/'.$this->input->post('trans_no'));
         }
     }
 

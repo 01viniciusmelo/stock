@@ -129,6 +129,69 @@ class Stock_Model extends MY_Model {
         
     }
     
+    public function createTransferStock($data=array()){
+        if(!empty($data)){
+            
+            $this->table = "product_transfers";
+            $this->db->trans_start();
+            
+            parent::insert($data);
+            // update product qty
+            $sql = "UPDATE `products` 
+                   SET 
+                   `quantity` = quantity-? , 
+                   `updated_at` = ? ,
+                   `updated_by` = ? 
+                   WHERE `product_id` = ? ";
+            $this->db->query($sql,array(
+                intval($data['quantity']),
+                date($this->timestamps_format),
+                $this->session->userdata('user_id'),
+                $data['product_id']
+            ));
+            
+             // update stock qty
+            $sql = "UPDATE `stock` 
+                   SET 
+                   `stock_qty_remaining` = stock_qty_remaining-? , 
+                   `updated_at` = ? ,
+                   `updated_by` = ? 
+                   WHERE `product_id` = ? AND `branchs_id` = ? ";
+            $this->db->query($sql,array(
+                intval($data['quantity']),
+                date($this->timestamps_format),
+                $this->session->userdata('user_id'),
+                $data['product_id'],
+                $data['branch_from']
+            ));
+            
+            
+            $this->db->trans_complete();
+            
+            
+        }
+    }
+    
+    public function readTranferJob($transID){
+        $sql = "SELECT product_transfers.* ,
+                bf.name AS branch_from_name,
+                bt.name AS branch_to_name,
+                p.product_name as product_name,
+                p.product_number as product_number
+                FROM product_transfers
+                LEFT JOIN branchs bf ON product_transfers.`branch_from` = bf.id
+                LEFT JOIN branchs bt ON product_transfers.`branch_to` = bt.id
+                LEFT JOIN products p ON product_transfers.`product_id` =  p.`product_id`
+                WHERE trans_no = ?";
+        $result =$this->db->query($sql,$transID);
+        $rows = array();
+        foreach ($result->result() as $row) {
+            array_push($rows, $row);
+        }
+        return $rows;
+    }
+
+
     public function updateTransferStock($from,$to,$product,$qty){
         
     }

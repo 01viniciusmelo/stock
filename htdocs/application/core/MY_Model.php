@@ -199,6 +199,8 @@ class MY_Model extends CI_Model
         $this->before_create[]='add_creator';
         $this->before_update[]='add_updater';
         */
+        $this->before_create[]='add_creator';
+        $this->before_update[]='add_updater';
     }
 
     public function _get_table_fields()

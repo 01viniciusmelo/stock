@@ -61,6 +61,10 @@ class MY_Controller extends CI_Controller {
  * Auth Controller
  */
 class Auth_Controller extends CI_Controller {
+    
+    // for stocke cons
+    const STATUS_TRANSFER_WAIT  = "WAIT";
+    const STATUS_TRANSFER_COMMIT= "COMMIT";
 
     protected $userID = NULL;
     protected $data = array();
