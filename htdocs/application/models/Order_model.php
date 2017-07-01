@@ -27,10 +27,12 @@ class Order_model extends MY_Model {
     }
 
     public function search($search = null, $is_active = false, $is_approval = false, $order_type = 'OD') {
-        $this->db->select("{$this->table}.*,reason.reason_title,branchs.name as branchs_name,branchs_to.name as branchs_name_to");
+        $this->db->select("{$this->table}.*,reason.reason_title,branchs.name as branchs_name,branchs_to.name as branchs_name_to,order_status.status_desc,CONCAT(first_name,' ',last_name) as created_by");
         $this->db->from($this->table);
         $this->db->join('reason', "reason.reason_id = {$this->table}.reason_id and reason.active=1", 'left');
         $this->db->join('branchs', "branchs.id = {$this->table}.branchs_id and branchs.active=1", 'left');
+        $this->db->join('users', "users.id = {$this->table}.created_by and users.active=1", 'left');
+        $this->db->join('order_status', "{$this->table}.order_status = order_status.status and order_status.active = 1", 'left');
         $this->db->join('branchs as branchs_to', "branchs_to.id = {$this->table}.branchs_id_to and branchs_to.active=1", 'left');
 
         if (!is_null($search) && $search != ''):
@@ -52,10 +54,12 @@ class Order_model extends MY_Model {
     }
 
     public function get_order($order_no) {
-        $this->db->select("{$this->table}.*,reason.reason_title,branchs.name as branchs_name");
+        $this->db->select("{$this->table}.*,reason.reason_title,branchs.name as branchs_name,order_status.status_desc,CONCAT(first_name,' ',last_name) as created_by");
         $this->db->from($this->table);
         $this->db->join('reason', "reason.reason_id = {$this->table}.reason_id and reason.active=1", 'left');
         $this->db->join('branchs', "branchs.id = {$this->table}.branchs_id and branchs.active=1", 'left');
+        $this->db->join('users', "users.id = {$this->table}.created_by and users.active=1", 'left');
+        $this->db->join('order_status', "{$this->table}.order_status = order_status.status and order_status.active = 1", 'left');
         $this->db->where("{$this->table}.{$this->primary_key}", $order_no);
 
         $data = $this->db->get();
@@ -63,10 +67,12 @@ class Order_model extends MY_Model {
     }
 
     public function get_order_item($order_no) {
-        $this->db->select("{$this->table}.*,products.product_name,products.product_desc,sale_order_item.product_id,sale_order_item.unit_price,sale_order_item.quantity,sale_order_item.amount");
+        $this->db->select("{$this->table}.*,products.product_name,products.product_desc,sale_order_item.product_id,sale_order_item.unit_price,sale_order_item.quantity,sale_order_item.amount,order_status.status_desc,CONCAT(first_name,' ',last_name) as created_by");
         $this->db->from($this->table);
         $this->db->join('sale_order_item', "sale_order_item.order_no = {$this->table}.order_no");
         $this->db->join('products', "products.product_id = sale_order_item.product_id");
+        $this->db->join('users', "users.id = {$this->table}.created_by and users.active=1", 'left');
+        $this->db->join('order_status', "{$this->table}.order_status = order_status.status and order_status.active = 1", 'left');
         $this->db->where("{$this->table}.{$this->primary_key}", $order_no);
 
         $data = $this->db->get();

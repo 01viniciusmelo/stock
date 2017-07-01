@@ -44,27 +44,27 @@ class Order extends Auth_Controller {
 
     public function view($order_no) {
         $this->data['title'] = 'View order : ' . $order_no;
-        
+
         $this->data['order'] = $this->order_model->get_order($order_no)->result();
         $order_item = $this->order_model->get_order_item($order_no)->result();
-      
-        if(count($order_item)<=0)
+
+        if (count($order_item) <= 0)
             redirect('order', 'refresh');
 
         //Set  Table template
         $template = array(
-                'table_open' => '<table class="table table-hover" cellspacing="0" width="100%">'
-         );
+            'table_open' => '<table class="table table-hover" cellspacing="0" width="100%">'
+        );
         $this->table->set_template($template);
-        $this->table->set_heading('NO.', 'ITEM','DESCRIPTION','UNIT PRICE','QTY','TOTAL');
+        $this->table->set_heading('NO.', 'ITEM', 'DESCRIPTION', 'UNIT PRICE', 'QTY', 'TOTAL');
         //list Category
         foreach ($order_item as $k => $v) {
-            $this->table->add_row($k+1,$v->product_name,$v->product_desc,  number_format($v->unit_price,2), number_format($v->quantity,2),number_format($v->amount,2) );
+            $this->table->add_row($k + 1, $v->product_name, $v->product_desc, number_format($v->unit_price, 2), number_format($v->quantity, 2), number_format($v->amount, 2));
         }
-      
-        $this->table->add_row('SUB TOTAL','','','','', '<strong>'.number_format($order_item[0]->order_subtotal,2).'</strong>' );
-        $this->table->add_row('DISCOUNT', '','','','', number_format($order_item[0]->order_discount,2) );
-        $this->table->add_row('TAX','','','','',  number_format($order_item[0]->order_tax,2).'%' );
+
+        $this->table->add_row('SUB TOTAL', '', '', '', '', '<strong>' . number_format($order_item[0]->order_subtotal, 2) . '</strong>');
+        $this->table->add_row('DISCOUNT', '', '', '', '', number_format($order_item[0]->order_discount, 2));
+        $this->table->add_row('TAX', '', '', '', '', number_format($order_item[0]->order_tax, 2) . '%');
         //$this->table->add_row('<>TOTAL</strong>','','','',  '<strong>'.number_format($order_item[0]->order_total,2).'</strong>' );
         $this->data['order_item_list'] = $this->table->generate();
 
@@ -152,6 +152,25 @@ class Order extends Auth_Controller {
         endif;
     }
 
+    public function cancel($order_no) {
+        $this->load->model('stock_model');
+        $order = $this->order_model->get_order($order_no)->result();
+        if (count($order) == 1):
+            $data = array('order_status' => 'C');
+            if ($this->order_model->save($order_no, $data)):
+                if ($order[0]->order_status == 'A'): //คืน stock กรณีตัด stock ไปแล้ว
+                    $order_item = $this->order_model->get_order_item($order_no)->result();
+                    foreach ($order_item as $k => $v) {
+                        $this->stock_model->update_stock($v->product_id, $v->branchs_id, $v->quantity, 'increase');
+                    }
+                endif;
+
+            endif;
+        endif;
+
+        redirect($_SERVER['HTTP_REFERER'], 'refresh');
+    }
+
     public function clear() {
         $this->session->unset_userdata('cart_item');
         redirect($_SERVER['HTTP_REFERER'], 'refresh');
@@ -161,6 +180,5 @@ class Order extends Auth_Controller {
         $ret = $this->order_model->toggle_status($id);
         redirect($_SERVER['HTTP_REFERER'], 'refresh');
     }
- 
 
 }
