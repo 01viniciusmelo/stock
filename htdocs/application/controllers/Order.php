@@ -153,22 +153,58 @@ class Order extends Auth_Controller {
     }
 
     public function cancel($order_no) {
-        $this->load->model('stock_model');
-        $order = $this->order_model->get_order($order_no)->result();
-        if (count($order) == 1):
-            $data = array('order_status' => 'C');
-            if ($this->order_model->save($order_no, $data)):
-                if ($order[0]->order_status == 'A'): //คืน stock กรณีตัด stock ไปแล้ว
-                    $order_item = $this->order_model->get_order_item($order_no)->result();
-                    foreach ($order_item as $k => $v) {
-                        $this->stock_model->update_stock($v->product_id, $v->branchs_id, $v->quantity, 'increase');
-                    }
+        $this->form_validation->set_rules('order_cancel_remark', 'Cancel Remark', 'required');
+        if ($this->form_validation->run() == FALSE) :
+            $this->data['title'] = 'Cancel order : ' . $order_no;
+
+            $this->data['order'] = $this->order_model->get_order($order_no)->result();
+            $order_item = $this->order_model->get_order_item($order_no)->result();
+
+            if (count($order_item) <= 0)
+                redirect('order', 'refresh');
+
+            //Set  Table template
+            $template = array(
+                'table_open' => '<table class="table table-hover" cellspacing="0" width="100%">'
+            );
+            $this->table->set_template($template);
+            $this->table->set_heading('NO.', 'ITEM', 'DESCRIPTION', 'UNIT PRICE', 'QTY', 'TOTAL');
+            //list Category
+            foreach ($order_item as $k => $v) {
+                $this->table->add_row($k + 1, $v->product_name, $v->product_desc, number_format($v->unit_price, 2), number_format($v->quantity, 2), number_format($v->amount, 2));
+            }
+
+            $this->table->add_row('SUB TOTAL', '', '', '', '', '<strong>' . number_format($order_item[0]->order_subtotal, 2) . '</strong>');
+            $this->table->add_row('DISCOUNT', '', '', '', '', number_format($order_item[0]->order_discount, 2));
+            $this->table->add_row('TAX', '', '', '', '', number_format($order_item[0]->order_tax, 2) . '%');
+            $this->data['order_item_list'] = $this->table->generate();
+
+
+            $this->data['order_no'] = $order_no;
+            $this->data['blade'] = "order/order_cancel_form";
+            $this->_render_page('template/content', $this->data);
+
+        else:
+            $this->load->model('stock_model');
+            $order = $this->order_model->get_order($order_no)->result();
+            if (count($order) == 1):
+                $data = array(
+                    'order_status' => 'C',
+                    'order_cancel_remark' => $this->input->post('order_cancel_remark')
+                );
+                if ($this->order_model->save($order_no, $data)):
+                    if ($order[0]->order_status == 'A'): //คืน stock กรณีตัด stock ไปแล้ว
+                        $order_item = $this->order_model->get_order_item($order_no)->result();
+                        foreach ($order_item as $k => $v) {
+                            $this->stock_model->update_stock($v->product_id, $v->branchs_id, $v->quantity, 'increase');
+                        }
+                    endif;
+
                 endif;
-
             endif;
-        endif;
 
-        redirect($_SERVER['HTTP_REFERER'], 'refresh');
+            redirect('order', 'refresh');
+        endif;
     }
 
     public function clear() {

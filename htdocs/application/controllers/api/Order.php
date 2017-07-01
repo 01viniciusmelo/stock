@@ -85,11 +85,13 @@ class Order extends REST_Controller {
             $items['created_by'] = $item->created_by;
             $items['created_at'] = $item->created_at;
             $items['active'] = '<div class="btn-group" role="group" aria-label="...">' . anchor($action . '/deactive/' . $item->order_no, ($item->active == 1) ? 'Active' : 'Inactive');
-            
+
             $items['action'] = anchor($action . '/view/' . $item->order_no, '<i class="fa fa-info-circle"></i> View', 'class="btn btn-sm btn-info"') . " ";
-            $items['action'] .= anchor($action . '/cancel/' . $item->order_no, '<i class="fa fa-times-circle"></i> Cancel', 'class="btn btn-sm btn-danger"  onclick="return confirm(\'Cancel : '.$item->order_no.'?\')"');
+            if ($item->order_status != 'C'):
+                $items['action'] .= anchor($action . '/cancel/' . $item->order_no, '<i class="fa fa-times-circle"></i> Cancel', 'class="btn btn-sm btn-danger"');
+            endif;
             $items['action'] .= '</div>';
-            
+
             array_push($data, $items);
         }
         $this->response(array("data" => $data), REST_Controller::HTTP_OK);
