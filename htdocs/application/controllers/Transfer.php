@@ -185,6 +185,27 @@ class Transfer extends Auth_Controller {
         }
     }
     
+
+    public function cancel($order_no) {
+        $this->load->model('stock_model');
+        $order = $this->order_model->get_order($order_no)->result();
+        if (count($order) == 1):
+            $data = array('order_status' => 'C');
+            if ($this->order_model->save($order_no, $data)):
+                if ($order[0]->order_status == 'A'): //คืน stock กรณีตัด stock ไปแล้ว
+                    $order_item = $this->order_model->get_order_item($order_no)->result();
+                    foreach ($order_item as $k => $v) {
+                        $this->stock_model->update_stock($v->product_id, $v->branchs_id, $v->quantity, 'increase');
+                        $this->stock_model->update_stock($v->product_id, $v->branchs_id_to, $v->quantity, 'decrease');
+                    }
+                endif;
+
+            endif;
+        endif;
+
+        redirect($_SERVER['HTTP_REFERER'], 'refresh');
+    }
+    
     public function job($trans_no=NULL)
     {
         if($trans_no==NULL){

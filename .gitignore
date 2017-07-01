@@ -128,3 +128,4 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/cvs,macos,linux,windows,netbeans,notepadpp,sublimetext,visualstudiocode
 nbproject
+htdocs/application/config/database.php
