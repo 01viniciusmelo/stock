@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Description of Product
@@ -23,6 +25,7 @@ class Product extends Auth_Controller {
 
         // excel adapter
         // include APPPATH . 'libraries/PhpSpreadsheet/src/Bootstrap.php';
+//        $this->output->enable_profiler(TRUE);
     }
 
     public function index() {
@@ -50,6 +53,33 @@ class Product extends Auth_Controller {
         $this->_render_page('template/content', $this->data);
     }
 
+    public function view($product_id) {
+        $this->load->model('stock_model');
+        $where = array('stock.product_id' => $product_id);
+        $stock = $this->stock_model->read($where, null, 0, true)->result();
+        //$this->pre($stock);
+        
+        
+        //Set  Table template
+        $template = array(
+            'table_open' => '<table class="table table-hover" cellspacing="0" width="100%">'
+        );
+        $this->table->set_template($template);
+        $this->table->set_heading('NO.', 'BRANCH', 'QTY REMAINING');
+        //list Category
+        foreach ($stock as $k => $v) {
+            $this->table->add_row($k + 1, $v->name, $v->stock_qty_remaining);
+        }
+        $this->data['stock'] = $this->table->generate();
+
+
+
+        $this->data['product'] = $this->product_model->search($product_id)->result()[0];
+        $this->data['product_id'] = $product_id;
+        $this->data['blade'] = "product/product_view";
+        $this->_render_page('template/content', $this->data);
+    }
+
     public function add() {
         $this->data['title'] = 'Add new Product';
         $product = new stdClass();
@@ -57,11 +87,11 @@ class Product extends Auth_Controller {
         $this->form_validation->set_rules('product_name', 'Product Name', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            
+
             foreach ($this->input->post() as $k => $v) {
                 $product->$k = $v;
             }
-            
+
             $this->data['branchs'] = array();
             foreach ($this->branch_model->read() as $k => $v) {
                 $this->data['branchs'][$v->id] = $v->name;
@@ -71,11 +101,12 @@ class Product extends Auth_Controller {
             foreach ($this->category_model->search(null, true)->result() as $k => $v) {
                 $this->data['category'][$v->cat_id] = $v->cat_name;
             }
-
+            
             $this->data['product'] = $product;
             $this->data['blade'] = "product/product_form";
             $this->_render_page('template/content', $this->data);
         } else {
+            
             $save_data = array(
                 'product_name' => $this->input->post('product_name'),
                 'product_desc' => $this->input->post('product_desc'),
@@ -90,8 +121,13 @@ class Product extends Auth_Controller {
                 'created_by' => $this->ion_auth->users()->result()[0]->id,
                 'updated_by' => $this->ion_auth->users()->result()[0]->id
             );
-            $ret = $this->product_model->addStock($save_data);
+            $producID = $this->product_model->addStock($save_data);
+            
+            
+            // upload images
+            $this->product_model->uploadImages("product-upload",$producID);
             redirect("product", 'refresh');
+
         }
     }
 
@@ -99,26 +135,34 @@ class Product extends Auth_Controller {
         $this->data['title'] = 'Edit Product';
         $this->data['category'] = array();
         $this->data['branchs'] = array();
-        
+
         $product = $this->product_model->search($product_id);
         $categories = $this->category_model->getCategoryNames();
         foreach ($this->branch_model->read() as $k => $v) {
             $this->data['branchs'][$v->id] = $v->name;
         }
-            
-        foreach($categories as $row){
+
+        foreach ($categories as $row) {
             $this->data['category'][$row->cat_id] = $row->cat_name;
         }
-        
+
         if (isset($product) && count($product->result()) > 0) {
+            
             // validate form input
             $this->form_validation->set_rules('product_name', 'Product Name', 'required');
             if ($this->form_validation->run() == FALSE) {
                 foreach ($this->input->post() as $k => $v) {
                     $product->$k = $v;
                 }
+                
+                // get images
+                $this->data['images'] = array();
+                foreach ($this->product_model->getImages($product_id) as $k => $v) {
+                    $this->data['images'][$v->image_id] = $v;
+                }
+                
                 $this->data['product'] = $product->result()[0];
-                $this->data['blade'] = "product/product_form";
+                $this->data['blade'] = "product/product_form";                
                 $this->_render_page('template/content', $this->data);
             } else {
                 $save_data = array(
@@ -131,7 +175,10 @@ class Product extends Auth_Controller {
                 );
 
                 $ret = $this->product_model->save($product_id, $save_data);
-                redirect("product", 'refresh');
+                
+                // upload images
+                $this->product_model->uploadImages("product-upload",$product_id);
+                redirect("product", 'refresh');            
             }
         } else
             redirect("product", 'refresh');
@@ -141,5 +188,5 @@ class Product extends Auth_Controller {
         $ret = $this->product_model->toggle_status($product_id);
         redirect($_SERVER['HTTP_REFERER'], 'refresh');
     }
-
+    
 }

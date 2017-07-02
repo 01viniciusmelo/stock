@@ -30,9 +30,14 @@ class Stock_Model extends MY_Model {
 
         if (!empty($where)) {
             foreach ($where as $f => $v) {
+                if($f=='stock.product_id'){
+                    $this->db->where($f, $v);
+                }else
                 $this->db->or_where($f, $v);
             }
         }
+        
+       
 
         if ($is_active == true) {
             $this->db->where("{$this->table}.active", MY_Model::FLAG_DATA_ACTIVE);

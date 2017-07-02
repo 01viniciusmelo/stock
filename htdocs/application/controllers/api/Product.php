@@ -73,5 +73,14 @@ class Product extends REST_Controller {
 
         $this->response(array("data"=>$data), REST_Controller::HTTP_OK);
     }
+    
+    
+        public function image_action_post($action="delete") {
+        if($action == "delete" && $this->post('key')!== FALSE){
+            $this->product_model->removeImage( $this->post('key') );
+            
+        }
+        $this->response(array("data"=>[]), REST_Controller::HTTP_OK);
+    }
 
 }
