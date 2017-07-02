@@ -9,7 +9,12 @@
         </div>
         <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
             <ul id="sparks">
-                
+                <li class="sparks-info">
+                    <?php echo anchor('order_approve/approve/'.$order_no.'/A', "<i class='fa-fw fa fa-check-circle-o'></i> Approve", "class='btn btn-success'") ?>
+                </li> 
+                <li class="sparks-info">
+                    <?php echo anchor('order_approve/approve/'.$order_no.'/R', "<i class='fa-fw fa fa-mail-reply '></i> Reject", "class='btn btn-danger'") ?>
+                </li> 
                 <li class="sparks-info">
                     <?php echo anchor('order_approve', "<i class='fa-fw fa fa-arrow-circle-o-left'></i> Back", "class='btn btn-default'") ?>
                 </li> 

@@ -76,16 +76,16 @@ class Transfer_approve extends REST_Controller {
             $items['order_tax'] = $item->order_tax;
             $items['order_total'] = $item->order_total;
             $items['order_remark'] = $item->order_remark;
-            $items['order_status'] = $item->order_status;
+            $items['order_status'] = $item->status_desc;
             $items['reason_title'] = $item->reason_title;
             $items['branchs_name'] = $item->branchs_name;
             $items['branchs_name_to'] = $item->branchs_name_to;
             $items['created_by'] = $item->created_by;
             $items['created_at'] = $item->created_at;
             $items['active'] = anchor('transfer/deactive/' . $item->order_no, ($item->active == 1) ? 'Active' : 'Inactive');
-            $items['action'] = anchor('transfer/view/' . $item->order_no, '<i class="fa fa-info-circle"></i> View','class="btn btn-sm btn-info"')." "
-                    . "".anchor('transfer_approve/approve/' . $item->order_no.'/A', '<i class="fa fa-check-circle-o"></i> Approve','class="btn btn-sm btn-success"');
-            
+            $items['action'] = anchor('transfer_approve/view/' . $item->order_no, '<i class="fa fa-info-circle"></i> View','class="btn btn-sm btn-info"')." "
+                    . "".anchor('transfer_approve/approve/' . $item->order_no.'/A', '<i class="fa fa-check-circle-o"></i> Approve','class="btn btn-sm btn-success"')." "
+                    . "".anchor('transfer_approve/approve/' . $item->order_no.'/R', '<i class="fa fa-mail-reply"></i> Reject','class="btn btn-sm btn-danger"');
             array_push($data, $items);
         }
         $this->response(array("data" => $data), REST_Controller::HTTP_OK);

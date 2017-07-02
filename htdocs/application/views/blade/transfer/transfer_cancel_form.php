@@ -8,7 +8,7 @@
         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
             <h1 class="page-title">
                 <i class='fa-fw fa fa-shopping-basket'></i> 
-                CANCEL ORDER NO. =  <?php echo $order_no; ?>
+                CANCEL TRANSFER NO. =  <?php echo $order_no; ?>
 
             </h1>
         </div>
