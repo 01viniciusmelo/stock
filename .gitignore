@@ -4,7 +4,7 @@
 
 #### TEMP ###
 htdocs/temp/
-
+htdocs/application/config/database.php
 ### CVS ###
 /CVS/*
 **/CVS/*
