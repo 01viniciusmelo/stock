@@ -10,11 +10,7 @@
             </h1>
         </div>
         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-            <ul id="sparks">
-                <li class="sparks-info">
-                    <?php echo anchor('order/create_po', "<i class='fa-fw fa fa-plus-square-o'></i> Add new Sales order", "class='btn btn-default'") ?>
-                </li> 
-            </ul>
+            
         </div>
     </div>
     <!-- widget grid -->

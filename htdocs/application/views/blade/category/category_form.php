@@ -1,4 +1,9 @@
 <div id="content">
+    <?php
+    if (validation_errors()):
+        echo "<div class='alert alert-danger fade in'>" . validation_errors() . "</div>";
+    endif;
+    ?>
     <div class="row">
         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
             <h1 class="page-title">
