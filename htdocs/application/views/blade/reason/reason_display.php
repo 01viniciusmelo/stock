@@ -1,3 +1,4 @@
+<div id="content">
 <div class="row">
 
     <!-- col -->
@@ -14,7 +15,7 @@
     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
          <ul id="sparks">
             <li class="sparks-info">
-                <?php echo anchor('reason/add', "<i class='fa-fw fa fa-plus-square-o'></i> Add new reason", "class='btn btn-default'") ?>
+                <?php echo anchor('reason/add', "<i class='fa-fw fa fa-plus'></i> Add new reason", "class='btn btn-default'") ?>
             </li> 
         </ul>
     </div>
@@ -83,3 +84,5 @@
 
 </section>
 <!-- end widget grid -->
+
+</div>

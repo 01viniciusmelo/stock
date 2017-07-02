@@ -54,6 +54,7 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
+                                    <th>Code</th>
                                     <th>No.</th>
                                     <th>Description</th>
                                     <th>Price</th>

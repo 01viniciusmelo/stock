@@ -165,6 +165,7 @@ class Product extends Auth_Controller {
                 $this->data['blade'] = "product/product_form";                
                 $this->_render_page('template/content', $this->data);
             } else {
+                
                 $save_data = array(
                     'product_name' => $this->input->post('product_name'),
                     'product_desc' => $this->input->post('product_desc'),

@@ -9,7 +9,7 @@
         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
             <ul id="sparks">
                 <li class="sparks-info">
-                    <?php echo anchor('transfer/create_transfer', "<i class='fa-fw fa fa-plus-square-o'></i> Add new transfer request", "class='btn btn-primary'") ?>
+                    <?php echo anchor('transfer/create_transfer', "<i class='fa-fw fa fa-plus'></i> Add new transfer request", "class='btn btn-primary'") ?>
                 </li> 
             </ul>
         </div>

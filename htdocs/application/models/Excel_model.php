@@ -132,7 +132,7 @@ class Excel_model extends MY_Model {
                         AND location NOT IN (
                                 SELECT DISTINCT name FROM branchs
                         )
-                        AND location != 'Location'";
+                        AND location != 'Location' AND location != NULL ";
         $result = $this->db->query($sql_branch,$code);
         foreach ($result->result() as $row) {
             $data = array(
@@ -185,13 +185,14 @@ class Excel_model extends MY_Model {
         $branchs = array();
         
         $products= array();
+        $i = 0;
         foreach ($result->result() as $row) {
             
             $data = array(
-                //"product_code"   => ,
+                "product_code"   => "EXCEL_IMPORT_". sprintf("%06d",$i),
                 "product_name"   => $row->part_name,
                 "product_number" => $row->part_no,
-                "product_desc"   => "IMPORT_EXCEL@{$this->user->email}",
+                "product_desc"   => "EXCEL_IMPORT_". sprintf("%06d",$i),
                 "product_price_selling"  => $row->price,
                 //"product_price_purchasing"   => ,
                 "product_branch_origin"  => $row->location_id,
@@ -202,9 +203,10 @@ class Excel_model extends MY_Model {
                 "created_at" => $created_at,
                 "active" => Excel_model::FLAG_DATA_ACTIVE
             );
-            
+       
             // product
-            array_push($products, $data);
+            array_push($products, $data);                     
+            $i++;
         }
         
         $this->db->insert_batch('products', $products);

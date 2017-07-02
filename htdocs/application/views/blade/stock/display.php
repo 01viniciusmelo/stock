@@ -15,7 +15,7 @@
         <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
             <ul id="sparks">
                 <li class="sparks-info">
-                    <?php echo anchor('stock/add', "<i class='fa-fw fa fa-plus-square-o'></i> Add new product to stock", "class='btn btn-primary'") ?>
+                    <?php echo anchor('stock/add', "<i class='fa-fw fa fa-plus'></i> Add new product to stock", "class='btn btn-primary'") ?>
                 </li> 
             </ul>
         </div>
@@ -30,10 +30,11 @@
 
 
             <article class="col-sm-12 col-md-12 col-lg-12">
+                <!--
                 <div class="alert alert-info">
                     <strong>NOTE:</strong> All the data is loaded from a seperate JSON file
                 </div>
-
+                -->
                 <!-- Widget ID (each widget will need unique ID)-->
                 <div class="jarviswidget well" id="wid-id-0">
                     <!-- widget options:
@@ -70,8 +71,9 @@
 
                             <table 
                                 data-ajax-url="<?php echo site_url('stock/filter') ?>"
-                                id="example" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                                id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                                 <thead>
+                                    <!--
                                     <tr>
                                         <th class="hasinput" style="width:20%">
                                             <input type="text" class="form-control" placeholder="Find Branch" />
@@ -93,10 +95,10 @@
                                         <th class="hasinput" style="width:12%">
                                             <input type="text" class="form-control" placeholder="Active" />
                                         </th>
-                                        <th></th>
+                                        <th width="100"></th>
 
                                     </tr>
-
+                                    -->
 
                                     <tr>
 

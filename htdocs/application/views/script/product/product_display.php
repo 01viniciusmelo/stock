@@ -30,6 +30,7 @@
            },
             "columns": [
                 { "data": "product_name" },
+                { "data": "product_code" },
                 { "data": "product_number" },
                 { "data": "product_desc" },
                 { "data": "product_price_purchasing" },
