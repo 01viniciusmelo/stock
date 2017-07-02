@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Description of Product
@@ -50,6 +52,33 @@ class Product extends Auth_Controller {
         $this->_render_page('template/content', $this->data);
     }
 
+    public function view($product_id) {
+        $this->load->model('stock_model');
+        $where = array('stock.product_id' => $product_id);
+        $stock = $this->stock_model->read($where, null, 0, true)->result();
+        //$this->pre($stock);
+        
+        
+        //Set  Table template
+        $template = array(
+            'table_open' => '<table class="table table-hover" cellspacing="0" width="100%">'
+        );
+        $this->table->set_template($template);
+        $this->table->set_heading('NO.', 'BRANCH', 'QTY REMAINING');
+        //list Category
+        foreach ($stock as $k => $v) {
+            $this->table->add_row($k + 1, $v->name, $v->stock_qty_remaining);
+        }
+        $this->data['stock'] = $this->table->generate();
+
+
+
+        $this->data['product'] = $this->product_model->search($product_id)->result()[0];
+        $this->data['product_id'] = $product_id;
+        $this->data['blade'] = "product/product_view";
+        $this->_render_page('template/content', $this->data);
+    }
+
     public function add() {
         $this->data['title'] = 'Add new Product';
         $product = new stdClass();
@@ -57,11 +86,11 @@ class Product extends Auth_Controller {
         $this->form_validation->set_rules('product_name', 'Product Name', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            
+
             foreach ($this->input->post() as $k => $v) {
                 $product->$k = $v;
             }
-            
+
             $this->data['branchs'] = array();
             foreach ($this->branch_model->read() as $k => $v) {
                 $this->data['branchs'][$v->id] = $v->name;
@@ -99,17 +128,17 @@ class Product extends Auth_Controller {
         $this->data['title'] = 'Edit Product';
         $this->data['category'] = array();
         $this->data['branchs'] = array();
-        
+
         $product = $this->product_model->search($product_id);
         $categories = $this->category_model->getCategoryNames();
         foreach ($this->branch_model->read() as $k => $v) {
             $this->data['branchs'][$v->id] = $v->name;
         }
-            
-        foreach($categories as $row){
+
+        foreach ($categories as $row) {
             $this->data['category'][$row->cat_id] = $row->cat_name;
         }
-        
+
         if (isset($product) && count($product->result()) > 0) {
             // validate form input
             $this->form_validation->set_rules('product_name', 'Product Name', 'required');
