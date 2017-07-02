@@ -145,7 +145,7 @@
 
 
                     <fieldset>
-                        <?php if ($action_type = 'TR') { ?>
+                        <?php if ($action_type == 'TR') { ?>
                             <div class="row">
                                 <section class="col col-12">
                                     <label class="label">Transfer to</label>

@@ -56,7 +56,7 @@ class Product_model extends MY_Model {
 
         if ($is_active == true)
             $this->db->where("{$this->table}.active", true);
-            
+
         $data = $this->db->get();
         return $data;
     }
@@ -98,7 +98,7 @@ class Product_model extends MY_Model {
         ));
         $this->db->trans_complete();
 
-        return $this->db->trans_status();
+        return $producID;
     }
 
     public function insert($data = null) {
@@ -119,6 +119,85 @@ class Product_model extends MY_Model {
         if ($this->db->query($q))
             return true;
         return false;
+    }
+    
+    public function getImages($productID=NULL)
+    {        
+        $url = images_product_url();
+        $sql = " SELECT * 
+                ,CONCAT('{$url}','/',image_path) as url  
+                ,CONCAT('". site_url('api/product/image_action/delete')."','/') as delete_url
+                FROM product_images WHERE product_id = ?";
+        
+        $q = $this->db->query($sql,$productID);
+        $data = array();
+        foreach( $q->result() as $row){
+            //$d = new stdClass();
+            $d = $row;
+            $d->image_data = json_decode($row->image_data);
+            array_push($data, $d);
+        }
+        return $data;
+        
+    }
+
+    public function uploadImages($filename='userFiles',$product_id=NULL) {
+        $tmpfilename = sprintf("FILEUPLOAD-%S", random_string('alnum', 8));
+        $data = array();
+        if ( !empty($_FILES[$filename]['name']) &&! empty( $product_id )  ){
+            $filesCount = count($_FILES[$filename]['name']);
+            for ($i = 0; $i < $filesCount; $i++) {
+                $_FILES[$tmpfilename]['name'] = $_FILES[$filename]['name'][$i];
+                $_FILES[$tmpfilename]['type'] = $_FILES[$filename]['type'][$i];
+                $_FILES[$tmpfilename]['tmp_name'] = $_FILES[$filename]['tmp_name'][$i];
+                $_FILES[$tmpfilename]['error'] = $_FILES[$filename]['error'][$i];
+                $_FILES[$tmpfilename]['size'] = $_FILES[$filename]['size'][$i];
+
+                $uploadPath = images_product_dir().DIRECTORY_SEPARATOR.$product_id;
+                make_path_recursive($uploadPath);
+                
+                $config['upload_path'] = $uploadPath;
+                //$config['file_name']    = "PROD-";                
+                $config['allowed_types'] = 'gif|jpg|jpeg|png';
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+                if ($this->upload->do_upload($tmpfilename)) {
+                    $fileData = $this->upload->data();
+                    
+                    $uploadData[$i]['product_id'] = $product_id;                    
+                    $uploadData[$i]['image_path'] = str_replace(str_replace("\\","/",images_product_dir()),  "",$fileData['full_path']);                   
+                    $uploadData[$i]['image_name'] = $fileData['raw_name'];                    
+                    $uploadData[$i]['image_data'] = json_encode($fileData);    
+                    $uploadData[$i]['active'] = 1;    
+                    $uploadData[$i]['created_at'] = date($this->timestamps_format);    
+                    $uploadData[$i]['created_by'] = $this->session->userdata('user_id');
+                }
+            }
+            
+
+            if (!empty($uploadData)) {                                        
+                $this->db->insert_batch('product_images', $uploadData);                 
+            }
+            
+            return true;
+        }
+        
+        
+
+    }
+    
+    
+    public function removeImage($imageID)
+    {
+        // get remove file
+        $query = $this->db->query("SELECT * FROM product_images WHERE image_id = ? LIMIT 1;",$imageID);
+        $row = $query->row(0);
+
+        $file = str_replace("/",DIRECTORY_SEPARATOR, images_product_dir($row->image_path));    
+        if(file_exists($file)){
+            unlink($file);
+        }        
+        $this->db->delete('product_images', array('image_id' => $imageID));
     }
 
 }

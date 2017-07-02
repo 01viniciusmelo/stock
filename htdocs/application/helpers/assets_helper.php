@@ -106,6 +106,59 @@ if (!function_exists('temp_dir')) {
     }
 }
 
+/**
+ * Temp URL
+ * 
+ * Create a local URL to your tmps based on your basepath.
+ *
+ * @access	public
+ * @param   string
+ * @return	string
+ */
+if (!function_exists('images_product_url')) {
+    function images_product_url($uri = '', $group = FALSE) {
+        $CI = & get_instance();
+        
+        if (!$dir = $CI->config->item('images_product_url')) {
+            $dir = 'products/images';
+        }
+        
+        if ($group) {
+            return rtrim($CI->config->base_url($dir . $group . "/" . $uri),"/");
+        } else {
+            return rtrim($CI->config->base_url($dir . $uri),"/");
+        }
+    }
+}
+
+
+/**
+ * Temp DIR
+ * 
+ * Create a local URL to your tmps based on your basepath.
+ *
+ * @access	public
+ * @param   string
+ * @return	string
+ */
+if (!function_exists('images_product_dir')) {
+    function images_product_dir($uri = '', $group = FALSE) {
+        $CI = & get_instance();
+        
+        if (!$dir = $CI->config->item('images_product_path')) {
+            $dir = 'products'.DIRECTORY_SEPARATOR.'images';
+        }
+        
+        $dir = rtrim($dir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+        
+        if ($group) {
+            return FCPATH.$dir.$group.DIRECTORY_SEPARATOR.$uri;
+        } else {
+            return FCPATH.$dir.$uri;
+        }
+    }
+}
+
 if (!function_exists('toHtmlData')) {
     function toHtmlData($dataParams = '', $quetes = ENT_QUOTES,$endcode='UTF-8') {
        return htmlspecialchars(json_encode($dataParams), $quetes, 'UTF-8');

@@ -127,16 +127,16 @@
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Units</label>
                                     <div class="col-lg-3">
-                                        <?php
-                                        $data = array(
-                                            'name' => 'unit',
-                                            'class' => 'form-control',
-                                            'value' => isset($product->unit) ? $product->unit : "",
-                                            'data-bv-notempty-message' => 'The title is required and cannot be empty',
-                                            'required' => 'required'
-                                        );
-                                        echo form_input($data);
-                                        ?>
+                            <?php
+                            $data = array(
+                                'name' => 'unit',
+                                'class' => 'form-control',
+                                'value' => isset($product->unit) ? $product->unit : "",
+                                'data-bv-notempty-message' => 'The title is required and cannot be empty',
+                                'required' => 'required'
+                            );
+                            echo form_input($data);
+                            ?>
                                     </div>
                                 </div>
                             </fieldset>
@@ -193,9 +193,9 @@
                                     </div>
                                 </div>
                             </fieldset>
- 
+
                             <fieldset>
-                                
+
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">สินค้าเข้าที่</label>
                                     <div class="col-lg-4">
@@ -208,21 +208,20 @@
                                     </div>
                                 </div>
                             </fieldset>
-                            <hr/>
+                            <!--<hr/>-->
                             <fieldset>
-                                
+
                                 <div class="form-group">
-                                <label class="col-lg-3 control-label">Product Gallery</label>
-                                <div class="col-lg-9">
-                                    <div class="input-group">
-                                        <input name="file" type="file" multiple />
+                                    <label class="col-lg-3 control-label">Product Gallery</label>
+                                    <div class="col-lg-9">
+                                        <label class="control-label">Upload Product images</label>
+                                        <input id="product-upload" name="product-upload[]" type="file" accept="image/*"  multiple class="file-loading" data-url-delete="<?php echo site_url('product/image/delete')?>" data-product-images="<?php echo isset($images) && sizeof($images) ? htmlspecialchars(json_encode($images), ENT_QUOTES, 'UTF-8'): null; ?>">                                        
                                     </div>
-                                </div>
                                 </div>
                             </fieldset>
                             <hr/>
                             <fieldset>
-                                
+
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Status</label>
                                     <div class="col-lg-4">
