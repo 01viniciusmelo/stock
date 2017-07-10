@@ -139,6 +139,7 @@ class Stock extends Auth_Controller {
     }
     
     public function import($action="import",$code=NULL) {
+        
         if($action=="import"){
             $this->_import();
         }
@@ -184,7 +185,8 @@ class Stock extends Auth_Controller {
             $config['encrypt_name'] = TRUE;
             $config['allowed_types'] = 'xls|xlsx';
             $config['max_size'] = 10000;
-
+            
+            make_path_recursive($config['upload_path']);
             $this->load->library('upload', $config);
 
             if (!$this->upload->do_upload('upload_excle_file')) {
