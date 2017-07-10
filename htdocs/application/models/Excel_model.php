@@ -250,7 +250,7 @@ class Excel_model extends MY_Model {
                     "product_price_selling"  => $row->price,
                     "product_price_purchasing"   => $row->price,                    
                     "product_branch_present" => $row->location_id,                    
-                    "quantity"   => $row->qty,
+                    "quantity"   => empty($row->qty) ? 0 :$row->qty,
                     "updated_by" => $this->user->id,
                     "updated_at" => $created_at,                    
                     "product_id" => $row->exists
@@ -271,7 +271,7 @@ class Excel_model extends MY_Model {
                     "product_branch_present" => $row->location_id,
                     "unit"  => NULL,
                     "cat_id" => $row->cat_id,
-                    "quantity"   => $row->qty,
+                    "quantity"   => empty($row->qty) ? 0 :$row->qty,
                     "created_by" => $this->user->id,
                     "created_at" => $created_at,
                     "active" => Excel_model::FLAG_DATA_ACTIVE             
@@ -284,7 +284,20 @@ class Excel_model extends MY_Model {
         
         $this->db->insert_batch('products', $products_new);
         // update exists record        
-        $this->db->update_batch('products', $products_exists, 'product_id');
+        //$this->db->update_batch('products', $products_exists, 'product_id');
+        $affected_rows  = 0;
+        foreach($products_exists as  $prod)
+        {
+            $this->db->query("UPDATE products  SET "
+                    . "product_price_selling = '{$prod['product_price_selling']}', "
+                    . "product_price_purchasing = '{$prod['product_price_purchasing']}', "
+                    . "product_branch_present = '{$prod['product_branch_present']}',   "
+                    . "quantity = `quantity`+{$prod['quantity']},   "
+                    . "updated_by = '{$prod['updated_by']}',   "
+                    . "updated_at = '{$prod['updated_at']}'   "
+                    . "WHERE product_id = {$prod['product_id']} ");
+            $affected_rows += $this->db->affected_rows();
+        }
         
         
         $this->db->trans_complete();

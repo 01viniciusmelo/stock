@@ -1,11 +1,6 @@
 <?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  * Description of Category
@@ -22,7 +17,7 @@ class Stock extends Auth_Controller {
         $this->load->model('product_model');
         $this->load->model('excel_model');
         
-        $this->output->enable_profiler(TRUE);
+        //$this->output->enable_profiler(TRUE);
     }
 
     public function index() {
@@ -45,14 +40,14 @@ class Stock extends Auth_Controller {
         $this->form_validation->set_rules('stock_qty_ori', 'Stock Qty', 'required');
         if ($this->form_validation->run() == FALSE) {
 
-            $this->data['branchs'] = array('');
+            $this->data['branchs'] = array();
             $branchs = $this->branch_model->read();
             foreach ($branchs as $k => $v) {
                 $this->data['branchs'][$v->id] = $v->name;
             }
 
 
-            $this->data['product'] = array('');
+            $this->data['product'] = array();
             $product = $this->product_model->read();
             foreach ($product as $k => $v) {
                 $this->data['product'][$v->product_id] = $v->product_name;
