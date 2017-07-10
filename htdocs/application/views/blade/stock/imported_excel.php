@@ -91,7 +91,8 @@
                                             <th>Location</th>
                                             <th>Part Name</th>
                                             <th>Part No</th>
-                                            <th>QTY. (summary)</th>
+                                            
+                                            <th>QTY</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -100,8 +101,13 @@
                                         <tr>
                                             <td><?php echo $row->category;?></td>
                                             <td><?php echo $row->location;?></td>
-                                            <td><?php echo $row->part_name;?></td>
-                                            <td><?php echo $row->part_no;?></td>
+                                            <td>
+                                                <?php echo $row->part_name;?>
+                                                <?php if($row->exists != 0 ): ;?>
+                                                <span class="label label-success pull-right" >NEW</span>
+                                                <?php endif?>
+                                            </td>
+                                            <td><?php echo $row->part_no;?></td>                                            
                                             <td><?php echo $row->qty?></td>
                                         </tr>
                                         <?php endforeach;?>

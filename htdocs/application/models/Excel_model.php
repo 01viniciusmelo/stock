@@ -58,17 +58,59 @@ class Excel_model extends MY_Model {
             }
         }
 
-        $this->db->insert_batch('tmp_import_stocks', $tmps);
+        $this->db->insert_batch('tmp_import_stocks', $tmps);        
+        
+        $this->import_check_product_exists($code);
+        
         return $code;
     }
     
+    public function import_check_product_exists($code){
+        
+        $sql = "UPDATE tmp_import_stocks 
+                JOIN (	
+                        SELECT 
+                        product_id
+                        ,product_name
+                        ,product_number
+                        ,product_branch_origin 
+                        ,product_branch_present
+                        ,branchs.name as location
+                        ,category.cat_name  as category
+                        FROM 
+                        PRODUCTS
+                        LEFT JOIN branchs on products.product_branch_origin = branchs.id
+                        LEFT JOIN category on products.cat_id  =  category.cat_id
+                ) br ON (
+                        tmp_import_stocks.code		= ?
+                AND	tmp_import_stocks.part_name = br.product_name
+                AND 	tmp_import_stocks.part_no = br.product_number
+                AND 	tmp_import_stocks.location = br.location
+                AND 	tmp_import_stocks.category = br.category
+                )
+                SET 
+                tmp_import_stocks.`exists` = br.product_id
+                WHERE (
+                        tmp_import_stocks.code		= ?
+                AND	tmp_import_stocks.part_name = br.product_name
+                AND 	tmp_import_stocks.part_no = br.product_number
+                AND 	tmp_import_stocks.location = br.location
+                AND 	tmp_import_stocks.category = br.category
+                )";
+        $result = $this->db->query($sql,array($code,$code));
+        
+        return TRUE;
+        
+    }
+
+
     public function import_total_code($code=NULL)
     {
         $sql = "SELECT
               COUNT(*) as cnt
               FROM tmp_import_stocks 
               WHERE code = ?
-              AND location != 'Location'";
+              AND location != 'Location'  AND location != '' AND location IS NOT NULL";
         $result = $this->db->query($sql,$code);
         $rows = array();
         foreach ($result->result() as $row) {
@@ -85,12 +127,16 @@ class Excel_model extends MY_Model {
                 `location`,
                 `part_name`,
                 `part_no`,
-                sum(`qty`) as qty
+                `exists`,
+                qty
+                -- sum(`qty`) as qty
               FROM tmp_import_stocks
               WHERE code = ?
               AND location != 'Location'
-              GROUP BY category,location,part_name,part_no
-              LIMIT 10";
+              AND location != ''
+              -- GROUP BY category,location,part_name,part_no
+              ORDER BY qty DESC
+              ";
         $result = $this->db->query($sql,$code);
         $rows = array();
         foreach ($result->result() as $row) {
@@ -106,6 +152,8 @@ class Excel_model extends MY_Model {
               import_file_name as filename
               FROM tmp_import_stocks 
               WHERE code = ?
+              AND location != 'Location'
+              AND location != ''
               LIMIT 1";
         $result = $this->db->query($sql,$code);
         $rows = array();
@@ -125,6 +173,10 @@ class Excel_model extends MY_Model {
     {
         $created_at = date($this->timestamps_format);
         $created_by = $this->user->id;
+        
+        
+        $this->db->trans_start();
+        
         // get new branch
         $sql_branch = " SELECT DISTINCT `location` AS location
                         FROM tmp_import_stocks
@@ -132,7 +184,7 @@ class Excel_model extends MY_Model {
                         AND location NOT IN (
                                 SELECT DISTINCT name FROM branchs
                         )
-                        AND location != 'Location' AND location != NULL ";
+                        AND location != 'Location' AND location != \"\" ";
         $result = $this->db->query($sql_branch,$code);
         foreach ($result->result() as $row) {
             $data = array(
@@ -152,7 +204,7 @@ class Excel_model extends MY_Model {
                         AND category NOT IN (
                                 SELECT DISTINCT cat_name FROM category
                         )
-                        AND location != 'Location'";
+                        AND location != 'Location'  AND location != \"\"";
         $result = $this->db->query($sql_category,$code);
         foreach ($result->result() as $row) {
             $data = array(
@@ -173,43 +225,70 @@ class Excel_model extends MY_Model {
                 `part_name`,
                 `part_no`,
                 `qty`,
-                `price`
+                `price`,
+                `exists`
               FROM tmp_import_stocks
               LEFT JOIN category ON category.cat_name = tmp_import_stocks.category
               LEFT JOIN branchs ON branchs.name = tmp_import_stocks.location
-              WHERE code = ?
-              AND location != 'Location'
+              WHERE code = ?              
+              AND ( tmp_import_stocks.location != 'Location' AND tmp_import_stocks.location != '' )
               ";
         $result = $this->db->query($sql,$code);
+        //echo $this->db->last_query(); 
         $rows = array();
-        $branchs = array();
-        
-        $products= array();
-        $i = 0;
+        $branchs = array();        
+        $products_new= array();
+        $products_exists= array();
+        $i = 0;        
+        //insert new
+        $date  = date('YmdHis');
         foreach ($result->result() as $row) {
             
-            $data = array(
-                "product_code"   => "EXCEL_IMPORT_". sprintf("%06d",$i),
-                "product_name"   => $row->part_name,
-                "product_number" => $row->part_no,
-                "product_desc"   => "EXCEL_IMPORT_". sprintf("%06d",$i),
-                "product_price_selling"  => $row->price,
-                //"product_price_purchasing"   => ,
-                "product_branch_origin"  => $row->location_id,
-                "product_branch_present" => $row->location_id,
-                "cat_id" => $row->cat_id,
-                "quantity"   => $row->qty,
-                "created_by" => $this->user->id,
-                "created_at" => $created_at,
-                "active" => Excel_model::FLAG_DATA_ACTIVE
-            );
-       
-            // product
-            array_push($products, $data);                     
+            // product exists
+            if($row->exists != 0  ){
+                 $data = array(                    
+                    "product_price_selling"  => $row->price,
+                    "product_price_purchasing"   => $row->price,                    
+                    "product_branch_present" => $row->location_id,                    
+                    "quantity"   => $row->qty,
+                    "updated_by" => $this->user->id,
+                    "updated_at" => $created_at,                    
+                    "product_id" => $row->exists
+                );
+                array_push($products_exists, $data);      
+            }
+            
+            // product new 
+            if($row->exists == 0 ){
+                 $data = array(
+                    "product_code"   => "EXCEL_IMP_".$date. sprintf("%04d",$i),
+                    "product_name"   => $row->part_name,
+                    "product_number" => $row->part_no,
+                    "product_desc"   => "EXCEL_IMP_".$date.sprintf("%04d",$i),
+                    "product_price_selling"  => $row->price,
+                    "product_price_purchasing"   => $row->price,
+                    "product_branch_origin"  => $row->location_id,
+                    "product_branch_present" => $row->location_id,
+                    "unit"  => NULL,
+                    "cat_id" => $row->cat_id,
+                    "quantity"   => $row->qty,
+                    "created_by" => $this->user->id,
+                    "created_at" => $created_at,
+                    "active" => Excel_model::FLAG_DATA_ACTIVE             
+                );
+                array_push($products_new, $data);      
+            }
+            
             $i++;
         }
         
-        $this->db->insert_batch('products', $products);
+        $this->db->insert_batch('products', $products_new);
+        // update exists record        
+        $this->db->update_batch('products', $products_exists, 'product_id');
+        
+        
+        $this->db->trans_complete();
+        
         return true;
     }
     
