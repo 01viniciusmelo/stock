@@ -24,6 +24,8 @@ class Product_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
+        
+        $this->user = $this->ion_auth->user()->row();
     }
 
     public function search($product_id = NULL, $search = NULL) {

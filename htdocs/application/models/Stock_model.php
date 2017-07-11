@@ -16,6 +16,8 @@ class Stock_Model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
+        
+        $this->user = $this->ion_auth->user()->row();
     }
 
     public function read($where = array(), $limit = NULL, $offet = 0, $is_active = false) {
@@ -80,6 +82,7 @@ class Stock_Model extends MY_Model {
     }
 
     public function update_stock($product_id, $branchs_id, $qty, $by = self::STOCK_UPDATE_DECREASE ) {
+        
         $this->db->cache_delete_all();
         $this->db->where("product_id", $product_id);
         $this->db->where("branchs_id", $branchs_id);
@@ -87,7 +90,9 @@ class Stock_Model extends MY_Model {
         if ($by == self::STOCK_UPDATE_DECREASE) {
             $this->db->set('stock_qty_remaining', "stock_qty_remaining-{$qty}", FALSE);
             $this->db->update($this->table);
-        } else {
+        }
+        
+        if($by == self::STOCK_UPDATE_INCREASE){
             $check_empty = $this->check_stock_empty($product_id, $branchs_id);
             if ($check_empty == true):
                 $save_data = array(
@@ -96,13 +101,15 @@ class Stock_Model extends MY_Model {
                     'stock_qty_ori' => $qty,
                     'stock_qty_remaining' => $qty,
                     'stock_remark' => 'Transfer',
-                    'active' => 1,
-                    'created_at' => mdate('%Y-%m-%d %H:%i:%s', now()),
-                    'updated_at' => mdate('%Y-%m-%d %H:%i:%s', now())
+                    'active' => MY_Model::FLAG_DATA_ACTIVE
+                    //'created_at' => mdate('%Y-%m-%d %H:%i:%s', now()),
+                    //'updated_at' => mdate('%Y-%m-%d %H:%i:%s', now())
                 );
                 $this->insert($save_data);
             else:
-                $this->db->set('stock_qty_remaining', "stock_qty_remaining+{$qty}", FALSE);
+                $this->db->where("product_id", $product_id);
+                $this->db->where("branchs_id", $branchs_id);
+                $this->db->set('stock_qty_remaining', "`stock_qty_remaining`+{$qty}", FALSE);
                 $this->db->update($this->table);
             endif;
         }

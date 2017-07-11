@@ -49,7 +49,7 @@
                     <!-- end widget edit box -->
 
                     <!-- widget content -->
-                    <div class="widget-body no-padding">
+                    <div class="widget-body no-padding" id="dt-table-area">
 
                         <?php echo $table_data ?>
 
