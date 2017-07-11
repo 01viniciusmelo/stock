@@ -4,6 +4,9 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Stock_Model extends MY_Model {
+    
+    const ACTION_UPDATE_DECREASE="DECREASE";
+    const ACTION_UPDATE_INCREASE="INCREASE";
 
     public $table = 'stock'; // you MUST mention the table name
     public $primary_key = 'stock_id'; // you MUST mention the primary key
@@ -76,12 +79,12 @@ class Stock_Model extends MY_Model {
         return false;
     }
 
-    public function update_stock($product_id, $branchs_id, $qty, $by = 'decrease') {
+    public function update_stock($product_id, $branchs_id, $qty, $by = self::ACTION_UPDATE_DECREASE ) {
         $this->db->cache_delete_all();
         $this->db->where("product_id", $product_id);
         $this->db->where("branchs_id", $branchs_id);
 
-        if ($by == 'decrease') {
+        if ($by == self::ACTION_UPDATE_DECREASE) {
             $this->db->set('stock_qty_remaining', "stock_qty_remaining-{$qty}", FALSE);
             $this->db->update($this->table);
         } else {

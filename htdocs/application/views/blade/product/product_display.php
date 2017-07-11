@@ -53,6 +53,7 @@
                          <table id="dt-table-ajax" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
+                                    <th>Branch</th>
                                     <th>Name</th>
                                     <th>Code</th>
                                     <th>No.</th>

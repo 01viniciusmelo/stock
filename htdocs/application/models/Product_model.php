@@ -40,9 +40,12 @@ class Product_model extends MY_Model {
         }
 
         $data = $this->db->query(
-                " SELECT `{$this->table}`.*,`category`.`cat_desc` FROM `{$this->table}` "
-                . "left join `category` on  `{$this->table}`.`cat_id` = `category`.`cat_id` and `category`.`active` = 1 "
-                . "where {$where} "
+                " SELECT `{$this->table}`.*,`category`.`cat_desc` "
+                . ",branchs.name as branch_name ,branchs.id as branch_id"
+                . " FROM `{$this->table}` "                
+                . " left join `category` on  `{$this->table}`.`cat_id` = `category`.`cat_id` and `category`.`active` = 1 "
+                . " left join `branchs` on `products`.product_branch_origin = `branchs`.id"
+                . " where {$where} "
         );
         return $data;
     }

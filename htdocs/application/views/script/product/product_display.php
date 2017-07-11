@@ -29,6 +29,7 @@
                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
            },
             "columns": [
+                { "data": "branch_name" },
                 { "data": "product_name" },
                 { "data": "product_code" },
                 { "data": "product_number" },
