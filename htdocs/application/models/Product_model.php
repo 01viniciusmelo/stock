@@ -86,6 +86,9 @@ class Product_model extends MY_Model {
     }
 
     public function addStock($data = null) {
+        $created_at = date($this->timestamps_format);
+        $created_by = $this->user->id;
+        
         $this->db->trans_start();
         // product
         $this->db->insert("products", $data);
@@ -97,7 +100,11 @@ class Product_model extends MY_Model {
             "product_id" => $producID,
             "stock_qty_ori" => $data['quantity'],
             "stock_qty_remaining" => $data['quantity'],
-            "active" => 1,
+            "created_by" => empty($data['created_by'])? 0 : $created_by,
+            "created_at" => empty($data['created_at'])? 0 : $created_at,
+            "updated_by" => empty($data['updated_by'])? 0 : $created_by,
+            "updated_at" => empty($data['active'])? 0 : $created_at,
+            "active" => empty($data['active'])? 0 : MY_Model::FLAG_DATA_ACTIVE
         ));
         $this->db->trans_complete();
 
