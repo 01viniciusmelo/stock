@@ -125,6 +125,27 @@ class Stock extends Auth_Controller {
         
     }
 
+    public function request(){
+
+        $this->data['branchs'] = array();
+            $branchs = $this->branch_model->read();
+            foreach ($branchs as $k => $v) {
+                $this->data['branchs'][$v->id] = $v->name;
+            }
+
+
+            $this->data['product'] = array();
+            $product = $this->product_model->read();
+            foreach ($product as $k => $v) {
+                $this->data['product'][$v->product_id] = $v->product_name;
+            }
+
+        $branch = $this->branch_model->read();
+        $this->data['blade'] = "stock/request_form";
+        $this->_render_page('template/content', $this->data);
+
+    }
+
     public function deactive($id) {
         $ret = $this->stock_model->toggle_status($id);
         redirect($_SERVER['HTTP_REFERER'], 'refresh');

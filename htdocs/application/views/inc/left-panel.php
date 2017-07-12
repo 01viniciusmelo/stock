@@ -25,6 +25,8 @@
                     <li><?php echo nav_active_link('stock', "Stock",NULL,"index"); ?></li>
                   <!--  <li><?php echo nav_active_link('stock/transaction', "Transaction",NULL,"transaction"); ?></li> -->
                     <li><?php echo nav_active_link('stock/import', "Import excel",NULL,"import"); ?></li>
+
+                    <li><<?php echo nav_active_link('stock/request', "Request",NULL,"request");?>/li>
                 </ul>
             </li>
             
