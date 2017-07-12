@@ -51,8 +51,8 @@ class Branchs extends Auth_Controller {
                     $v->phone, 
                     $v->mobile, 
                     anchor('branchs/deactive/' . $v->id, ($v->active == 1) ? '<span class="label label-success">Active</span>' : '<span class="label label-default">Inactive</span>'), 
-                    anchor('branchs/edit/' . $v->id, '<i class="fa-fw fa fa-edit"></i> Edit','class="btn btn-xs"')."".
-                    anchor('stock/branch/' . $v->id, '<i class="fa-fw fa fa-cubes"></i> Stock','class="btn btn-xs"')
+                    anchor('branchs/edit/' . $v->id, '<i class="fa-fw fa fa-edit"></i> Edit','class="btn btn-xs"').""
+//                    anchor('stock/branch/' . $v->id, '<i class="fa-fw fa fa-cubes"></i> Stock','class="btn btn-xs"')
                     );
         }
         $this->data['table_data'] = $this->table->generate();

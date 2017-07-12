@@ -24,6 +24,8 @@ class Product_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
+        
+        $this->user = $this->ion_auth->user()->row();
     }
 
     public function search($product_id = NULL, $search = NULL) {
@@ -40,9 +42,12 @@ class Product_model extends MY_Model {
         }
 
         $data = $this->db->query(
-                " SELECT `{$this->table}`.*,`category`.`cat_desc` FROM `{$this->table}` "
-                . "left join `category` on  `{$this->table}`.`cat_id` = `category`.`cat_id` and `category`.`active` = 1 "
-                . "where {$where} "
+                " SELECT `{$this->table}`.*,`category`.`cat_desc` "
+                . ",branchs.name as branch_name ,branchs.id as branch_id"
+                . " FROM `{$this->table}` "                
+                . " left join `category` on  `{$this->table}`.`cat_id` = `category`.`cat_id` and `category`.`active` = 1 "
+                . " left join `branchs` on `products`.product_branch_origin = `branchs`.id"
+                . " where {$where} "
         );
         return $data;
     }
@@ -83,6 +88,9 @@ class Product_model extends MY_Model {
     }
 
     public function addStock($data = null) {
+        $created_at = date($this->timestamps_format);
+        $created_by = $this->user->id;
+        
         $this->db->trans_start();
         // product
         $this->db->insert("products", $data);
@@ -94,7 +102,11 @@ class Product_model extends MY_Model {
             "product_id" => $producID,
             "stock_qty_ori" => $data['quantity'],
             "stock_qty_remaining" => $data['quantity'],
-            "active" => 1,
+            "created_by" => empty($data['created_by'])? 0 : $created_by,
+            "created_at" => empty($data['created_at'])? 0 : $created_at,
+            "updated_by" => empty($data['updated_by'])? 0 : $created_by,
+            "updated_at" => empty($data['active'])? 0 : $created_at,
+            "active" => empty($data['active'])? 0 : MY_Model::FLAG_DATA_ACTIVE
         ));
         $this->db->trans_complete();
 

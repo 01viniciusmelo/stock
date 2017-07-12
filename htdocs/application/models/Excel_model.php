@@ -19,6 +19,9 @@ class Excel_model extends MY_Model {
         
         $this->load->helper('string');
         
+        $this->load->model('stock_model');
+        $this->load->model('product_model');
+        
         $this->user = $this->ion_auth->user()->row();
 
     }
@@ -44,12 +47,12 @@ class Excel_model extends MY_Model {
 
                 $rowExcel = array();
                 $rowExcel['import_file_name'] = $fileorig;
-                $rowExcel['category'] = $spreadsheet->getActiveSheet()->getCell('A' . $row->getRowIndex())->getValue();
-                $rowExcel['location'] = $spreadsheet->getActiveSheet()->getCell('B' . $row->getRowIndex())->getValue();
-                $rowExcel['part_name'] = $spreadsheet->getActiveSheet()->getCell('C' . $row->getRowIndex())->getValue();
-                $rowExcel['part_no'] = $spreadsheet->getActiveSheet()->getCell('D' . $row->getRowIndex())->getValue();
-                $rowExcel['qty'] = $spreadsheet->getActiveSheet()->getCell('E' . $row->getRowIndex())->getValue();
-                $rowExcel['price'] = $spreadsheet->getActiveSheet()->getCell('F' . $row->getRowIndex())->getFormattedValue();
+                $rowExcel['category'] = trim($spreadsheet->getActiveSheet()->getCell('A' . $row->getRowIndex())->getValue());
+                $rowExcel['location'] = trim($spreadsheet->getActiveSheet()->getCell('B' . $row->getRowIndex())->getValue());
+                $rowExcel['part_name'] = trim($spreadsheet->getActiveSheet()->getCell('C' . $row->getRowIndex())->getValue());
+                $rowExcel['part_no'] = trim($spreadsheet->getActiveSheet()->getCell('D' . $row->getRowIndex())->getValue());
+                $rowExcel['qty'] = trim($spreadsheet->getActiveSheet()->getCell('E' . $row->getRowIndex())->getValue());
+                $rowExcel['price'] = trim($spreadsheet->getActiveSheet()->getCell('F' . $row->getRowIndex())->getFormattedValue());
                 $rowExcel['file_type'] = $fileType;
                 $rowExcel['code'] = $code;
                 $rowExcel['created_at'] = $created_at;
@@ -251,6 +254,7 @@ class Excel_model extends MY_Model {
                     "product_price_purchasing"   => $row->price,                    
                     "product_branch_present" => $row->location_id,                    
                     "quantity"   => empty($row->qty) ? 0 :$row->qty,
+                    "product_branch_origin"  => $row->location_id,
                     "updated_by" => $this->user->id,
                     "updated_at" => $created_at,                    
                     "product_id" => $row->exists
@@ -269,25 +273,31 @@ class Excel_model extends MY_Model {
                     "product_price_purchasing"   => $row->price,
                     "product_branch_origin"  => $row->location_id,
                     "product_branch_present" => $row->location_id,
-                    "unit"  => NULL,
+                    "unit"  => "",
                     "cat_id" => $row->cat_id,
                     "quantity"   => empty($row->qty) ? 0 :$row->qty,
                     "created_by" => $this->user->id,
                     "created_at" => $created_at,
+                    "updated_by" => $this->user->id,
+                    "updated_at" => $created_at,            
                     "active" => Excel_model::FLAG_DATA_ACTIVE             
                 );
-                array_push($products_new, $data);      
+                //array_push($products_new, $data);      
+                
+                // update stock                              
+                $this->product_model->addStock($data);
             }
             
             $i++;
         }
         
-        $this->db->insert_batch('products', $products_new);
+        //$this->db->insert_batch('products', $products_new);
         // update exists record        
         //$this->db->update_batch('products', $products_exists, 'product_id');
         $affected_rows  = 0;
         foreach($products_exists as  $prod)
         {
+            // update product qty
             $this->db->query("UPDATE products  SET "
                     . "product_price_selling = '{$prod['product_price_selling']}', "
                     . "product_price_purchasing = '{$prod['product_price_purchasing']}', "
@@ -297,6 +307,10 @@ class Excel_model extends MY_Model {
                     . "updated_at = '{$prod['updated_at']}'   "
                     . "WHERE product_id = {$prod['product_id']} ");
             $affected_rows += $this->db->affected_rows();
+            
+            
+            // update stock qty
+            $this->stock_model->update_stock($prod['product_id'], $prod['product_branch_origin'], $prod['quantity'], Stock_Model::STOCK_UPDATE_INCREASE);
         }
         
         

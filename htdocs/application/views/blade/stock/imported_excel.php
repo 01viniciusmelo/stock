@@ -103,7 +103,7 @@
                                             <td><?php echo $row->location;?></td>
                                             <td>
                                                 <?php echo $row->part_name;?>
-                                                <?php if($row->exists != 0 ): ;?>
+                                                <?php if($row->exists == 0 ): ;?>
                                                 <span class="label label-success pull-right" >NEW</span>
                                                 <?php endif?>
                                             </td>
