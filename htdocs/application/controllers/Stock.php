@@ -10,8 +10,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Stock extends Auth_Controller {
     
     private static $IMPORT_TEMPLATES = array(
-        'EXCEL_TEMPLATE_1' => 'Excel Template 1',
-        'EXCEL_TEMPLATE_2' => 'Excel Template 2'
+        'EXCEL_TEMPLATE_1' => 'Excel Template 1'
+        //'EXCEL_TEMPLATE_2' => 'Excel Template 2'
     );
 
     //put your code here

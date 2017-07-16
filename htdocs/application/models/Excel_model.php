@@ -74,38 +74,73 @@ class Excel_model extends MY_Model {
             $this->import_check_product_exists($code);
         }
         
-                // excel template 1
+                // excel template 2
         if ($template == Excel_model::EXCEL_TEMPLATE_2){
             
-            $reader->setReadFilter(new Excel_ReadFilter(2, Excel_model::LOAD_TEMPLATE_MAX_RECORD, range('A', 'H')));
+            //$reader->setReadFilter(new Excel_ReadFilter(2, Excel_model::LOAD_TEMPLATE_MAX_RECORD, range('A', 'H')));
             $spreadsheet = $reader->load($filepath);
-
-            $tmps = array();
-            foreach ($spreadsheet->getActiveSheet()->getRowIterator() as $row) {
-
-                if ($spreadsheet->getActiveSheet()->getRowDimension($row->getRowIndex())->getVisible()) {
-
-                    $rowExcel = array();
-                    $rowExcel['import_file_name'] = $fileorig;
-                    $rowExcel['category'] = trim($spreadsheet->getActiveSheet()->getCell('A' . $row->getRowIndex())->getValue());
-                    $rowExcel['location'] = trim($spreadsheet->getActiveSheet()->getCell('B' . $row->getRowIndex())->getValue());
-                    $rowExcel['image'] = trim($spreadsheet->getActiveSheet()->getCell('C' . $row->getRowIndex())->getValue());
-                    $rowExcel['part_no'] = trim($spreadsheet->getActiveSheet()->getCell('D' . $row->getRowIndex())->getValue());
-                    $rowExcel['part_name'] = trim($spreadsheet->getActiveSheet()->getCell('E' . $row->getRowIndex())->getValue());
-                    $rowExcel['barcode'] = trim($spreadsheet->getActiveSheet()->getCell('F' . $row->getRowIndex())->getValue());
-                    $rowExcel['price'] = trim($spreadsheet->getActiveSheet()->getCell('G' . $row->getRowIndex())->getFormattedValue());
-                    $rowExcel['qty'] = trim($spreadsheet->getActiveSheet()->getCell('H' . $row->getRowIndex())->getValue());                    
-                    $rowExcel['file_type'] = $fileType;
-                    $rowExcel['code'] = $code;
-                    $rowExcel['template'] = $template;
-                    $rowExcel['created_at'] = $created_at;
-                    $rowExcel['created_by'] = $created_by;
-                    array_push($tmps, $rowExcel);
-                }
-            }
-
-            $this->db->insert_batch('tmp_import_stocks', $tmps);    
-            $this->import_check_product_exists($code);
+            $i = 0;
+            $activeSheet = $spreadsheet->getActiveSheet();
+            echo $fileorig;
+            echo "<pre>";
+            var_dump($activeSheet->getHeaderFooter());
+            var_dump($activeSheet->getDrawingCollection() );
+            
+//            foreach ($spreadsheet->getActiveSheet()->getRowIterator() as $row) {
+//
+//                if ($spreadsheet->getActiveSheet()->getRowDimension($row->getRowIndex())->getVisible()) {
+//
+//                    
+//                    echo "<p>"
+//                            .trim($spreadsheet->getActiveSheet()->getCell('A' . $row->getRowIndex())->getValue())
+//                            ."|".trim($spreadsheet->getActiveSheet()->getCell('B' . $row->getRowIndex())->getValue())
+//                            ."|".trim($spreadsheet->getActiveSheet()->getCell('E' . $row->getRowIndex())->getValue())
+//                            ."</p>";
+//   
+//                }
+//            }
+//
+//            
+             
+            
+//            foreach ($activeSheet->getDrawingCollection() as $drawing) {
+//                is_a($drawing);
+//                var_dump($drawing);
+//                if ($drawing instanceof \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing) {
+//                    echo "YES";
+//                }
+//                echo "NO";
+//                exit(0);
+//            }
+            
+//
+//            $tmps = array();
+//            foreach ($spreadsheet->getActiveSheet()->getRowIterator() as $row) {
+//
+//                if ($spreadsheet->getActiveSheet()->getRowDimension($row->getRowIndex())->getVisible()) {
+//
+//                    $rowExcel = array();
+//                    $rowExcel['import_file_name'] = $fileorig;
+//                    $rowExcel['category'] = trim($spreadsheet->getActiveSheet()->getCell('A' . $row->getRowIndex())->getValue());
+//                    $rowExcel['location'] = trim($spreadsheet->getActiveSheet()->getCell('B' . $row->getRowIndex())->getValue());
+//                    $rowExcel['image'] = trim($spreadsheet->getActiveSheet()->getCell('C' . $row->getRowIndex())->getValue());
+//                    $rowExcel['part_no'] = trim($spreadsheet->getActiveSheet()->getCell('D' . $row->getRowIndex())->getValue());
+//                    $rowExcel['part_name'] = trim($spreadsheet->getActiveSheet()->getCell('E' . $row->getRowIndex())->getValue());
+//                    $rowExcel['barcode'] = trim($spreadsheet->getActiveSheet()->getCell('F' . $row->getRowIndex())->getValue());
+//                    $rowExcel['price'] = trim($spreadsheet->getActiveSheet()->getCell('G' . $row->getRowIndex())->getFormattedValue());
+//                    $rowExcel['qty'] = trim($spreadsheet->getActiveSheet()->getCell('H' . $row->getRowIndex())->getValue());                    
+//                    $rowExcel['file_type'] = $fileType;
+//                    $rowExcel['code'] = $code;
+//                    $rowExcel['template'] = $template;
+//                    $rowExcel['created_at'] = $created_at;
+//                    $rowExcel['created_by'] = $created_by;
+//                    array_push($tmps, $rowExcel);
+//                }
+//            }
+//
+//            $this->db->insert_batch('tmp_import_stocks', $tmps);    
+//            $this->import_check_product_exists($code);
+            exit();
         }
         
         
