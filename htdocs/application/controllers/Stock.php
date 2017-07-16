@@ -8,6 +8,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author Krittkarin.C
  */
 class Stock extends Auth_Controller {
+    
+    private static $IMPORT_TEMPLATES = array(
+        'EXCEL_TEMPLATE_1' => 'Excel Template 1'
+        //'EXCEL_TEMPLATE_2' => 'Excel Template 2'
+    );
 
     //put your code here
     public function __construct() {
@@ -17,7 +22,7 @@ class Stock extends Auth_Controller {
         $this->load->model('product_model');
         $this->load->model('excel_model');
         
-        //$this->output->enable_profiler(TRUE);
+        $this->output->enable_profiler(TRUE);
     }
 
     public function index() {
@@ -192,12 +197,19 @@ class Stock extends Auth_Controller {
     }
     
     private function _import()
-    {
-        if (!empty($_POST)) {
+    {        
+        $this->load->library('form_validation');
+        
+        
+        $this->form_validation->set_rules('template', 'Template', 'required');
+                
+        if ( $this->form_validation->run() == TRUE ){
             
 //            if ($this->_valid_csrf_nonce() === FALSE  ) {
 //                show_error($this->lang->line('error_csrf'));
 //            }
+            
+            
             
             $config['upload_path'] = temp_dir();
             $config['encrypt_name'] = TRUE;
@@ -215,11 +227,13 @@ class Stock extends Auth_Controller {
                 $data = array('upload_data' => $this->upload->data());
                 
                 $this->load->model('excel_model');
-                $code = $this->excel_model->import_stock($data['upload_data']);
+                $code = $this->excel_model->import_stock($data['upload_data'], $this->input->post('template'));
                 redirect("stock/import/example/{$code}");
             }
+            
         }else{
 
+            $this->data['import_templates'] = SELF::$IMPORT_TEMPLATES;
             $this->data['csrf'] = $this->_get_csrf_nonce();
             $this->data['blade'] = "stock/import_excel";
             $this->_render_page('template/content', $this->data);
