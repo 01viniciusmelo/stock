@@ -22,7 +22,7 @@ class Stock extends Auth_Controller {
         $this->load->model('product_model');
         $this->load->model('excel_model');
         
-        $this->output->enable_profiler(TRUE);
+//        $this->output->enable_profiler(TRUE);
     }
 
     public function index() {
