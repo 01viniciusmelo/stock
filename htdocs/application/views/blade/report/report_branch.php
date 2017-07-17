@@ -15,33 +15,82 @@
         <!-- row -->
         <div class="row">
             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <?php echo form_open(current_url(), 'id="frm-import"') ?>
+                <?php echo form_open(current_url(), 'id="frm-import" class="form-horizontal"') ?>
                 <?php echo form_hidden($csrf); ?>
                 <?php echo form_hidden('time', time()); ?>
-                
-                <div class="well well-sm">
+
+                <div class="well">
                     <div class="row">
                         <!--Criteria-->
-                        
-                            <fieldset  id="customer-panel">
-                                <hr>
-                                <div class="form-group">
-                                <label class="col-lg-3 control-label">Branch/Site</label>
+
+                        <fieldset >
+
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">Branch/Site</label>
                                 <div class="col-lg-5">
-                                    
+
                                     <select class="form-control" name="branch"
                                             data-bv-notempty="true"
                                             data-bv-notempty-message="The Branch is required and cannot be empty">
                                         <option value="0">ALL</option>
-                                        <?php foreach($branchs as $bRow ):?>
-                                        <option <?php echo (set_value('branch') == $bRow->id ? "selected":"")?>  value="<?php echo $bRow->id;?>"><?php echo $bRow->name;?></option>
-                                        <?php endforeach;?>
+                                        <?php foreach ($branchs as $bRow): ?>
+                                            <option <?php echo (set_value('branch') == $bRow->id ? "selected" : "") ?>  value="<?php echo $bRow->id; ?>"><?php echo $bRow->name; ?></option>
+                                        <?php endforeach; ?>
                                     </select>
-                                    <p class="note"> สาขา</p>
+                                    <!--<p class="note"> สาขา</p>-->
                                 </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset >
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Group by</label>
+                                <div class="col-md-10">
+                                    <label class="checkbox-inline">
+                                        <input name="is_group_product" type="checkbox" class="checkbox style-0" <?php echo (set_value('is_group_product') == "1" ? "checked" : "") ?>  value="1" >
+                                        <span>Product</span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input name="is_group_branch" type="checkbox" class="checkbox style-0" <?php echo (set_value('is_group_branch') == "1" ? "checked" : "") ?>  value="1" >
+                                        <span>Branch/Site</span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input name="is_group_category" type="checkbox" class="checkbox style-0" <?php echo (set_value('is_group_category') == "1" ? "checked" : "") ?>  value="1" >
+                                        <span>Category</span>
+                                    </label>
+                                    <!--<p class="note"> สาขา</p>-->
                                 </div>
-                            </fieldset>
-                        
+
+                            </div>
+
+                        </fieldset>
+                        <!--
+                        <fieldset >
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Summary</label>
+                                <div class="col-md-10">
+                                    <label class="checkbox-inline">
+                                        <input name="is_sum_product" type="checkbox" class="checkbox style-0" <?php echo (set_value('is_sum_product') == "1" ? "checked" : "") ?>  value="1" >
+                                        <span>Product</span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input name="is_sum_price" type="checkbox" class="checkbox style-0" <?php echo (set_value('is_sum_price') == "1" ? "checked" : "") ?>  value="1" >
+                                        <span>Price</span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input name="is_sum_category" type="checkbox" class="checkbox style-0" <?php echo (set_value('is_sum_category') == "1" ? "checked" : "") ?>  value="1" >
+                                        <span>Category</span>
+                                    </label>                                  
+                                </div>
+
+                            </div>
+
+                        </fieldset>
+
+                        -->
+
                     </div>
 
 
@@ -59,8 +108,8 @@
 
 
         </div>
-        
-        
+
+
         <!-- row -->
         <div class="row">
 
@@ -92,24 +141,24 @@
 
                                 <table id="dt-table-basic" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                                     <thead>
-                                        <tr>                                            
-                                            <th>Product Name</th>
-                                            <th>Product Code</th>                                            
-                                            <th>Branch Name</th>                                            
-                                            <th>Qty (Remain)</th>
+                                        <tr>                     
+                                            <?php foreach($fields as $field):?>
+                                            <th><?php echo $field; ?></th>
+                                            <?php endforeach;?>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php if(!empty($reportData)):?>
-                                        <?php foreach($reportData as $row):?>
-                                        <tr>                                            
-                                            <td><?php echo $row->product_name;?></td>
-                                            <td><?php echo $row->product_code;?></td>
-                                            <td><?php echo $row->branch_name;?></td>
-                                            <td><?php echo $row->stock_qty_remaining;?></td>
-                                        </tr>
-                                        <?php endforeach;?>                                        
-                                        <?php endif?>
+                                        <?php if (!empty($reportData)): ?>
+                                        
+                                            <?php foreach ($reportData as $row): ?>
+                                                <tr>                                            
+                                                    <?php foreach($fields as $key=>$name):?>
+                                                    <td><?php echo $row->{$key}; ?></td>
+                                                    <?php endforeach;?>
+                                                </tr>
+                                            <?php endforeach; ?>     
+                                        
+                                        <?php endif ?>
                                     </tbody>
                                 </table>
 
