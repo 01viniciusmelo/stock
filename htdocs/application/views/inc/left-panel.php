@@ -71,6 +71,16 @@
                 </ul>
             </li>
             
+            <li>
+                <a href="#"> <i class="fa fa-lg fa-fw fa-file"></i> <span class="menu-item-parent">Reports</span> </a>
+                <ul>
+                    <li><?php echo nav_active_link('report/branch', "Product",NULL,"branch"); ?></li>
+                    <!--<li><?php echo nav_active_link('report/category', "category"); ?></li>-->
+                    <li><?php echo nav_active_link('report/transection', "transection"); ?></li>
+                </ul>
+            </li>
+            
+            
             <!--
             <li>
                 <a href="#"> <i class="fa fa-lg fa-fw fa-building-o"></i> <span class="menu-item-parent">Company</span> </a>
@@ -80,15 +90,7 @@
                 </ul>
             </li>
             
-             <li>
-                <a href="#"> <i class="fa fa-lg fa-fw fa-file"></i> <span class="menu-item-parent">Reports</span> </a>
-                <ul>
-                    <li><?php echo nav_active_link('report/branch', "branch"); ?></li>
-                    <li><?php echo nav_active_link('report/category', "category"); ?></li>
-                    <li><?php echo nav_active_link('report/transection', "transection"); ?></li>
-                </ul>
-            </li>
-            
+         
             
             
             <li>
