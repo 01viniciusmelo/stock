@@ -58,12 +58,15 @@ class Item extends REST_Controller {
 
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
+       
+        $branch_id = $this->ion_auth->users()->result()[0]->branch;
+
+        if($this->input->get('branch_id'))
+            $branch_id = $this->input->get('branch_id');
+
         $items =array();
         //list item
-        $items_list = $this->product_model->get($item_search)->result();
-
-
-
+        $items_list = $this->product_model->get($item_search,$branch_id)->result();
 
         $items = array();
         $data = array();

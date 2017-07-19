@@ -37,7 +37,8 @@ class Product_model extends MY_Model {
 
         if (!is_null($search)) {
             $where .= " AND (`{$this->table}`.`product_code` like '%{$search}%' "
-                    . "or `{$this->table}`.`product_name` like '%{$search}%' ) "
+                    . "or `{$this->table}`.`product_name` like '%{$search}%'  "
+                    . "or `{$this->table}`.`product_desc` like '%{$search}%' ) "
                     . "and `{$this->table}`.`active` = 1";
         }
 
@@ -52,18 +53,31 @@ class Product_model extends MY_Model {
         return $data;
     }
 
-    public function get($product_code = 'X', $branchs = 1, $is_active = true) {
+    public function get($search = 'X', $branchs = 1, $is_active = true) {
         //$branchs = 1; //Change Branchs by User account
         $this->db->from($this->table);
         $this->db->join('category', "category.cat_id = {$this->table}.cat_id and category.active=1");
         $this->db->join('stock', "stock.product_id = {$this->table}.product_id and stock.active=1 and stock.branchs_id = {$branchs}");
-        $this->db->where('product_code', $product_code);
+
+        
+        if(trim($search)!=''){
+            $this->db->group_start() ;
+            $this->db->where('product_code', $search);
+            $this->db->or_like('product_name', $search, 'both');
+            $this->db->or_like('product_desc', $search, 'both');
+            $this->db->group_end() ;
+        }else{
+            $this->db->where('product_code', 'x');
+        }
+        
 
         if ($is_active == true)
             $this->db->where("{$this->table}.active", true);
 
         $data = $this->db->get();
+        //echo $this->db->last_query();
         return $data;
+        //return $this->db->last_query();
     }
 
     public function read($where = array(), $limit = NULL, $offet = 0) {

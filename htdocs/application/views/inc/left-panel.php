@@ -25,8 +25,15 @@
                     <li><?php echo nav_active_link('stock', "Stock",NULL,"index"); ?></li>
                   <!--  <li><?php echo nav_active_link('stock/transaction', "Transaction",NULL,"transaction"); ?></li> -->
                     <li><?php echo nav_active_link('stock/import', "Import excel",NULL,"import"); ?></li>
+                </ul>
+            </li>
 
-                    <li><<?php echo nav_active_link('stock/request', "Request",NULL,"request");?>/li>
+            <li>
+                <a href="#"> <i class="fa fa-lg fa-fw fa-gift"></i>  <span class="menu-item-parent">Request</span> </a>
+               <ul>
+                    <li><?php echo nav_active_link('request', "Request",NULL,"request"); ?></li>
+                    <li><?php echo nav_active_link('request_approve', "Request Approve",NULL,"request_approve"); ?></li>
+
                 </ul>
             </li>
             
@@ -35,7 +42,7 @@
                <ul>
                     <li><?php echo nav_active_link('transfer', "Tranfers",NULL,"transfer"); ?></li>
                     <li><?php echo nav_active_link('transfer_approve', "Tranfers Approve",NULL,"transfer_approve"); ?></li>
-                    <li><?php echo nav_active_link('reason/display', "Reason Type"); ?></li>
+                    
                 </ul>
             </li>
             
