@@ -69,7 +69,7 @@
                 <ul>
                     <li><?php echo nav_active_link('report/branch', "Product",NULL,"branch"); ?></li>
                     <!--<li><?php echo nav_active_link('report/category', "category"); ?></li>-->
-                    <li><?php echo nav_active_link('report/transection', "transection"); ?></li>
+                    <!--<li><?php echo nav_active_link('report/transection', "transection"); ?></li>-->
                 </ul>
             </li>
             

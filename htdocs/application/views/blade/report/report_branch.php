@@ -15,8 +15,9 @@
         <!-- row -->
         <div class="row">
             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <?php echo form_open(current_url(), 'id="frm-import" class="form-horizontal"') ?>
+                <?php echo form_open(current_url(), 'id="frm-report-branch" class="form-horizontal"') ?>
                 <?php echo form_hidden($csrf); ?>
+                <?php echo form_hidden('fields', json_encode($fields)); ?>
                 <?php echo form_hidden('time', time()); ?>
 
                 <div class="well">
@@ -142,8 +143,8 @@
                                 <table id="dt-table-basic" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>                     
-                                            <?php foreach($fields as $field):?>
-                                            <th><?php echo $field; ?></th>
+                                            <?php foreach($fields as $k=> $field):?>
+                                            <th data-field-name="<?php echo $k ?>"><?php echo $field; ?></th>
                                             <?php endforeach;?>
                                         </tr>
                                     </thead>
