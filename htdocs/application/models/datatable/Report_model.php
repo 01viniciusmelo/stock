@@ -6,16 +6,16 @@ if (!defined('BASEPATH'))
  * Report_Model
  * for datatable
  */
+
 class Report_Model extends MY_Model {
 
-    private $draw               = 0;
-    private $recordsTotal       = 0;
-    private $recordsFiltered    = 0;
-    private $data               = array();
-    private $columns            = array();
-    private $order              = array();
-    private $fields             = array();
-    
+    private $draw = 0;
+    private $recordsTotal = 0;
+    private $recordsFiltered = 0;
+    private $data = array();
+    private $columns = array();
+    private $order = array();
+    private $fields = array();
 
     public function __construct() {
         parent::__construct();
@@ -42,37 +42,37 @@ class Report_Model extends MY_Model {
 
 
         // group by
-        $group          = "";
-        $summary        = "";
-        $offsetlimit    = "";
-        $orderby        = " ORDER BY branchs.name, stock_qty_remaining ";
-        
+        $group = "";
+        $summary = "";
+        $offsetlimit = "";
+        $orderby = " ORDER BY branchs.name, stock_qty_remaining ";
+
         if (!empty($groups)) {
             $group = "GROUP BY " . implode(",", $groups);
             $summary = "SUM(stock.stock_qty_remaining) AS stock_qty_remaining";
         } else {
             $summary = "stock.stock_qty_remaining AS stock_qty_remaining";
         }
-        
+
         // limit offset
-        if(!is_null($offsetlimit)){
+        if (!is_null($offsetlimit)) {
             $offsetlimit = " LIMIT $offet,$limit";
         }
 
         // order by 
-        if(!empty($this->getOrder())){
+        if (!empty($this->getOrder())) {
             $tmpOrder = array();
-            foreach($this->order as $order_col ){                
-                if ( !empty($this->columns[$order_col['column']]) ){
+            foreach ($this->order as $order_col) {
+                if (!empty($this->columns[$order_col['column']])) {
                     $sort_field = $this->columns[$order_col['column']]['data'];
                     $sort_dir = $order_col['dir'];
                     array_push($tmpOrder, "  {$sort_field} {$sort_dir}");
                 }
             }
-            
-            $orderby        = " ORDER BY  ". implode(",", $tmpOrder);
+
+            $orderby = " ORDER BY  " . implode(",", $tmpOrder);
         }
-        
+
         $sql = "SELECT 
                 products.product_id,products.product_name,products.product_code
                 ,category.cat_id,category.cat_name
@@ -86,39 +86,33 @@ class Report_Model extends MY_Model {
                 {$where}
                 {$group}
                 ";
-                
 
-        $rs = $this->db->query($sql.$orderby.$offsetlimit);
+
+        $rs = $this->db->query($sql . $orderby . $offsetlimit);
         $rows = array();
         foreach ($rs->result() as $row) {
             array_push($rows, $row);
         }
-        
+
         // set data
         $cnt = $this->countQuery($sql);
         $this->setData($rows);
         $this->setRecordsTotal($cnt);
         $this->setRecordsFiltered($cnt);
-        
+
         return $this;
     }
-    
-    
-    
-    private function countQuery($strQuery="")
-    {
-        if (empty ($strQuery)){
+
+    private function countQuery($strQuery = "") {
+        if (empty($strQuery)) {
             return FALSE;
         }
-        
+
         $sql = "SELECT COUNT(*) cnt FROM ( {$strQuery} ) tmp";
         $rs = $this->db->query($sql);
         return $rs->row(1)->cnt;
-                
     }
-    
-    
-    
+
     public function getDraw() {
         return $this->draw;
     }
@@ -150,7 +144,7 @@ class Report_Model extends MY_Model {
     public function setData($data) {
         $this->data = $data;
     }
-    
+
     public function getColumns() {
         return $this->columns;
     }
@@ -159,7 +153,7 @@ class Report_Model extends MY_Model {
         $this->columns = $columns;
         return $this;
     }
-    
+
     public function getOrder() {
         return $this->order;
     }
@@ -169,14 +163,14 @@ class Report_Model extends MY_Model {
         return $this;
     }
 
-        public function getFields() {
-        
-        if(!empty($this->columns)){
-            foreach( $this->columns as $col_data){
+    public function getFields() {
+
+        if (!empty($this->columns)) {
+            foreach ($this->columns as $col_data) {
                 array_push($this->fields, $col_data['data']);
             }
         }
-        
+
         return $this->fields;
     }
 
@@ -184,6 +178,5 @@ class Report_Model extends MY_Model {
         $this->fields = $fields;
         return $this;
     }
-    
-    
+
 }

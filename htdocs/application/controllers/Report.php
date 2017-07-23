@@ -16,7 +16,7 @@ class Report extends Auth_Controller {
         $this->load->model('branch_model');
         $this->load->model('report_model');
         
-//        $this->output->enable_profiler(TRUE);
+        $this->output->enable_profiler(TRUE);
     }
 
     public function index() {
@@ -76,6 +76,7 @@ class Report extends Auth_Controller {
         $this->data['fields'] = $fields;         
         $this->data['branchs'] = $this->branch_model->read();
         $this->data['csrf'] = $this->_get_csrf_nonce();                            
+        $this->data['download_hash'] = md5(time().random_string());
         $this->data['blade'] = "report/report_branch";
         $this->_render_page('template/content', $this->data);
         
@@ -89,5 +90,11 @@ class Report extends Auth_Controller {
     public function transection()
     {
         
+    }
+    
+    public function download($out="excel",$hash)
+    {
+        $data = $this->session->userdata($hash);
+        var_dump($data);
     }
 }

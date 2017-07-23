@@ -17,6 +17,7 @@
             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <?php echo form_open(current_url(), 'id="frm-report-branch" class="form-horizontal"') ?>
                 <?php echo form_hidden($csrf); ?>
+                <?php echo form_hidden('download_hash',$download_hash); ?>                
                 <?php echo form_hidden('fields', json_encode($fields)); ?>
                 <?php echo form_hidden('time', time()); ?>
 
@@ -131,13 +132,15 @@
 
                         <!-- widget edit box -->
                         <div class="jarviswidget-editbox">
-                            <!-- This area used as dropdown edit box -->
-
+                            <!-- This area used as dropdown edit box -->                            
                         </div>
                         <!-- end widget edit box -->
 
                         <!-- widget content -->
                         <div class="widget-body no-padding">
+                            <p>
+                                <a id="lnkExcel" href="<?php echo site_url("report/download/excel/".$download_hash );?>"><i class="fa fa-lg fa-fw fa-file-excel-o"></i> Download Excel </a>
+                            </p>
                             <div class="table-responsive">
 
                                 <table id="dt-table-basic" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">

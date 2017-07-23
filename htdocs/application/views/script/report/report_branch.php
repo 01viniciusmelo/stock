@@ -20,11 +20,11 @@
             array_push($tmpCols, "{ \"data\": \"$k\" }");                            
         endforeach;
         ?>        
-        var columns = [ <?php echo implode(",", $tmpCols);?> ];
+        var columns = [ <?php echo implode(",", $tmpCols);?> ];;
         var dtTable = $('#dt-table-basic').dataTable({
            "pageLength": <?php echo data_table_config('pageLength');?>,
            "serverSide": true,
-           "processing": false,
+           //"processing": true,
            "ajax": {
                 url: "<?php echo site_url('api/Report/Branch')?>",
                 type:"post",
@@ -40,12 +40,18 @@
            "searching": false,
            "bDestroy": true,
            "oLanguage": {
-               "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+               "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'               
            },
            "columns": columns
            ,"order": [[0, 'asc']]
 
        }).api();
+       
+       
+       // download
+//       $("#lnkExcel").on('click',function(e){
+//            e.preventDefault();            
+//       });
        
        $('form').bootstrapValidator();
 //       $('form').bootstrapValidator().on('success.form.bv', function(e) {

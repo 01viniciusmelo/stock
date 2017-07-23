@@ -49,13 +49,14 @@ class Report extends REST_Controller {
         $response = array();
         $response['data'] = array();
         
-                
-        parse_str($this->input->post('form'),$_POST);        
+        $strForm = $this->input->post('form');
+        parse_str($strForm,$_POST);        
         
         $this->form_validation->set_rules('branch', 'Branch', 'required');
         
         if ($this->form_validation->run() != FALSE) {         
-            sleep(1);
+            
+            $this->session->set_userdata($this->input->post('download_hash'),$strForm);
             // option
             $option['is_group_product'] = $this->input->post("is_group_product") == 1;
             $option['is_group_branch'] = $this->input->post("is_group_branch") == 1;
@@ -76,6 +77,7 @@ class Report extends REST_Controller {
             $response["recordsFiltered"]=  $reportData->getRecordsFiltered();;
             $response['data']    = $reportData->getData();
             $response['option']   = $option;
+            $response['download_hash'] = $this->post('download_hash');
             
          }
         
