@@ -20,7 +20,7 @@ class Report extends REST_Controller {
         $this->load->library(array('ion_auth', 'form_validation'));
         $this->load->helper(array('url', 'language'));
         $this->lang->load('auth');
-        $this->load->model('report_model');
+        $this->load->model('datatable/report_model','report_model');
 
         $this->checkAuth();
     }
@@ -39,14 +39,23 @@ class Report extends REST_Controller {
         }
     }
     
+    /*
+     * branch_post
+     * for data table
+     * 
+     */
     public function branch_post()
     {
         $response = array();
-        $response['data'] = NULL;
+        $response['data'] = array();
+        
+                
+        parse_str($this->input->post('form'),$_POST);        
+        
         $this->form_validation->set_rules('branch', 'Branch', 'required');
         
         if ($this->form_validation->run() != FALSE) {         
-            sleep(300);
+            sleep(1);
             // option
             $option['is_group_product'] = $this->input->post("is_group_product") == 1;
             $option['is_group_branch'] = $this->input->post("is_group_branch") == 1;
@@ -56,76 +65,22 @@ class Report extends REST_Controller {
             $option['is_sum_category'] = $this->input->post("is_sum_category") == 1;  
             
             $branch = $this->input->post('branch');
-            $response['data']    = $this->report_model->productRemainQtySum($branch ,$option);
+            
+            // business model
+            $this->report_model->setColumns($this->post('columns'));            
+            $this->report_model->setOrder($this->post('order'));
+            $reportData  = $this->report_model->productRemainQtySum( $this->post('branch') , $option,$this->post('start'), $this->post('length') );
+            
+            $response['draw']   = $this->post('draw') ; //page                    
+            $response["recordsTotal"]= $reportData->getRecordsTotal();
+            $response["recordsFiltered"]=  $reportData->getRecordsFiltered();;
+            $response['data']    = $reportData->getData();
+            $response['option']   = $option;
+            
          }
         
-        
-        //$response['data'] = NULL;
         $this->response($response, REST_Controller::HTTP_OK);
         
     }
-
-//    public function index_get() {
-//
-//
-//        $generic = array(
-//            'status' => 200,
-//            'description_en' => 'Success',
-//            'description_th' => 'สำเร็จ',
-//            "data" => site_url()
-//        );
-//
-//        $this->response($generic, 200);
-//    }
-//
-//    public function all_get() {
-//        // set the flash data error message if there is one
-//        $search = $this->input->get('search');
-//        
-//        $limit = $this->input->get('limit');
-//
-//        $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-//
-//        $stock = array();
-//        //list stock
-//        $stock_list = $this->stock_model->read()->result();
-//
-//
-//
-//
-//        $stocks = array();
-//        $data = array();
-//
-//        foreach ($stock_list as $item) {
-//            $stocks['stock_id'] = $item->stock_id;
-//            $stocks['product_id'] = $item->product_id;
-//            $stocks['product_name'] = $item->product_name;
-//            $stocks['branchs_name'] = $item->name;
-//            $stocks['stock_qty_ori'] = $item->stock_qty_ori;
-//            $stocks['stock_qty_remaining'] = $item->stock_qty_remaining;
-//            $stocks['updated_at'] = $item->updated_at;
-//            $stocks['active'] = anchor('stock/deactive/' . $item->stock_id, ($item->active == 1) ? 'Active' : 'Inactive');
-//            $stocks['action'] = anchor('stock/edit/' . $item->stock_id, 'Update <i class="fa fa-shopping-basket"></i>');
-//            array_push($data, $stocks);
-//        }
-//        $this->response(array("data" => $data), REST_Controller::HTTP_OK);
-//    }
-//    
-//    public function branch_get() {
-//        
-//        $branchID = $this->input->get('id');
-//        
-//        $stocks = $this->stock_model->read(array("branchs.id"=>$branchID))->result();
-//        
-//        $data = array();
-//        foreach ($stocks as $item) {
-//            $stock = new stdClass();
-//            $stock=$item;
-//            $stock->action  = anchor("transfer/add/{$item->product_id}/{$item->branch_id}", '<i class="fa-fw fa fa-send-o"></i> Transfer');
-//            array_push($data, $stock);
-//        }
-//        
-//        $this->response(array("data" => $data), REST_Controller::HTTP_OK);
-//    }
 
 }

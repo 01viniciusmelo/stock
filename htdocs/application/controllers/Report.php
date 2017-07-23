@@ -34,44 +34,41 @@ class Report extends Auth_Controller {
         );
              // validate form input
         $this->form_validation->set_rules('branch', 'Branch', 'required');
-        $this->data['reportData']  = array();
+        
         if ($this->form_validation->run() != FALSE) {         
             
             // option
-//            $option['is_group_product'] = $this->input->post("is_group_product") == 1;
-//            $option['is_group_branch'] = $this->input->post("is_group_branch") == 1;
-//            $option['is_group_category'] = $this->input->post("is_group_category") == 1;
-//            $option['is_sum_product'] = $this->input->post("is_sum_product") == 1;
-//            $option['is_sum_price'] = $this->input->post("is_sum_price") == 1;
-//            $option['is_sum_category'] = $this->input->post("is_sum_category") == 1;  
-//            
-//            //no check
-//            $isUnCheck = TRUE;
-//            $isUnCheck = $isUnCheck && !$option['is_group_product'];
-//            $isUnCheck = $isUnCheck && !$option['is_group_branch'];
-//            $isUnCheck = $isUnCheck && !$option['is_group_category'];
-//            
-//            if( ! $isUnCheck ){
-//                // check product
-//                if($option['is_group_product']==FALSE){
-//                    unset($fields['product_name']);
-//                    unset($fields['product_code']);
-//                }
-//
-//                // check branch
-//                if($option['is_group_branch']==FALSE){
-//                    unset($fields['branch_name']);
-//                }
-//
-//                // check category
-//                if($option['is_group_category']==FALSE){
-//                    unset($fields['cat_name']);
-//                }
-//            }
-//            
-//            
-//            $branch = $this->input->post('branch');
-//            $this->data['reportData']    = $this->report_model->productRemainQtySum($branch ,$option);
+            $option['is_group_product'] = $this->input->post("is_group_product") == 1;
+            $option['is_group_branch'] = $this->input->post("is_group_branch") == 1;
+            $option['is_group_category'] = $this->input->post("is_group_category") == 1;
+            $option['is_sum_product'] = $this->input->post("is_sum_product") == 1;
+            $option['is_sum_price'] = $this->input->post("is_sum_price") == 1;
+            $option['is_sum_category'] = $this->input->post("is_sum_category") == 1;  
+            
+            //no check
+            $isUnCheck = TRUE;
+            $isUnCheck = $isUnCheck && !$option['is_group_product'];
+            $isUnCheck = $isUnCheck && !$option['is_group_branch'];
+            $isUnCheck = $isUnCheck && !$option['is_group_category'];
+            
+            if( ! $isUnCheck ){
+                // check product
+                if($option['is_group_product']==FALSE){
+                    unset($fields['product_name']);
+                    unset($fields['product_code']);
+                }
+
+                // check branch
+                if($option['is_group_branch']==FALSE){
+                    unset($fields['branch_name']);
+                }
+
+                // check category
+                if($option['is_group_category']==FALSE){
+                    unset($fields['cat_name']);
+                }
+            }
+            
          }else{
             $_POST['is_group_product'] =1;
          }

@@ -11,39 +11,60 @@
     $(document).ready(function () {
 
         pageSetUp();
-
+        
+        
+        // columns form PHP
+        <?php 
+        $tmpCols = array();
+        foreach($fields as $k=> $field):
+            array_push($tmpCols, "{ \"data\": \"$k\" }");                            
+        endforeach;
+        ?>        
+        var columns = [ <?php echo implode(",", $tmpCols);?> ];
         var dtTable = $('#dt-table-basic').dataTable({
            "pageLength": <?php echo data_table_config('pageLength');?>,
+           "serverSide": true,
+           "processing": false,
            "ajax": {
                 url: "<?php echo site_url('api/Report/Branch')?>",
                 type:"post",
-                data: function ( d ) {                    
-                    return $('form').serialize();
+                data: function ( d ) {                                        
+                    var form =$('form').serialize();                    
+                    return $.extend({},d,{form:form});
                 }
             },           
            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
                    "t" +
                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
            "autoWidth": true,
-           "searching": true,
+           "searching": false,
            "bDestroy": true,
            "oLanguage": {
                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
-           }
-//           "columns": function(){
-//               $('#dt-table-basic thead th').each(function(i,e){
-//                   console.log(i)
-//                   console.log(e)
-//               });
-//               
-//               return []
-//           }
-
+           },
+           "columns": columns
+           ,"order": [[0, 'asc']]
 
        }).api();
        
-       //
        $('form').bootstrapValidator();
-    })
+//       $('form').bootstrapValidator().on('success.form.bv', function(e) {
+//            // Prevent form submission
+//            e.preventDefault();
+//            
+//            var $form = $(e.target),
+//                bv    = $(e.target).data('bootstrapValidator');           
+//                
+//                
+//            $('form').find('button').prop('disabled',true)
+//            // Data table
+//             // Get the column API object
+//            var column = dtTable.column( $(this).attr('data-column') );
+//            column.visible();
+//            dtTable.ajax.reload();
+//            // Then submit the form as usual
+//            bv.resetForm();
+//        });;
+    }); // end jquery ready
 
 </script>

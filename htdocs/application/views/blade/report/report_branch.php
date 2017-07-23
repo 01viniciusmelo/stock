@@ -144,7 +144,7 @@
                                     <thead>
                                         <tr>                     
                                             <?php foreach($fields as $k=> $field):?>
-                                            <th data-field-name="<?php echo $k ?>"><?php echo $field; ?></th>
+                                            <th data-name="<?php echo $k ?>"><?php echo $field; ?></th>
                                             <?php endforeach;?>
                                         </tr>
                                     </thead>
